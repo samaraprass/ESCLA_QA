@@ -1,0 +1,126 @@
+.fade-in {
+    font-family: Helvetica, sans-serif;
+    animation: fadeIn ease 3s;
+    -webkit-animation: fadeIn ease 3s;
+    -moz-animation: fadeIn ease 3s;
+    -o-animation: fadeIn ease 3s;
+    -ms-animation: fadeIn ease 3s;
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-moz-keyframes fadeIn {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-webkit-keyframes fadeIn {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-o-keyframes fadeIn {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-ms-keyframes fadeIn {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25%;
+}
+
+.stButton>button {
+  background-color: #445672;
+  color: #fff;
+  border-radius: 20%;
+  height: 2.5em;
+  width: 4em;
+}
+
+li.st-bb.st-b7.st-bi.st-bj.st-bk.st-bl.st-bm.st-bn.st-bo.st-bp{
+  background-color: #fff;
+  font-size: 100%;
+  
+}
+
+.css-1z8u7d.epcbefy1{
+  background-color: #fff;
+}
+
+.css-cp102h.e1s6o5jp0{
+  background-color: #dce5f3;
+}
+
+.element-container.css-115u385.e1tzin5v1 > .wrapper {
+  height: 3.5rem;
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  }
+
+.css-1em0o4w.egzxvld4 {
+  visibility: hidden;
+}
+
+/* .css-1xv07vx.e16nr0p30{
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+} */
+
+a:link , a:visited{
+  color: rgb(55, 9, 163);
+  text-decoration: underline;
+  }
+
+  a:hover,  a:active {
+  color: rgb(140, 0, 255);
+  text-decoration: underline;
+  }
+
+  .footer {
+  position: flex;
+  top:10;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #dce5f3;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  padding-left: 0rem;
+  } 
+  /* https://discuss.streamlit.io/t/streamlit-footer/12181 */

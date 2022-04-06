@@ -51,26 +51,6 @@ def dataframe_drgs():
                 
                 df_drgs = pd.DataFrame(data)
 
-                colors = ['rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(189, 215, 231)',
-                        'rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(107, 174, 214)']         
-                
-        
-                # fig = go.Figure(data = [go.Table(
-                #                                 header=dict(
-                #                                 values=names, line_color='white', align='center', fill_color = 'rgb(245, 216, 173)', font=dict(color='black', size=16)
-                #                                 ),
-                #                                 cells=dict(
-                #                                 values=[df_drgs['File'], df_drgs['Analysis Date (app)'], df_drgs['Test Date (from DICOM)'], 
-                #                                 df_drgs['CAX'], df_drgs['SID'], df_drgs['Tolerance'], 
-                #                                 df_drgs['Absolute Mean Deviation (%)'], df_drgs['Maximum Deviation (%)'], df_drgs['Result']],
-                #                                 line_color='white', fill_color = colors, align='center', 
-                #                                 font=dict(color='black', size=14)
-
-                #                                 ))
-                #                             ])   
-                # fig.update_layout(width=1110, height=400, margin=dict(l=0, r=0, b=0, t=0), paper_bgcolor='#dce5f3')
-                # st.plotly_chart(fig, use_container_width=True)
-
                 st.dataframe(df_drgs)
 
 def dataframe_drmlc():
@@ -116,26 +96,6 @@ def dataframe_drmlc():
                 
                 df_drmlc = pd.DataFrame(data)
 
-                # colors = ['rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(189, 215, 231)',
-                #         'rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(107, 174, 214)']         
-                
-        
-                # fig = go.Figure(data = [go.Table(
-                #                                 header=dict(
-                #                                 values=names, line_color='white', align='center', fill_color = 'rgb(245, 216, 173)', font=dict(color='black', size=16)
-                #                                 ),
-                #                                 cells=dict(
-                #                                 values=[df_drgs['File'], df_drgs['Analysis Date (app)'], df_drgs['Test Date (from DICOM)'], 
-                #                                 df_drgs['CAX'], df_drgs['SID'], df_drgs['Tolerance'], 
-                #                                 df_drgs['Absolute Mean Deviation (%)'], df_drgs['Maximum Deviation (%)'], df_drgs['Result']],
-                #                                 line_color='white', fill_color = colors, align='center', 
-                #                                 font=dict(color='black', size=14)
-
-                #                                 ))
-                #                             ])   
-                # fig.update_layout(width=1110, height=400, margin=dict(l=0, r=0, b=0, t=0), paper_bgcolor='#dce5f3')              
-
-                # st.plotly_chart(fig, use_container_width=True)
                 st.dataframe(df_drmlc)
 
 def dataframe_star():
@@ -182,22 +142,7 @@ def dataframe_star():
                         'rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(107, 174, 214)']         
                 
         
-                # fig = go.Figure(data = [go.Table(
-                #                                 header=dict(
-                #                                 values=names, line_color='white', align='center', fill_color = 'rgb(245, 216, 173)', font=dict(color='black', size=16)
-                #                                 ),
-                #                                 cells=dict(
-                #                                 values=[df_star['File'], df_star['Analysis Date (app)'], df_star['Test Date (from DICOM)'], 
-                #                                 df_star['Circle Center'], df_star['Circle Diameter'], 
-                #                                 df_star['Circle Radius'], df_star['Tolerance'], df_star['Result']],
-                #                                 line_color='white', fill_color = colors, align='center', 
-                #                                 font=dict(color='black', size=14)
-
-                #                                 ))
-                #                             ])   
-                # fig.update_layout(width=1110, height=400, margin=dict(l=0, r=0, b=0, t=0), paper_bgcolor='#dce5f3')
-
-                # st.plotly_chart(fig, use_container_width=True)
+                
                 st.dataframe(df_star)
 
 def dataframe_picket_fence(angle):
@@ -346,24 +291,7 @@ def dataframe_picket_fence(angle):
                     names[5]: max_error0, names[6]: mean_picket_spacing0, names[7]: mlc_type, names[8]: number_pickets, 
                     names[9]: percent_leaves, names[10]: tolerance, names[11]: results}                
                     df_pf1 = pd.DataFrame(data1)
-                    # fig = go.Figure(data = [go.Table(
-                    #                             header=dict(
-                    #                             values=names, line_color='white', align='center', fill_color = 'rgb(245, 216, 173)', font=dict(color='black', size=16)
-                    #                             ),
-                    #                             cells=dict(
-                    #                             values=[df_pf1['File'], df_pf1['Analysis Date (app)'], df_pf1['Test Date (from DICOM)'], 
-                    #                             df_pf1['Angle'], df_pf1['Absolute Median Error (mm)'], 
-                    #                             df_pf1['Maximum Error (mm)'], df_pf1['Mean Picket Spacing (mm)'], df_pf1['MLC Type'],
-                    #                             df_pf1['Number Pickets'], df_pf1['Percent Leaves Passing (%)'], df_pf1['Tolerance (mm)'], 
-                    #                             df_pf1['Result']],
-                    #                             line_color='white', fill_color = colors, align='center', 
-                    #                             font=dict(color='black', size=14)
-
-                    #                             ))
-                    #                         ])   
-                    # fig.update_layout(width=1110, height=400, margin=dict(l=0, r=0, b=0, t=0), paper_bgcolor='#dce5f3')
-
-                    # st.plotly_chart(fig, use_container_width=True)
+                    
                     st.dataframe(df_pf1)
                 
                 if angle == 90:
@@ -371,24 +299,7 @@ def dataframe_picket_fence(angle):
                     names[5]: max_error_90, names[6]: mean_picket_spacing_90, names[7]: mlc_type_90, names[8]: number_pickets_90, 
                     names[9]: percent_leaves_90, names[10]: tolerance_90, names[11]: results_90}                
                     df_pf2 = pd.DataFrame(data2)
-                    # fig2 = go.Figure(data = [go.Table(
-                    #                             header=dict(
-                    #                             values=names, line_color='white', align='center', fill_color = 'rgb(245, 216, 173)', font=dict(color='black', size=16)
-                    #                             ),
-                    #                             cells=dict(
-                    #                             values=[df_pf2['File'], df_pf2['Analysis Date (app)'], df_pf2['Test Date (from DICOM)'], 
-                    #                             df_pf2['Angle'], df_pf2['Absolute Median Error (mm)'], 
-                    #                             df_pf2['Maximum Error (mm)'], df_pf2['Mean Picket Spacing (mm)'], df_pf2['MLC Type'],
-                    #                             df_pf2['Number Pickets'], df_pf2['Percent Leaves Passing (%)'], df_pf2['Tolerance (mm)'], 
-                    #                             df_pf2['Result']],
-                    #                             line_color='white', fill_color = colors, align='center', 
-                    #                             font=dict(color='black', size=14)
-
-                    #                             ))
-                    #                         ])   
-                    # fig2.update_layout(width=1110, height=400, margin=dict(l=0, r=0, b=0, t=0), paper_bgcolor='#dce5f3')
-
-                    # st.plotly_chart(fig2, use_container_width=True)
+                    
                     st.dataframe(df_pf2)
                 
                 if angle == 180:
@@ -396,23 +307,7 @@ def dataframe_picket_fence(angle):
                     names[5]: max_error_180, names[6]: mean_picket_spacing_180, names[7]: mlc_type_180, names[8]: number_pickets_180, 
                     names[9]: percent_leaves_180, names[10]: tolerance_180, names[11]: results_180}                
                     df_pf3 = pd.DataFrame(data3)
-                    # fig3 = go.Figure(data = [go.Table(
-                    #                             header=dict(
-                    #                             values=names, line_color='white', align='center', fill_color = 'rgb(245, 216, 173)', font=dict(color='black', size=16)
-                    #                             ),
-                    #                             cells=dict(
-                    #                             values=[df_pf3['File'], df_pf3['Analysis Date (app)'], df_pf3['Test Date (from DICOM)'], 
-                    #                             df_pf3['Angle'], df_pf3['Absolute Median Error (mm)'], 
-                    #                             df_pf3['Maximum Error (mm)'], df_pf3['Mean Picket Spacing (mm)'], df_pf3['MLC Type'],
-                    #                             df_pf3['Number Pickets'], df_pf3['Percent Leaves Passing (%)'], df_pf3['Tolerance (mm)'], 
-                    #                             df_pf3['Result']],
-                    #                             line_color='white', fill_color = colors, align='center', 
-                    #                             font=dict(color='black', size=14)
-
-                    #                             ))
-                    #                         ])   
-                    # fig3.update_layout(width=1110, height=400, margin=dict(l=0, r=0, b=0, t=0), paper_bgcolor='#dce5f3')
-                    # st.plotly_chart(fig3, use_container_width=True)
+                    
                     st.dataframe(df_pf3)
                 
                 if angle == 270:
@@ -420,23 +315,7 @@ def dataframe_picket_fence(angle):
                     names[5]: max_error_270, names[6]: mean_picket_spacing_270, names[7]: mlc_type_270, names[8]: number_pickets_270, 
                     names[9]: percent_leaves_270, names[10]: tolerance_270, names[11]: results_270}                
                     df_pf4 = pd.DataFrame(data4)
-                    # fig4 = go.Figure(data = [go.Table(
-                    #                             header=dict(
-                    #                             values=names, line_color='white', align='center', fill_color = 'rgb(245, 216, 173)', font=dict(color='black', size=16)
-                    #                             ),
-                    #                             cells=dict(
-                    #                             values=[df_pf4['File'], df_pf4['Analysis Date (app)'], df_pf4['Test Date (from DICOM)'], 
-                    #                             df_pf4['Angle'], df_pf4['Absolute Median Error (mm)'], 
-                    #                             df_pf4['Maximum Error (mm)'], df_pf4['Mean Picket Spacing (mm)'], df_pf4['MLC Type'],
-                    #                             df_pf4['Number Pickets'], df_pf4['Percent Leaves Passing (%)'], df_pf4['Tolerance (mm)'], 
-                    #                             df_pf4['Result']],
-                    #                             line_color='white', fill_color = colors, align='center', 
-                    #                             font=dict(color='black', size=14)
-
-                    #                             ))
-                    #                         ])   
-                    # fig4.update_layout(width=1110, height=400, margin=dict(l=0, r=0, b=0, t=0), paper_bgcolor='#dce5f3')
-                    # st.plotly_chart(fig4, use_container_width=True)
+            
                     st.dataframe(df_pf4)
 
 

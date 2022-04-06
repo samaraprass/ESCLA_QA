@@ -70,6 +70,8 @@ def Home():
             normalization, centering, etc. '''
         txt.t_fade(t5, 17, 'black')
         st.write(" ")
+        with st.expander("⚠️ IMPORTANT", expanded=True):
+            st.write("")
 
         # txt.title2("Log Analyzer", 20, "#8C438D")
         # t6 = '''The log analyzer module reads and parses Varian linear accelerator machine logs, both Dynalogs and Trajectory logs. 

@@ -1,4 +1,4 @@
-import streamlit as st
+import byteslit as st
 from pylinac import DRMLC
 import matplotlib
 from pylinac.core.image import DicomImage
@@ -62,7 +62,7 @@ def vmat_demo_dmlc():
     d_col1, d_col2, d_col3, d_col4, d_col5 = st.columns([1.1, 2, 1.1, 2, 1.1])
 
     with d_col2:
-        fig, ax3 = plt.subplots()  # https://discuss.streamlit.io/t/wordcloud-error/18672
+        fig, ax3 = plt.subplots()  # https://discuss.byteslit.io/t/wordcloud-error/18672
         cmap_reversed = matplotlib.cm.get_cmap('gray_r')
         ax3.imshow(DRMLC_dmlc.pixel_array, cmap=cmap_reversed)
         ax3.axis("off")
@@ -103,18 +103,18 @@ def vmat_demo_dmlc():
 
     col1demo, col2demo, col3demo, col4demo, col5demo = st.columns([0.5, 3, 0.2, 3, 0.5])
     with col2demo:
-        stream1 = io.BytesIO()
-        drmlc_demo._save_analyzed_subimage(stream1, ImageType.DMLC, transparent=True)
-        st.image(stream1, caption='DMLC Image - DRMLC')
+        bytes1 = io.BytesIO()
+        drmlc_demo._save_analyzed_subimage(bytes1, ImageType.DMLC, transparent=True)
+        st.image(bytes1, caption='DMLC Image - DRMLC')
 
     with col4demo:
-        stream2 = io.BytesIO()
-        drmlc_demo._save_analyzed_subimage(stream2, ImageType.OPEN, transparent=True)
-        st.image(stream2, caption="OPEN Image - OpenBeam")
+        bytes2 = io.BytesIO()
+        drmlc_demo._save_analyzed_subimage(bytes2, ImageType.OPEN, transparent=True)
+        st.image(bytes2, caption="OPEN Image - OpenBeam")
 
     Col1demo, Col2demo, Col3demo = st.columns([1,2,1])
 
     with Col2demo:
-        stream3 = io.BytesIO()
-        drmlc_demo._save_analyzed_subimage(stream3, ImageType.PROFILE, transparent=False)
-        st.image(stream3, caption="PROFILE Image")
+        bytes3 = io.BytesIO()
+        drmlc_demo._save_analyzed_subimage(bytes3, ImageType.PROFILE, transparent=False)
+        st.image(bytes3, caption="PROFILE Image")

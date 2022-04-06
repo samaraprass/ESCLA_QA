@@ -1,4 +1,5 @@
-import streamlit as st
+from pickletools import bytes1
+import byteslit as st
 from pylinac import DRGS
 import matplotlib
 from pylinac.core.image import DicomImage
@@ -63,7 +64,7 @@ def vmat_demo_drgs():
     
     @st.cache(allow_output_mutation=True)
     def img1():
-        fig, ax = plt.subplots()  # https://discuss.streamlit.io/t/wordcloud-error/18672
+        fig, ax = plt.subplots()  # https://discuss.byteslit.io/t/wordcloud-error/18672
         cmap_reversed = matplotlib.cm.get_cmap('gray_r')
         ax.axis('off')
         ax.imshow(dmlc_img.pixel_array, cmap=cmap_reversed)
@@ -120,18 +121,18 @@ def vmat_demo_drgs():
     # Displaying analyzed images (with pylinac)
     col1_demo, col2_demo, col3_demo, col4_demo, col5_demo = st.columns([0.5, 4, 0.2, 4, 0.5])  # for DMLC and Open
     with col2_demo:
-        stream1 = io.BytesIO()
-        drgs_demo._save_analyzed_subimage(stream1, ImageType.DMLC, transparent=True)
-        st.image(stream1, caption='DMLC Image - DRGS')
+        bytes1 = io.BytesIO()
+        drgs_demo._save_analyzed_subimage(bytes1, ImageType.DMLC, transparent=True)
+        st.image(bytes1, caption='DMLC Image - DRGS')
 
     with col4_demo:
-        stream2 = io.BytesIO()
-        drgs_demo._save_analyzed_subimage(stream2, ImageType.OPEN, transparent=True)
-        st.image(stream2, caption="OPEN Image - OpenBeam")
+        bytes2 = io.BytesIO()
+        drgs_demo._save_analyzed_subimage(bytes2, ImageType.OPEN, transparent=True)
+        st.image(bytes2, caption="OPEN Image - OpenBeam")
 
 
     Col1_demo, Col2_demo, Col3_demo = st.columns([1, 3, 1])
     with Col2_demo:
-        stream3 = io.BytesIO()
-        drgs_demo._save_analyzed_subimage(stream3, ImageType.PROFILE, transparent=False)  # for PROFILE
-        st.image(stream3, caption="PROFILE Image")
+        bytes3 = io.BytesIO()
+        drgs_demo._save_analyzed_subimage(bytes3, ImageType.PROFILE, transparent=False)  # for PROFILE
+        st.image(bytes3, caption="PROFILE Image")

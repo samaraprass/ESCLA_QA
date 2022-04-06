@@ -1,7 +1,4 @@
-from datetime import datetime
 from streamlit_echarts import st_echarts
-from pyecharts import options as opts
-from pyecharts.charts import Bar, Line, Line3D, Liquid
 from deta import Deta
 import streamlit as st
 import numpy as np

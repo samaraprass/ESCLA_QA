@@ -1,8 +1,3 @@
-from datetime import date
-from unittest import result
-from deta import Deta
-import streamlit as st
-
 def database_insert_VMAT_DRGS(db, sid, cax, tol, abs_mean_dev, max_dev, t_result, analy_date, date_linac, key):
     # Creating database for user's tests results
     db.insert({

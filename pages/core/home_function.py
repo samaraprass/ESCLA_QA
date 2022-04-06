@@ -18,7 +18,6 @@ def Home():
 
     # Page title
     txt.title('TG-142 quality assurance (QA) tool', 40, '#253856')
-    # txt.title('TG-142 quality assurance (QA) tool', 40, '#000000')
     txt.title('With Pylinac 3.1.0', 25, "#8C438D")
     st.markdown("---")
 
@@ -72,16 +71,6 @@ def Home():
         st.write(" ")
         with st.expander("⚠️ IMPORTANT", expanded=True):
             st.write("")
-
-        # txt.title2("Log Analyzer", 20, "#8C438D")
-        # t6 = '''The log analyzer module reads and parses Varian linear accelerator machine logs, both Dynalogs and Trajectory logs. 
-        # The module also calculates actual and expected fluences as well as performing gamma evaluations. Data is structured 
-        # to be easily accessible and easily plottable.'''
-        # txt.t_fade(t6, 17, 'black')
-
-    # st.markdown(
-    #     f'<div class="fade-in"><h3 font-weight:normal; style="font-size:30px;color:#000000; text-align:justify;">How to use</h3></div>',
-    #     unsafe_allow_html=True)
 
     st.markdown('''
     <div class="footer">

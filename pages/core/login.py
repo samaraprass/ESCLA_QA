@@ -1,8 +1,5 @@
 import streamlit as st
-import pages.core.text as txt
 import streamlit_authenticator as stauth
-import base64
-from deta import Deta
 
 if 'authentication_status' not in st.session_state:
     st.session_state['authentication_status'] = None

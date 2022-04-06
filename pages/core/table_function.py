@@ -1,7 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import streamlit as st
-from matplotlib import rcParams
 
 def render_mpl_table(data, font_size=10, col_width=3.0, row_height=0.3,
                      header_color='#253856', row_colors=['#f1f1f2'], edge_color='w',

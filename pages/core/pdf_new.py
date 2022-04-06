@@ -1,13 +1,5 @@
-from hashlib import new
-import tempfile
-from tkinter.font import names
-from typing import final
 from fpdf import FPDF
-from matplotlib import image 
 import streamlit as st
-from tempfile import NamedTemporaryFile
-from tempfile import TemporaryFile
-from pylinac import DRGS
 from pylinac.vmat import ImageType
 import pandas as pd
 #from pages.home.starshot import star
@@ -15,10 +7,7 @@ import pages.core.table_function as TABLE
 from datetime import datetime
 import base64
 import io
-from PIL import Image
 import chime
-import matplotlib.pyplot as plt
-import os
 
 # Add page number
 class PDF(FPDF):

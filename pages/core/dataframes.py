@@ -1,11 +1,6 @@
-from optparse import Values
-from turtle import color
 import streamlit as st
 from deta import Deta
 import pandas as pd
-import numpy as np
-from streamlit_autorefresh import st_autorefresh
-import plotly.graph_objects as go
 
 def dataframe_drgs():
     #Connect Database

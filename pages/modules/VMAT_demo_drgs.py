@@ -20,8 +20,8 @@ def vmat_demo_drgs():
 
     # DEMO DRGS
     # Loading images
-    file_drgs_demo = "C:\\Users\\samar\\PycharmProjects\\pylinac_deploy\\pages\\home\\modules\\demo\\DRGS_dmlc.dcm"
-    file_open_drgs_demo = "C:\\Users\\samar\\PycharmProjects\\pylinac_deploy\\pages\\home\\modules\\demo\\DRGS_open.dcm"
+    file_drgs_demo = "pages/modules/demo/DRGS_dmlc.dcm"
+    file_open_drgs_demo = "pages/modules/demo/DRGS_open.dcm"
     dmlc_img = pydicom.dcmread(file_drgs_demo)
     open_img = pydicom.dcmread(file_open_drgs_demo)
 

@@ -46,8 +46,8 @@ def vmat_demo_dmlc():
         submit_button = st.form_submit_button(label='Apply')
 
     txt.title("Demo Images", 20, "#8C438D")
-    drmlc_dmlc = "C:\\Users\\samar\\PycharmProjects\\pylinac_deploy\\pages\\home\\modules\\demo\\DRMLC_dmlc.dcm"
-    drmlc_open = "C:\\Users\\samar\\PycharmProjects\\pylinac_deploy\\pages\\home\\modules\\demo\\DRMLC_open.dcm"
+    drmlc_dmlc = "pages/modules/demo/DRMLC_dmlc.dcm"
+    drmlc_open = "pages/modules/demo/DRMLC_open.dcm"
     DRMLC_dmlc = pydicom.dcmread(drmlc_dmlc)
     DRMLC_open = pydicom.dcmread(drmlc_open)
 

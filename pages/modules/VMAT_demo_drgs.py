@@ -1,5 +1,5 @@
 from pickletools import bytes1
-import byteslit as st
+import streamlit as st
 from pylinac import DRGS
 import matplotlib
 from pylinac.core.image import DicomImage

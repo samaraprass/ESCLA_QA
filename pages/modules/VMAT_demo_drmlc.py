@@ -1,4 +1,4 @@
-import byteslit as st
+import streamlit as st
 from pylinac import DRMLC
 import matplotlib
 from pylinac.core.image import DicomImage

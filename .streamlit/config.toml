@@ -1,0 +1,23 @@
+[theme]
+# primaryColor="#8C438D"
+# backgroundColor="#dee3e6"
+# secondaryBackgroundColor="#1799A8"
+# textColor="#000000"
+base="light"
+primaryColor="#253856"
+secondaryBackgroundColor="#e7e8ee"
+textColor="#000000"
+
+
+[client]
+# Whether to enable st.cache.
+# Default: true
+caching = true
+
+
+#[runner]
+#fixMatplotlib = true
+
+[server]
+runOnSave = true
+maxUploadSize = 500

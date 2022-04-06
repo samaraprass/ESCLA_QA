@@ -73,7 +73,7 @@ menu_id = hc.nav_bar(
     home_name='Home',
     login_name='Login',
     use_animation=True,
-    hide_streamlit_markers=False,  # will show the st hamburger as well as the navbar now!
+    hide_streamlit_markers=True,  # will show the st hamburger as well as the navbar now!
     sticky_nav=True,  # at the top or not
     sticky_mode='pinned',  # jumpy or not-jumpy, but sticky or pinned
 )

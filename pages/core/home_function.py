@@ -6,7 +6,7 @@ def Home():
     with open('style.css') as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
     # Image
-    file_ = open("logo.png", "rb")
+    file_ = open("pages/core/logo.png", "rb")
     contents = file_.read()
     data_url = base64.b64encode(contents).decode("utf-8")
     file_.close()

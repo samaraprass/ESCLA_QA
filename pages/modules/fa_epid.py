@@ -303,7 +303,7 @@ def faepid(file):
                 st.pyplot(st.session_state['my_file']._plot_horiz())
 
                 # legend centered
-                path = 'legend.png'
+                path = 'pages/modules/legend.png'
 
                 def img_to_bytes(img_path):
                     img_bytes = Path(img_path).read_bytes()

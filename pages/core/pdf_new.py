@@ -27,7 +27,7 @@ def new_page(pdf_file, t_name, institution, author, unit):
     # Background
     pdf_file.add_page()
     pdf_file.set_text_color(0, 0, 0)
-    pdf_file.image('template.png', x = 0, y = 0, w = 210, h = 297)
+    pdf_file.image('pages/core/template.png', x = 0, y = 0, w = 210, h = 297)
 
     # Title
     pdf_file.set_text_color(r=58, g=73, b=107)

@@ -149,7 +149,7 @@ if menu_id == "PF":
     if st.session_state['authentication_status'] is not None:
         st.warning('You are logged in as *%s*' % (st.session_state['name_user']))
 
-    st.subheader("Picket Fence Test")
+    st.subheader("Picket Fence")
 
     with open('style.css') as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)

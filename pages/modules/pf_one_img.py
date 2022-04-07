@@ -272,7 +272,7 @@ def pf_one():
             except Exception as ex:
                 #template = "An exception of type {0} occurred. Arguments:\n{1!r}"
                 #message = template.format(type(ex).__name__, ex.args)
-                #st.write(ex)
+                st.write(ex)
                 st.error('An error occured during analysis. Try changing some parameters in box above (i.e. MLC type, crop image, tolerance).' 
                     ' Also, check if your image is a valid DICOM file.')
             

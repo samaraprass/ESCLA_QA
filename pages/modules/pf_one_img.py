@@ -1,4 +1,3 @@
-from tkinter.messagebox import NO
 import streamlit as st
 from pylinac.core.image import DicomImage
 from pylinac.core.decorators import lru_cache

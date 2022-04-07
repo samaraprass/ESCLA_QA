@@ -9,6 +9,7 @@ from pylinac.picketfence import PicketFence
 import pydicom
 from datetime import datetime
 import pydicom.uid
+import pytz
 
 if 'names_pf' not in st.session_state:
     st.session_state['names_pf'] = None
@@ -82,7 +83,8 @@ def image_analysis(pf_img):
         
         st.session_state['names_pf'].append("Test Results")
 
-        date_i = str(datetime.now())
+        date_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
+        date_i = str(date_timezone.replace(tzinfo=None))
         format_date = "%Y-%m-%d %H:%M:%S.%f"
         real_date = datetime.strptime(date_i, format_date)
         date_table = (str(real_date.day) + '/' + str(real_date.month) + '/' + str(real_date.year) + ' ' + str(real_date.hour) + ':' + 

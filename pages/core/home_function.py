@@ -70,11 +70,31 @@ def Home():
         txt.t_fade(t5, 17, 'black')
         st.write(" ")
         with st.expander("⚠️ IMPORTANT", expanded=True):
-            st.write("")
+            st.markdown('''
+                <p>This app should not be used as the only source for QA. As mentioned by <a style='text-align: center;' href="https://pylinac.readthedocs.io/en/release-3.0/overview.html#what-is-pylinac-not" target=>Pylinac documentation</a>, the library itself is not liable for incorrect outputs. It's recommended to validate any type of results with another known methodology.</p>
+                </div>
+                ''', unsafe_allow_html=True)
+            st.write("This web app was developed with the aim of allowing professionals with little or no programming knowledge to use this library.")
+    
+    st.markdown("---")
+    # References
+    st.markdown(
+        f'<div class="fade-in"><h3 font-weight:normal; style="font-size:30px;color:#000000; text-align:justify;">Acknowledgements</h3></div>',
+        unsafe_allow_html=True)
 
+    t6 = '''The development of this web app was only achievable by the existence of the following amazing works: '''
+    txt.t_fade(t6, 17, 'black')
+    st.write('➜ James Kerns - [Pylinac: A TG-142 toolkit for doing routine linear accelerator quality assurance](https://github.com/jrkerns/pylinac)')
+    st.write('➜ Mohammad Khorasani - [Streamlit-Authenticator](https://github.com/mkhorasani/Streamlit-Authenticator)')
+    st.write('➜ Ken McGrady - [streamlit-autorefresh: An autorefresh component for Streamlit apps](https://github.com/kmcgrady/streamlit-autorefresh)')
+    st.write('➜ Fanilo Andrianasolo - [Streamlit-ECharts](https://github.com/andfanilo/streamlit-echarts) and [Streamlit Lottie](https://github.com/andfanilo/streamlit-lottie)')
+    st.write('➜ [st-btn-select: Streamlit Button Select Component](https://github.com/0phoff/st-btn-select)')
+    st.write('➜ [hydralits_components: AA package of custom components for Streamlit and Hydralit](https://github.com/TangleSpace/hydralit_components)')
+    st.markdown('')
+    st.markdown('')
     st.markdown('''
     <div class="footer">
-    <p>Developed with Streamlit, Pylinac and ❤ by <a style='display: block; text-align: center;' href="https://www.buymeacoffee.com/samaraprass" target="_blank">Samara Prass dos Santos</a></p>
+    <p>Developed with Streamlit, Pylinac and ❤️ by <a style='display: block; text-align: center;' href="https://www.buymeacoffee.com/samaraprass" target="_blank">Samara Prass dos Santos</a></p>
     </div>
     ''', unsafe_allow_html=True)
 

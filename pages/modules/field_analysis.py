@@ -8,7 +8,7 @@ from datetime import datetime
 from deta import Deta
 import pages.core.database as DB
 from pylinac.core.image import DicomImage
-
+import pytz
 
 if 'test2' not in st.session_state:
     st.session_state['test2'] = None
@@ -41,7 +41,8 @@ def FA():
 
             with st.spinner("Database inserting/uploading..."):
                 if st.session_state['authentication_status'] is not None:
-                    t = datetime.now()
+                    t_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
+                    t = str(t_timezone.replace(tzinfo=None))
                     date_table = (str(t.day) + '/' + str(t.month) + '/' + str(t.year) + ' ' + str(t.hour) + ':' + 
                                             str(t.minute) + ':' + str(t.second))
 

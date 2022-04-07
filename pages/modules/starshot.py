@@ -13,6 +13,7 @@ import pages.core.pdf_new as PDF
 import chime
 from deta import Deta
 import pages.core.database as DB
+import pytz
 
 chime.theme('mario')
 
@@ -151,7 +152,8 @@ def star():
                 
                     @st.cache(allow_output_mutation=True, show_spinner=False)
                     def table_4():
-                        date_i = str(datetime.now())
+                        date_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
+                        date_i = str(date_timezone.replace(tzinfo=None))
                         format_date = "%Y-%m-%d %H:%M:%S.%f"
                         real_date = datetime.strptime(date_i, format_date)
                         date_table = (str(real_date.day) + '/' + str(real_date.month) + '/' + str(real_date.year) + ' ' + str(real_date.hour) + ':' + 
@@ -341,7 +343,8 @@ def star():
 
                 @st.cache(allow_output_mutation=True, show_spinner=False)
                 def table_1():
-                    date_i = str(datetime.now())
+                    date_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
+                    date_i = str(date_timezone.replace(tzinfo=None))
                     format_date = "%Y-%m-%d %H:%M:%S.%f"
                     real_date = datetime.strptime(date_i, format_date)
                     date_table = (str(real_date.day) + '/' + str(real_date.month) + '/' + str(real_date.year) + ' ' + str(real_date.hour) + ':' + 

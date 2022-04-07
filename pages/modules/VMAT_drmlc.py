@@ -14,6 +14,7 @@ from datetime import datetime
 import pages.core.database as DB
 from deta import Deta
 import chime
+import pytz
 
 # -------------------------------------------
 
@@ -123,7 +124,8 @@ def vmat_drmlc():
                     st.session_state['r_drmlc'] = "FAIL"
                 
                 # date
-                date_i = str(datetime.now())
+                date_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
+                date_i = str(date_timezone.replace(tzinfo=None))
                 format_date = "%Y-%m-%d %H:%M:%S.%f"
                 real_date = datetime.strptime(date_i, format_date)
                 date_table = (str(real_date.day) + '/' + str(real_date.month) + '/' + str(real_date.year) + ' ' + str(real_date.hour) + ':' + 
@@ -147,19 +149,11 @@ def vmat_drmlc():
                 fig.savefig(buf, bbox_inches='tight', dpi=1000, format="png", transparent=True)
 
                 text.title("Test results", 20, "#8C438D")
-                # st.write(file_open.name)
 
                 t1, t2, t3 = st.columns([0.75, 1.5, 0.75])
                 with t2:
                     st.image(buf, width=500, use_column_width=True)
 
-                # creating PDF (change for own pdf)
-                # pdf = st.checkbox("Create PDF")
-                # if pdf:
-                # im_open = pydicom.dcmread(file_open)
-                # im_dmlc = IMAGE.load(file_drmlc)
-                # my_drmlc = DRMLC(image_paths=(im_open, im_dmlc))
-                # my_drmlc.publish_pdf('drmlc.pdf', open_file=True)
 
                 with st.container():
                     cc1, cc2, cc3, cc4, cc5 = st.columns([1, 3, 1, 3, 1])
@@ -294,13 +288,11 @@ def vmat_drmlc():
                 zipfile_ob = zipfile.ZipFile(io.BytesIO(file))
                 st.session_state['filedrmlc_zip'] = DRMLC.from_zip(io.BytesIO(file))
                 st.session_state['filedrmlc_zip'].analyze(tolerance=tolerance, segment_size_mm=(w, h))
-                drmlc_name2 = zipfile_ob.namelist()[0]  # name of drmlc image
-                openbeam_name2 = zipfile_ob.namelist()[1]  # name of open beam image
-                img_data = zipfile_ob.open(openbeam_name2)
+                st.session_state['drmlc_name2'] = zipfile_ob.namelist()[0]  # name of drmlc image
+                st.session_state['openbeam_name2'] = zipfile_ob.namelist()[1]  # name of open beam image
+                img_data = zipfile_ob.open(st.session_state['openbeam_name2'])
                 st.session_state['sid2'] = DicomImage(img_data).sid
                 st.session_state['cax2'] = DicomImage(img_data).cax
-                # teste = BaseImage(img_data)
-                # st.image(teste.crop(pixels=15, edges=('top', 'bottom', 'left', 'right')))
 
                 text.title("Test results", 20, "#8C438D")
 
@@ -315,7 +307,8 @@ def vmat_drmlc():
                     st.session_state['r2'] = "FAIL"
 
                 # date
-                date_i = str(datetime.now())
+                date_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
+                date_i = str(date_timezone.replace(tzinfo=None))
                 format_date = "%Y-%m-%d %H:%M:%S.%f"
                 real_date = datetime.strptime(date_i, format_date)
                 date_table = (str(real_date.day) + '/' + str(real_date.month) + '/' + str(real_date.year) + ' ' + str(real_date.hour) + ':' + 
@@ -346,7 +339,7 @@ def vmat_drmlc():
 
                 Col1, Col2, Col3, Col4, Col5 = st.columns([1, 3, 0.5, 3, 1])
                 with Col2:
-                    st.session_state['t_dmlc'] = 'DMLC Image - ' + str(drmlc_name2)
+                    st.session_state['t_dmlc'] = 'DMLC Image - '
                     text.body_center(st.session_state['t_dmlc'], 15, "gray")
                     # filedrgs_zip._save_analyzed_subimage('DRGS.png', ImageType.DMLC, transparent=True)
                     # st.image('DRGS.png', caption='DMLC Image - ' + str(drgs_name))
@@ -355,7 +348,7 @@ def vmat_drmlc():
                     st.pyplot(drmlc_plot, clear_figure=True, transparent=True)
 
                 with Col4:
-                    st.session_state['t_open2'] = 'Open Image - ' + str(openbeam_name2)
+                    st.session_state['t_open2'] = 'Open Image - ' 
                     text.body_center(st.session_state['t_open2'], 15, "gray")
                     drgs_plot_open = st.session_state['filedrmlc_zip']._plot_analyzed_subimage(ImageType.OPEN)
                     plt.tight_layout()
@@ -430,9 +423,10 @@ def vmat_drmlc():
 
                     submit_button = st.form_submit_button(label='Apply')
                     
-                    if submit_button:
-                        with st.spinner("Creating your PDF report..."):
-                            PDF.create_pdf_VMAT(st.session_state['filedrmlc_zip'], st.session_state['keys2'][:len(st.session_state['keys2'])-1], 
-                                st.session_state['values2'][:len(st.session_state['values2'])-1], st.session_state["t_dmlc"], st.session_state['t_open2'], 
-                                t_name, institution, author, unit, st.session_state['r2'], file_name)
+                if submit_button:
+                    with st.spinner("Creating your PDF report..."):
+                        PDF.create_pdf_VMAT(st.session_state['filedrmlc_zip'], st.session_state['keys2'][:len(st.session_state['keys2'])-1], 
+                            st.session_state['values2'][:len(st.session_state['values2'])-1], st.session_state["t_dmlc"], st.session_state['drmlc_name2'], 
+                            st.session_state['t_open2'], st.session_state['openbeam_name2'], t_name, institution, author, unit, st.session_state['r2'], 
+                            file_name)
                         

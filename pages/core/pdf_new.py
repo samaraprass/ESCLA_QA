@@ -4,10 +4,11 @@ from pylinac.vmat import ImageType
 import pandas as pd
 #from pages.home.starshot import star
 import pages.core.table_function as TABLE
-from datetime import datetime
+from datetime import date, datetime
 import base64
 import io
 import chime
+import pytz
 
 # Add page number
 class PDF(FPDF):
@@ -46,7 +47,8 @@ def new_page(pdf_file, t_name, institution, author, unit):
     pdf_file.cell(10, 20, author, border=0, align='C')
 
     # Date&Hour
-    date_i = str(datetime.now())
+    date_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
+    date_i = str(date_timezone.replace(tzinfo=None))
     format_date = "%Y-%m-%d %H:%M:%S.%f"
     real_date = datetime.strptime(date_i, format_date)
     date_table = (str(real_date.day) + '/' + str(real_date.month) + '/' + str(real_date.year) + ' ' + str(real_date.hour) + ':' + 
@@ -480,17 +482,17 @@ def pdf_fa(t_name, institution, author, unit,
     # FIRST IMAGE (image)
     stream0 = io.BytesIO()
     test._save_plot(test._plot_image, stream0)
-    pdf.image(stream0, 55, 90, 100, 50)
+    pdf.image(stream0, 67, 90, 75, 50)
 
     # SECOND IMAGE (horizontal)
     stream1 = io.BytesIO()
     test._save_plot(test._plot_horiz, stream1)
-    pdf.image(stream1, 50, 145, 115, 55)
+    pdf.image(stream1, 67, 145, 75, 55)
 
     # THIRD IMAGE (vertical)
     stream2 = io.BytesIO()
     test._save_plot(test._plot_vert, stream2)
-    pdf.image(stream2, 50, 203, 115, 55)
+    pdf.image(stream2, 67, 203, 75, 55)
 
     # SECOND PAGE - TABLE
     new_page(pdf, t_name, institution, author, unit)

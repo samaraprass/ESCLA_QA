@@ -10,6 +10,7 @@ import pages.core.pdf_new as PDF
 import chime
 from deta import Deta
 import pages.core.database as DB
+import pytz
 
 
 def pf_one():
@@ -208,7 +209,8 @@ def pf_one():
                         st.image(st.session_state['i1'], width=500, use_column_width=True)
                 
                 # Date Analysis (app)
-                date_i = str(datetime.now())
+                date_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
+                date_i = str(date_timezone.replace(tzinfo=None))
                 format_date = "%Y-%m-%d %H:%M:%S.%f"
                 real_date = datetime.strptime(date_i, format_date)
                 date_table = (str(real_date.day) + '/' + str(real_date.month) + '/' + str(real_date.year) + ' ' + str(real_date.hour) + ':' + 

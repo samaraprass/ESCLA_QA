@@ -17,6 +17,7 @@ import pages.core.database as DB
 import tempfile
 import shutil
 import chime
+import pytz
 
 if 'gplot' not in st.session_state:
     st.session_state['gplot'] = None
@@ -84,7 +85,8 @@ def wl():
                         
                         results = st.session_state['filewl'].results_data(as_dict=True)
 
-                        date_i = str(datetime.now())
+                        date_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
+                        date_i = str(date_timezone.replace(tzinfo=None))
                         format_date = "%Y-%m-%d %H:%M:%S.%f"
                         real_date = datetime.strptime(date_i, format_date)
                         date_table = (str(real_date.day) + '/' + str(real_date.month) + '/' + str(real_date.year) + ' ' + str(real_date.hour) + ':' + 
@@ -131,7 +133,8 @@ def wl():
             
             with st.spinner("Database inserting/uploading..."):
                 if st.session_state['authentication_status'] is not None:
-                    t = datetime.now()
+                    t_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
+                    t = str(t_timezone.replace(tzinfo=None))
                     date_table = (str(t.day) + '/' + str(t.month) + '/' + str(t.year) + ' ' + str(t.hour) + ':' + 
                                             str(t.minute) + ':' + str(t.second))
 

@@ -103,12 +103,12 @@ li.st-bb.st-b7.st-bi.st-bj.st-bk.st-bl.st-bm.st-bn.st-bo.st-bp{
 } */
 
 a:link , a:visited{
-  color: rgb(55, 9, 163);
+  color: rgb(40, 10, 112);
   text-decoration: underline;
   }
 
   a:hover,  a:active {
-  color: rgb(140, 0, 255);
+  color: rgb(0, 174, 255);
   text-decoration: underline;
   }
 
@@ -118,7 +118,7 @@ a:link , a:visited{
   left: 0;
   bottom: 0;
   width: 100%;
-  background-color: #dce5f3;
+  background-color: #babde9;
   color: rgb(0, 0, 0);
   text-align: center;
   padding-left: 0rem;

@@ -63,7 +63,7 @@ menu_data = [
 
     {'id': '#field-analysis-epid-images', 'label': 'Field Analysis', 'ttip': "Field Analysis module"},
 
-    {'id': 'timeline', 'label': 'Timeline'}
+    {'id': 'timeline', 'label': 'Results Timeline'}
 ]
 
 over_theme = {'txc_inassssctive': '#CED4DE '}
@@ -73,7 +73,7 @@ menu_id = hc.nav_bar(
     home_name='Home',
     login_name='Login',
     use_animation=True,
-    hide_streamlit_markers=True,  # will show the st hamburger as well as the navbar now!
+    hide_streamlit_markers=False,  # will show the st hamburger as well as the navbar now!
     sticky_nav=True,  # at the top or not
     sticky_mode='pinned',  # jumpy or not-jumpy, but sticky or pinned
 )
@@ -260,9 +260,9 @@ if menu_id == 'Login':
 
 if menu_id == 'timeline':
     if st.session_state['authentication_status'] == False or st.session_state['authentication_status'] == None:
-        count = st_autorefresh(interval=600000, limit=100, key="dataframes")
-
         st.warning("This section is available for ESCLA members only")
+
+        count = st_autorefresh(interval=600000, limit=100, key="dataframes")
         def load_lottieurl(url: str):
             r = requests.get(url)
             if r.status_code != 200:

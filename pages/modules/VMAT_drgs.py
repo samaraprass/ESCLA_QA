@@ -19,6 +19,7 @@ import pydicom
 import os
 import tempfile
 import shutil
+import pytz
 import chime
 
 if 'filedrgs_zip' not in st.session_state:
@@ -180,7 +181,8 @@ def vmat_drgs():
                     st.pyplot(st.session_state['mydrgs']._plot_analyzed_subimage(ImageType.PROFILE), transparent=True)
 
                 # Date Analysis (app)
-                date_i = str(datetime.now())
+                date_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
+                date_i = str(date_timezone.replace(tzinfo=None))
                 format_date = "%Y-%m-%d %H:%M:%S.%f"
                 real_date = datetime.strptime(date_i, format_date)
                 date_table = (str(real_date.day) + '/' + str(real_date.month) + '/' + str(real_date.year) + ' ' + str(real_date.hour) + ':' + 
@@ -334,7 +336,9 @@ def vmat_drgs():
                 date_obj = date_time_obj.date()
 
                 text.title("Test results", 20, "#8C438D")
-
+                a = datetime.now(pytz.timezone("America/Sao_Paulo"))
+                st.write(a.replace(tzinfo=None))
+                st.write(datetime.now())
                 dict_data = st.session_state['filedrgs_zip'].results_data(as_dict=True)
                 result = st.session_state['filedrgs_zip'].passed
 
@@ -345,7 +349,8 @@ def vmat_drgs():
                 elif str(result) == 'False':
                     st.session_state['r'] = "FAIL"
 
-                date_i = str(datetime.now())
+                date_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
+                date_i = str(date_timezone.replace(tzinfo=None))
                 format_date = "%Y-%m-%d %H:%M:%S.%f"
                 real_date = datetime.strptime(date_i, format_date)
                 date_table = (str(real_date.day) + '/' + str(real_date.month) + '/' + str(real_date.year) + ' ' + str(real_date.hour) + ':' + 
@@ -373,8 +378,8 @@ def vmat_drgs():
                 Col1, Col2, Col3, Col4, Col5 = st.columns([1, 3, 0.5, 3, 1])
                 with Col2:
                     st.session_state["t_dmlc"] = 'DMLC Image - '
-                    st.session_state['drmlc_name'] = str(drgs_name)
-                    text.body_center(st.session_state["t_dmlc"] + st.session_state['drmlc_name'], 15, "gray")
+                    st.session_state['drgs_name'] = str(drgs_name)
+                    text.body_center(st.session_state["t_dmlc"] + st.session_state['drgs_name'], 15, "gray")
                     drgs_plot = st.session_state['filedrgs_zip']._plot_analyzed_subimage(ImageType.DMLC)
                     lru_cache(drgs_plot)
                     plt.tight_layout()
@@ -458,6 +463,6 @@ def vmat_drgs():
                 if submit_button:
                     with st.spinner("Creating your PDF report..."):
                         PDF_N.create_pdf_VMAT(st.session_state['filedrgs_zip'], st.session_state['keys'][:len(st.session_state['keys'])-1], 
-                            st.session_state['values'][:len(st.session_state['values'])-1], st.session_state["t_dmlc"], st.session_state['drmlc_name'],
+                            st.session_state['values'][:len(st.session_state['values'])-1], st.session_state["t_dmlc"], st.session_state['drgs_name'],
                             st.session_state['t_open'], st.session_state['openbeam_name'], t_name, institution, author, unit, 
                             st.session_state['r'], file_name)

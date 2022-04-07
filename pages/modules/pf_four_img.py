@@ -10,6 +10,7 @@ import pages.core.pdf_new as PDF
 import chime
 from deta import Deta
 import pages.core.database as DB
+import pytz
 
 def pf_four():
     # PARAMETERS
@@ -238,7 +239,8 @@ def pf_four():
                         if st.session_state['authentication_status'] is not None:
 
                             # table date format
-                            t = datetime.now()
+                            t_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
+                            t = str(t_timezone.replace(tzinfo=None))
                             date_table = (str(t.day) + '/' + str(t.month) + '/' + str(t.year) + ' ' + str(t.hour) + ':' + 
                                                     str(t.minute) + ':' + str(t.second))
 

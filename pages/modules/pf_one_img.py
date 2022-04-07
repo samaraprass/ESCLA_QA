@@ -14,7 +14,7 @@ import pytz
 
 if 'file_name' not in st.session_state:
     st.session_state['file_name'] = None
-    
+
 def pf_one():
     pf = st.file_uploader("Upload your Picket Fence file", key='pf_file', accept_multiple_files=False, type=['DCM'], 
                                 help="The image must be a DICOM image acquired via the EPID.")
@@ -46,7 +46,7 @@ def pf_one():
 
                         
                     with pf3:
-                        st.session_state['name'] = st.selectbox("Use filename", [False, True], help="If False (default), "
+                        st.session_state['file_name'] = st.selectbox("Use filename", [False, True], help="If False (default), "
                                                                                     "no action will be performed. If True, the "
                                                                                     "filename will be searched for keywords that "
                                                                                     "describe the gantry and/or collimator angle. "

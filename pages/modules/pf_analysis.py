@@ -20,6 +20,9 @@ if 'values_pf' not in st.session_state:
 if 'test_results' not in st.session_state:
     st.session_state['test_results'] = None
 
+if 'file_name' not in st.session_state:
+    st.session_state['file_name'] = None
+
 @st.cache(allow_output_mutation=True, show_spinner=False)
 def dicom_img(input_img):
     dcm_img = pydicom.dcmread(input_img)

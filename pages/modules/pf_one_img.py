@@ -1,3 +1,4 @@
+from tkinter.messagebox import NO
 import streamlit as st
 from pylinac.core.image import DicomImage
 from pylinac.core.decorators import lru_cache
@@ -14,6 +15,9 @@ import pytz
 
 if 'file_name' not in st.session_state:
     st.session_state['file_name'] = None
+
+if 'r1' not in st.session_state:
+    st.session_state['r1'] = None
 
 def pf_one():
     pf = st.file_uploader("Upload your Picket Fence file", key='pf_file', accept_multiple_files=False, type=['DCM'], 

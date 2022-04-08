@@ -71,10 +71,19 @@ def Home():
         st.write(" ")
         with st.expander("⚠️ IMPORTANT", expanded=True):
             st.markdown('''
-                <p>This app should not be used as the only source for QA. As mentioned by <a style='text-align: center;' href="https://pylinac.readthedocs.io/en/release-3.0/overview.html#what-is-pylinac-not" target=>Pylinac documentation</a>, the library itself is not liable for incorrect outputs. It's recommended to validate any type of results with another known methodology.</p>
+                <p>This app should not be used as the only source for QA. As mentioned by <a style='text-align: center;' href="https://pylinac.readthedocs.io/en/latest/overview.html#what-is-pylinac-not" target=>Pylinac documentation</a>, the library itself is not liable for incorrect outputs. It's recommended to validate any type of results with another known methodology.</p>
                 </div>
                 ''', unsafe_allow_html=True)
-            st.write("This web app was developed with the aim of allowing professionals with little or no programming knowledge to use this library.")
+            st.write("This web app was developed aming to allow professionals with little or no programming knowledge to use this library.")
+    
+    st.markdown('''
+    <style>div.card{background-color: lightblue;  text-align:center; padding: 10px; border-radius: 3px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); transition: 0.3s;}</style>
+    <div class="card">
+    <div class="container">
+    <p> 💻 For better usability and experience, please use this web app on computer. <br>
+      📤 If you have any questions or suggestions, please send a message to <a href="mailto:samaraprass@gmail.com">samaraprass@gmail.com</a> / <a href="mailto:contato@escla.com.br">contato@escla.com.br</a>.
+    </p></div></div>
+    ''', unsafe_allow_html=True)
     
     st.markdown("---")
     # References
@@ -89,7 +98,7 @@ def Home():
     st.write('➜ Ken McGrady - [streamlit-autorefresh: An autorefresh component for Streamlit apps](https://github.com/kmcgrady/streamlit-autorefresh)')
     st.write('➜ Fanilo Andrianasolo - [Streamlit-ECharts](https://github.com/andfanilo/streamlit-echarts) and [Streamlit Lottie](https://github.com/andfanilo/streamlit-lottie)')
     st.write('➜ [st-btn-select: Streamlit Button Select Component](https://github.com/0phoff/st-btn-select)')
-    st.write('➜ [hydralits_components: AA package of custom components for Streamlit and Hydralit](https://github.com/TangleSpace/hydralit_components)')
+    st.write('➜ [hydralits_components: A package of custom components for Streamlit and Hydralit](https://github.com/TangleSpace/hydralit_components)')
     st.markdown('')
     st.markdown('')
     st.markdown('''

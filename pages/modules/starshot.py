@@ -71,7 +71,47 @@ def star():
     # MULTIPLE FILES
     if pages == 'Multiple Files':
         star_imgs = st.file_uploader("Choose your Starshot files", accept_multiple_files=True, key="multiple_files", type=['DCM'])
+        with st.expander(" 📊 Click here to change the analysis paremeters"):
+            with st.form(key="analysis_m"):
+                t_drgs = 'Analysis parameters'
+                text.body(t_drgs, 18, "black")
+                
+                s1, s2 = st.columns(2)
 
+                with s1:
+                    st.session_state['radius'] = st.number_input("Choose distance in '%' between starting point and closest image edge",
+                                            min_value=0.05, value=0.85, max_value=0.95, help="Used to build the circular profile which finds"
+                                            " the radiation lines.")
+                    
+                    st.session_state['min_peak_height'] = st.number_input("Choose the percentage minimum height a peak must be to be considered a valid peak", 
+                                                        min_value=0.05, max_value=0.95, value=0.25,
+                                                        help="If necessary, lower value for gantry shots and increase for noisy images.")
+
+                    st.session_state['tolerance'] = st.number_input("Choose tolerance in mm", max_value=10.0, min_value=0.1, value=1.0, help="The tolerance in mm" 
+                                                " to test against for a pass/fail result.")
+
+                with s2:
+                    st.session_state['start_point'] = st.selectbox("Circle profile center coordinates", [None, "Manual insert"], help='The point where the algorithm' 
+                    ' should center the circle profile. If "None" (default), pylinac will automatically search for maximum point nearest the center of the image.')
+
+                    st.session_state['fwhm'] = st.selectbox("Full width at half maximum", [True, False], index=1, help='In practice, this ends up being a very small difference.' 
+                                        'Set to false if peak locations are offset or unexpected.')
+
+                    # recursive = st.selectbox("",[True, False])
+                
+                    st.session_state['invert'] = st.selectbox("Invert image values", [False, True], help="This should be set to True if the automatically-determined"
+                                    " pylinac inversion is incorrect.")
+                
+
+                s_1, s_2, s_3 = st.columns([1,2,1])
+                with s_2:
+                    if st.session_state['start_point'] == "Manual insert":
+                        x_c = st.number_input("Set the x-coordinate")
+                        y_c = st.number_input("Set the y-coordinate")
+
+                        start_point = (x_c, y_c)
+
+                submit_button = st.form_submit_button(label='Apply')
         if len(star_imgs) == 0:
             st.markdown("---")
             text.title("Choose your files to start using this app!", 20, "#8C438D")
@@ -81,51 +121,7 @@ def star():
             ss1, ss2, ss3 = st.columns([1.3, 2, 0.5])
             with ss2:
                 main_pages = st_btn_select(('1. PERFORM TEST', '2. CREATE PDF REPORT'), nav=False)
-            if main_pages == '1. PERFORM TEST':
-                #star_file = star_imgs.read()
-                with st.expander("Click here if you would like to change the analysis paremeters"):
-                    with st.form(key="analysis_m"):
-                        t_drgs = 'Analysis parameters'
-                        text.body(t_drgs, 18, "black")
-                        
-                        s1, s2 = st.columns(2)
-
-                        with s1:
-                            st.session_state['radius'] = st.number_input("Choose distance in '%' between starting point and closest image edge",
-                                                    min_value=0.05, value=0.85, max_value=0.95, help="Used to build the circular profile which finds"
-                                                    " the radiation lines.")
-                            
-                            st.session_state['min_peak_height'] = st.number_input("Choose the percentage minimum height a peak must be to be considered a valid peak", 
-                                                                min_value=0.05, max_value=0.95, value=0.25,
-                                                                help="If necessary, lower value for gantry shots and increase for noisy images.")
-
-                            st.session_state['tolerance'] = st.number_input("Choose tolerance in mm", max_value=10.0, min_value=0.1, value=1.0, help="The tolerance in mm" 
-                                                        " to test against for a pass/fail result.")
-
-                        with s2:
-                            st.session_state['start_point'] = st.selectbox("Circle profile center coordinates", [None, "Manual insert"], help='The point where the algorithm' 
-                            ' should center the circle profile. If "None" (default), pylinac will automatically search for maximum point nearest the center of the image.')
-
-                            st.session_state['fwhm'] = st.selectbox("Full width at half maximum", [True, False], index=1, help='In practice, this ends up being a very small difference.' 
-                                                'Set to false if peak locations are offset or unexpected.')
-
-                            # recursive = st.selectbox("",[True, False])
-                        
-                            st.session_state['invert'] = st.selectbox("Invert image values", [False, True], help="This should be set to True if the automatically-determined"
-                                            " pylinac inversion is incorrect.")
-                        
-
-                        s_1, s_2, s_3 = st.columns([1,2,1])
-                        with s_2:
-                            if st.session_state['start_point'] == "Manual insert":
-                                x_c = st.number_input("Set the x-coordinate")
-                                y_c = st.number_input("Set the y-coordinate")
-
-                                start_point = (x_c, y_c)
-
-                        submit_button = st.form_submit_button(label='Apply')
-                
-                
+            if main_pages == '1. PERFORM TEST': 
                 # Load Image to module
                 with st.spinner("Loading analysis"):
                     paths = star_imgs
@@ -254,22 +250,67 @@ def star():
                         file_name = st.text_input("Choose the report file name")
 
                     submit_button0 = st.form_submit_button(label='Apply')
+
                 if submit_button0:
-                    with st.spinner("Creating your PDF report..."):
-                        pdf = PDF.pdf_star_mf(t_name, institution, author, unit, 
-                                            st.session_state['star'], st.session_state['names_stars'], st.session_state['values_stars'],
-                                            st.session_state['files_names'], st.session_state['rs'])
-                    html_pf = PDF.create_download_link(pdf.output(dest="S"), file_name)
-                    chime.theme('mario')
-                    chime.success()
-                    st.success("Your PDF report is ready!")
-                    st.markdown(html_pf, unsafe_allow_html=True)
+                    if test_name or t_name or institution or author or unit or file_name is None:
+                        st.warning("⚠️ All fields should be filled!")
+                
+                    if test_name and t_name and institution and author and unit and file_name != None:
+                        with st.spinner("Creating your PDF report..."):
+                            pdf = PDF.pdf_star_mf(t_name, institution, author, unit, 
+                                                st.session_state['star'], st.session_state['names_stars'], st.session_state['values_stars'],
+                                                st.session_state['files_names'], st.session_state['rs'])
+                        html_pf = PDF.create_download_link(pdf.output(dest="S"), file_name)
+                        chime.theme('mario')
+                        chime.success()
+                        st.success("Your PDF report is ready!")
+                        st.markdown(html_pf, unsafe_allow_html=True)
 
                 
 
     # SINGLE FILE
     elif pages == 'Single File':
         st.session_state['star_image'] = st.file_uploader("Choose your Starshot file", key="single_file", type=[".DCM"])
+        with st.expander(" 📊 Click here to change the analysis paremeters"):
+            with st.form(key="analysis_s"):
+                t_star = 'Analysis parameters'
+                text.body(t_star, 18, "black")
+                
+                s1, s2 = st.columns(2)
+
+                with s1:
+                    st.session_state['radius_s'] = st.number_input("Choose distance in '%' between starting point and closest image edge",
+                                            min_value=0.05, max_value=0.95, value=0.85, help="Used to build the circular profile which finds"
+                                            " the radiation lines.")
+                    
+                    st.session_state['min_peak_height_s'] = st.number_input("Choose the percentage minimum height a peak must be to be considered a valid peak", 
+                                                        min_value=0.05, max_value=0.95, value=0.25,
+                                                        help="If necessary, lower value for gantry shots and increase for noisy images.")
+
+                    st.session_state['tolerance_s'] = st.number_input("Choose tolerance in mm", max_value=10.0, min_value=0.1, value=1.0, help="The tolerance in mm" 
+                                                " to test against for a pass/fail result.")
+
+                with s2:
+                    st.session_state['start_point_s'] = st.selectbox("Circle profile center coordinates", [None, "Manual insert"], help='The point where the algorithm' 
+                    ' should center the circle profile. If "None" (default), pylinac will automatically search for maximum point nearest the center of the image.')
+
+                    st.session_state['fwhm_s'] = st.selectbox("Full width at half maximum", [True, False],help='In practice, this ends up being a very small difference.' 
+                                        'Set to false if peak locations are offset or unexpected.')
+
+                    # recursive = st.selectbox("",[True, False])
+                
+                    st.session_state['invert_s'] = st.selectbox("Invert image values", [False, True], help="This should be set to True if the automatically-determined"
+                                    " pylinac inversion is incorrect.")
+                    
+                s_1, s_2, s_3 = st.columns([1,2,1])
+                with s_2:
+                    if st.session_state['start_point_s'] == "Manual insert":
+                        x_c = st.number_input("Set the x-coordinate")
+                        y_c = st.number_input("Set the y-coordinate")
+
+                        st.session_state['start_point_s'] = (x_c, y_c)   
+
+                submit_button = st.form_submit_button(label='Apply')
 
         if st.session_state['star_image'] is None:
             st.markdown('---')
@@ -282,47 +323,6 @@ def star():
                 main_pages = st_btn_select(('1. PERFORM TEST', '2. CREATE PDF REPORT'), nav=False)
             
             if main_pages == "1. PERFORM TEST":
-                with st.expander("Click here if you would like to change the analysis paremeters"):
-                    with st.form(key="analysis_s"):
-                        t_star = 'Analysis parameters'
-                        text.body(t_star, 18, "black")
-                        
-                        s1, s2 = st.columns(2)
-
-                        with s1:
-                            st.session_state['radius_s'] = st.number_input("Choose distance in '%' between starting point and closest image edge",
-                                                    min_value=0.05, max_value=0.95, value=0.85, help="Used to build the circular profile which finds"
-                                                    " the radiation lines.")
-                            
-                            st.session_state['min_peak_height_s'] = st.number_input("Choose the percentage minimum height a peak must be to be considered a valid peak", 
-                                                                min_value=0.05, max_value=0.95, value=0.25,
-                                                                help="If necessary, lower value for gantry shots and increase for noisy images.")
-
-                            st.session_state['tolerance_s'] = st.number_input("Choose tolerance in mm", max_value=10.0, min_value=0.1, value=1.0, help="The tolerance in mm" 
-                                                        " to test against for a pass/fail result.")
-
-                        with s2:
-                            st.session_state['start_point_s'] = st.selectbox("Circle profile center coordinates", [None, "Manual insert"], help='The point where the algorithm' 
-                            ' should center the circle profile. If "None" (default), pylinac will automatically search for maximum point nearest the center of the image.')
-
-                            st.session_state['fwhm_s'] = st.selectbox("Full width at half maximum", [True, False],help='In practice, this ends up being a very small difference.' 
-                                                'Set to false if peak locations are offset or unexpected.')
-
-                            # recursive = st.selectbox("",[True, False])
-                        
-                            st.session_state['invert_s'] = st.selectbox("Invert image values", [False, True], help="This should be set to True if the automatically-determined"
-                                            " pylinac inversion is incorrect.")
-                            
-                        s_1, s_2, s_3 = st.columns([1,2,1])
-                        with s_2:
-                            if st.session_state['start_point_s'] == "Manual insert":
-                                x_c = st.number_input("Set the x-coordinate")
-                                y_c = st.number_input("Set the y-coordinate")
-
-                                st.session_state['start_point_s'] = (x_c, y_c)   
-
-                        submit_button = st.form_submit_button(label='Apply')
-
                 # PFA_IMAGE.input_image(star_image)
                 # Load Image to module
                 st.session_state['star_s'] = Starshot(st.session_state['star_image'])
@@ -447,12 +447,16 @@ def star():
                     submit_button0 = st.form_submit_button(label='Apply')
 
                 if submit_button0:
-                    with st.spinner("Creating your PDF report..."):
-                        pdf = PDF.pdf_star_sf(t_name, institution, author, unit, 
-                                            st.session_state['star_s'], st.session_state['names_s'], st.session_state['values_s'],
-                                            st.session_state['star_image'].name, st.session_state['r_s'])
-                        html_pf = PDF.create_download_link(pdf.output(dest="S"), file_name)
-                    chime.theme('mario')
-                    chime.success()
-                    st.success("Your PDF report is ready!")
-                    st.markdown(html_pf, unsafe_allow_html=True)
+                    if test_name or t_name or institution or author or unit or file_name is None:
+                        st.warning("⚠️ All fields should be filled!")
+                
+                    if test_name and t_name and institution and author and unit and file_name != None:
+                        with st.spinner("Creating your PDF report..."):
+                            pdf = PDF.pdf_star_sf(t_name, institution, author, unit, 
+                                                st.session_state['star_s'], st.session_state['names_s'], st.session_state['values_s'],
+                                                st.session_state['star_image'].name, st.session_state['r_s'])
+                            html_pf = PDF.create_download_link(pdf.output(dest="S"), file_name)
+                        chime.theme('mario')
+                        chime.success()
+                        st.success("Your PDF report is ready!")
+                        st.markdown(html_pf, unsafe_allow_html=True)

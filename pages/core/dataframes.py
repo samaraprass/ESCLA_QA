@@ -11,7 +11,7 @@ def dataframe_drgs():
     fetch_res = db.fetch()
 
     if fetch_res.count == 0:
-        st.info("Run some tests and see the results timeline here")
+        st.info(" 📜 Run some tests and see your data history here")
     
     else:
         with st.expander('Click here to expand data'):
@@ -56,7 +56,7 @@ def dataframe_drmlc():
     fetch_res = db.fetch()
 
     if fetch_res.count == 0:
-        st.info("Run some tests and see the results timeline here")
+        st.info("📜 Run some tests and see your data history here")
     
     else:
         with st.expander('Click here to expand data'):
@@ -101,7 +101,7 @@ def dataframe_star():
     fetch_res = db.fetch()
 
     if fetch_res.count == 0:
-        st.info("Run some tests and see the results timeline here")
+        st.info("📜 Run some tests and see your data history here")
 
     else:
         with st.expander('Click here to expand data'):
@@ -148,7 +148,7 @@ def dataframe_picket_fence(angle):
     fetch_res = db.fetch()
 
     if fetch_res.count == 0:
-        st.info("Run some tests and see the results timeline here")
+        st.info("📜 Run some tests and see your data history here")
 
     else:
         with st.expander('Click here to expand data'):
@@ -322,7 +322,7 @@ def dataframe_wl():
     fetch_res = db.fetch()
 
     if fetch_res.count == 0:
-        st.info("Run some tests and see the results timeline here")
+        st.info("📜 Run some tests and see your data history here")
 
     else:
         with st.expander('Click here to expand data'):
@@ -384,7 +384,7 @@ def dataframe_fa(type):
     fetch_res = db.fetch()
 
     if fetch_res.count == 0:
-        st.info("Run some tests and see the results timeline here")
+        st.info("📜 Run some tests and see your data history here")
 
     else:
         with st.expander('Click here to expand data'):

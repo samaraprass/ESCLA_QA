@@ -96,7 +96,7 @@ def vmat_drmlc():
                     
                     col1, col2, col3 = st.columns(3)
                     with col1:
-                        tolerance = st.number_input("Choose your tolerance value", min_value=0.0, max_value=8.0, value=1.5,
+                        tolerance = st.number_input("Choose your tolerance value", min_value=0.0, max_value=8.0, value=3.0,
                                                     step=0.5,
                                                     help="The tolerance of the sample deviations in percent. Default is 1.5. "
                                                         "Must be between 0 and 8.")
@@ -140,6 +140,7 @@ def vmat_drmlc():
                 st.session_state['values3'] = [date_table, st.session_state['sid3'], st.session_state['cax3'], str(round(dict_imgs['tolerance_percent'], 4)),
                         str(round(dict_imgs['abs_mean_deviation'], 4)), str(round(dict_imgs['max_deviation_percent'], 4)), 
                         st.session_state['r_drmlc']]
+                date_dcm_sf = img.metadata.AcquisitionDate
 
                 t = pd.DataFrame(st.session_state['values3'], columns=["Results"])
                 t.insert(0, "Parameters", st.session_state['keys3'], True)
@@ -191,7 +192,7 @@ def vmat_drmlc():
                         keys.append(i['key'])
                     
                     # Variables to db function
-                    date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                    date_time_obj = datetime.strptime(date_dcm_sf, '%Y%m%d')
                     date_obj = date_time_obj.date()
                     
                     sid = st.session_state['sid3']
@@ -242,10 +243,14 @@ def vmat_drmlc():
                     submit_button = st.form_submit_button(label='Apply')
 
                     if submit_button:
-                        with st.spinner("Creating your PDF report..."):
-                            PDF.create_pdf_VMAT(st.session_state['mydrmlc'], st.session_state['keys3'][:len(st.session_state['keys3'])-1], 
-                                st.session_state['values3'][:len(st.session_state['values3'])-1], st.session_state["t_drmlc"], st.session_state['t_open3'], 
-                                t_name, institution, author, unit, st.session_state['r_drmlc'], file_name)
+                        if test_name or t_name or institution or author or unit or file_name is None:
+                            st.info("⚠️ All fields should be filled!")
+                
+                        if test_name and t_name and institution and author and unit and file_name != None:
+                            with st.spinner("Creating your PDF report..."):
+                                PDF.create_pdf_VMAT(st.session_state['mydrmlc'], st.session_state['keys3'][:len(st.session_state['keys3'])-1], 
+                                    st.session_state['values3'][:len(st.session_state['values3'])-1], st.session_state["t_drmlc"], st.session_state['t_open3'], 
+                                    t_name, institution, author, unit, st.session_state['r_drmlc'], file_name)
 
     # -----------------------------------------------------------------------------------------------------------------------------------------
     
@@ -270,7 +275,7 @@ def vmat_drmlc():
                     text.body(t_drgs, 18, "black")
                     col1, col2, col3 = st.columns(3)
                     with col1:
-                        tolerance = st.number_input("Choose tolerance value", min_value=0.0, max_value=8.0, value=1.5,
+                        tolerance = st.number_input("Choose tolerance value", min_value=0.0, max_value=8.0, value=3.0,
                                                     step=0.5,
                                                     help="The tolerance of the sample deviations in percent. Default is 1.5. "
                                                         "Must be between 0 and 8.")
@@ -423,10 +428,15 @@ def vmat_drmlc():
 
                     submit_button = st.form_submit_button(label='Apply')
                     
-                if submit_button:
-                    with st.spinner("Creating your PDF report..."):
-                        PDF.create_pdf_VMAT(st.session_state['filedrmlc_zip'], st.session_state['keys2'][:len(st.session_state['keys2'])-1], 
-                            st.session_state['values2'][:len(st.session_state['values2'])-1], st.session_state["t_dmlc"], st.session_state['drmlc_name2'], 
-                            st.session_state['t_open2'], st.session_state['openbeam_name2'], t_name, institution, author, unit, st.session_state['r2'], 
-                            file_name)
+                if submit_button: 
+                    if t_name or institution or author or unit or file_name is None:
+                        st.info("⚠️ All fields should be filled!")
+                                   
+                    if t_name and institution and author and unit and file_name is not None:
+                        with st.spinner("Creating your PDF report..."):
+                            PDF.create_pdf_VMAT(st.session_state['filedrmlc_zip'], st.session_state['keys2'][:len(st.session_state['keys2'])-1], 
+                                st.session_state['values2'][:len(st.session_state['values2'])-1], st.session_state["t_dmlc"], st.session_state['drmlc_name2'], 
+                                st.session_state['t_open2'], st.session_state['openbeam_name2'], t_name, institution, author, unit, st.session_state['r2'], 
+                                file_name)
+
                         

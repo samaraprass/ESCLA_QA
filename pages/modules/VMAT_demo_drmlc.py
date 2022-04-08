@@ -13,6 +13,14 @@ from pylinac.core.decorators import lru_cache
 
 
 def vmat_demo_dmlc():
+    # Tutorial Text
+    t1 = '''
+    As mentioned for DRGS demo, here are demo images for the analysis. Just as before, you can change tolerance value, 
+    ROI width and height, receving as output a summary table, images with the determined segments and the profile plot. 
+    If it's not clear what a certain parameter is, just click the question mark icon and it will be provided a simple explanation. 
+    '''
+    txt.body(t1, 16, 'black')
+    st.write('')
     # DEMONSTRATION DRMLC
     reset2 = st.checkbox("Reset to default parameters", key="r2",
                           help="Click here if you prefer to reset to default parameters "

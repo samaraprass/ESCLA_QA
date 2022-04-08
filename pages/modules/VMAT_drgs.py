@@ -105,7 +105,7 @@ def vmat_drgs():
                     text.body(t_drgs, 18, "black")
                     col1, col2, col3 = st.columns(3)
                     with col1:
-                        tolerance1 = st.number_input("Choose your tolerance value", min_value=0.0, max_value=8.0, value=1.5,
+                        tolerance1 = st.number_input("Choose your tolerance value", min_value=0.0, max_value=8.0, value=3.0,
                                                     step=0.5,
                                                     help="The tolerance of the sample deviations in percent. Default is 1.5. "
                                                         "Must be between 0 and 8.")
@@ -259,12 +259,15 @@ def vmat_drgs():
                     submit_button = st.form_submit_button(label='Apply')
 
                 if submit_button: 
-
-                    with st.spinner("Creating your PDF report..."):
-                        PDF_N.create_pdf_VMAT(st.session_state['mydrgs'], st.session_state['keys1'][:len(st.session_state['keys1'])-1], 
-                        st.session_state['values1'][:len(st.session_state['values1'])-1], st.session_state['t_drmlc1'], st.session_state['drmlc_name1'],
-                        st.session_state['t_open1'], st.session_state['openbeam_name1'], t_name1, institution1, author1, unit1, 
-                        st.session_state['r1'], file_name1)
+                    if test_name1 or t_name1 or institution1 or author1 or unit1 or file_name1 is None:
+                        st.warning("⚠️ All fields should be filled!")
+                
+                    if test_name1 and t_name1 and institution1 and author1 and unit1 and file_name1 != None:
+                        with st.spinner("Creating your PDF report..."):
+                            PDF_N.create_pdf_VMAT(st.session_state['mydrgs'], st.session_state['keys1'][:len(st.session_state['keys1'])-1], 
+                            st.session_state['values1'][:len(st.session_state['values1'])-1], st.session_state['t_drmlc1'], st.session_state['drmlc_name1'],
+                            st.session_state['t_open1'], st.session_state['openbeam_name1'], t_name1, institution1, author1, unit1, 
+                            st.session_state['r1'], file_name1)
 
 
     # ZIP file
@@ -293,7 +296,7 @@ def vmat_drgs():
                     text.body(t_drgs, 18, "black")
                     col1, col2, col3 = st.columns(3)
                     with col1:
-                        tolerance = st.number_input("Choose your tolerance value", min_value=0.0, max_value=8.0, value=1.5,
+                        tolerance = st.number_input("Choose your tolerance value", min_value=0.0, max_value=8.0, value=3.0,
                                                     step=0.5,
                                                     help="The tolerance of the sample deviations in percent. Default is 1.5. "
                                                         "Must be between 0 and 8.")
@@ -337,8 +340,6 @@ def vmat_drgs():
 
                 text.title("Test results", 20, "#8C438D")
                 a = datetime.now(pytz.timezone("America/Sao_Paulo"))
-                st.write(a.replace(tzinfo=None))
-                st.write(datetime.now())
                 dict_data = st.session_state['filedrgs_zip'].results_data(as_dict=True)
                 result = st.session_state['filedrgs_zip'].passed
 
@@ -461,8 +462,12 @@ def vmat_drgs():
                     submit_button = st.form_submit_button(label='Apply')
                         
                 if submit_button:
-                    with st.spinner("Creating your PDF report..."):
-                        PDF_N.create_pdf_VMAT(st.session_state['filedrgs_zip'], st.session_state['keys'][:len(st.session_state['keys'])-1], 
-                            st.session_state['values'][:len(st.session_state['values'])-1], st.session_state["t_dmlc"], st.session_state['drgs_name'],
-                            st.session_state['t_open'], st.session_state['openbeam_name'], t_name, institution, author, unit, 
-                            st.session_state['r'], file_name)
+                    if t_name or institution or author or unit or file_name == None:
+                        st.info("⚠️ All fields should be filled!")
+
+                    if t_name and institution and author and unit and file_name != None:
+                        with st.spinner("Creating your PDF report..."):
+                            PDF_N.create_pdf_VMAT(st.session_state['filedrgs_zip'], st.session_state['keys'][:len(st.session_state['keys'])-1], 
+                                st.session_state['values'][:len(st.session_state['values'])-1], st.session_state["t_dmlc"], st.session_state['drgs_name'],
+                                st.session_state['t_open'], st.session_state['openbeam_name'], t_name, institution, author, unit, 
+                                st.session_state['r'], file_name)

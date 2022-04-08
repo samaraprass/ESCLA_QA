@@ -1,4 +1,5 @@
 from pickletools import bytes1
+from numpy import blackman
 import streamlit as st
 from pylinac import DRGS
 import matplotlib
@@ -14,9 +15,27 @@ from pylinac.core.decorators import lru_cache
 from deta import Deta
 
 def vmat_demo_drgs():
-    #database connection
-    data_connection = Deta(st.secrets['database']['data_key'])
+    # Tutorial Text
+    t1 = '''
+    In this section we provide a brief tutorial for showing the basic functions and features in this app to help with your analysis. For every module, 
+    there is the possibility to change some parameters through forms, for exemple the one on this page called "Analysis Parameters". 
+    To apply your choices, you need to press the button 'Apply' and, in case is preferable to reset to initial parameters every time you insert new ones, 
+    you can check the box 'Reset to default parameters'. 
+    For example, if you checked the box and choose a tolerance of 2%, when you click the 'Apply' button the value will reset to 1,5%. 
+    For VMAT tests, it's possible to change tolerance (%), ROI width (mm) and height (mm), being the default parameters 1.50, 5 and 100, respectively.'''
+    txt.body(t1, 16, 'black')
+
+    st.markdown('''
+                <p align="justify"> For running the analysis, you will have to provide the DICOM images. Once you completed the upload, the Pylinac 
+                algorithm will perform the analysis (more detailed explanation about how it works can be found  <a style='text-align: jstify;' href="https://pylinac.readthedocs.io/en/latest/vmat_docs.html#algorithm" target=>here</a>). 
+                Test results will be composed of a summary table, respective images with the determined segments and the profile plot. If it's not clear what a certain parameter is, just click the question mark icon and it will be provided a simple explanation.</p>
+                </div>
+                ''', unsafe_allow_html=True)
     
+    st.write('The demonstrations images are the ones provided by Pylinac and can be downloaded from their [GitHub](https://github.com/jrkerns/pylinac/tree/master/pylinac/demo_files)')
+    st.write('')
+    # Database connection
+    data_connection = Deta(st.secrets['database']['data_key'])
 
     # DEMO DRGS
     # Loading images

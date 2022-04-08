@@ -18,6 +18,7 @@ import pages.core.home_function as HomePage
 import pages.core.login as LOGIN
 import pages.core.charts as CHART
 import pages.core.dataframes as DF
+import pages.core.login_authenticated as LOGIN_PASS
 
 # -- Pylinac modules implementation 
 import pages.modules.VMAT_drgs as VMATDRGS
@@ -73,7 +74,7 @@ menu_id = hc.nav_bar(
     home_name='Home',
     login_name='Login',
     use_animation=True,
-    hide_streamlit_markers=False,  # will show the st hamburger as well as the navbar now!
+    hide_streamlit_markers=True,  # will show the st hamburger as well as the navbar now!
     sticky_nav=True,  # at the top or not
     sticky_mode='pinned',  # jumpy or not-jumpy, but sticky or pinned
 )
@@ -182,82 +183,9 @@ if menu_id == 'Login':
     LOGIN.authentication()
 
     if st.session_state['authentication_status']:
-        data_connection = Deta(st.secrets['database']['data_key'])
-        logos = data_connection.Drive("logos")
-        photos = data_connection.Drive("photos")
+        LOGIN_PASS.login_verified()
         
-        if st.session_state['username'] == st.secrets['us'][0]:
-            l1, l2, l3  = st.columns([1,4,1])
-            with l2:
-                logo = logos.get('corhmd.png')
-                image = Image.open(logo)
-                st.image(image)
-            st.success('Welcome *%s*' % (st.session_state['name_user']))
         
-        if st.session_state['username'] == st.secrets['us'][1]:
-            l1, l2, l3  = st.columns(3)
-            with l2:
-                logo = logos.get('tacchini.png')
-                image = Image.open(logo)
-                st.image(image)
-            st.success('Welcome *%s*' % (st.session_state['name_user']))
-
-        if st.session_state['username'] == st.secrets['us'][2]:
-            l1, l2, l3 = st.columns([1.8, 2, 1])
-            with l2:
-                logo = logos.get('CEBAMS.png')
-                image = Image.open(logo)
-                st.image(image)
-            st.success('Welcome *%s*' % (st.session_state['name_user']))
-
-        if st.session_state['username'] == st.secrets['us'][3]:
-            l1, l2, l3  = st.columns(3)
-            with l2:
-                photo = photos.get('bage_crop2.jpg')
-                image = Image.open(photo)
-                st.image(image)
-            st.success('Welcome *%s*' % (st.session_state['name_user']))
-        
-        if st.session_state['username'] == st.secrets['us'][4]:
-            l1, l2, l3 = st.columns(3)
-            with l2:
-                logo = logos.get('hospital-ana-nery-rs.png')
-                image = Image.open(logo)
-                st.image(image)
-            st.success('Welcome *%s*' % (st.session_state['name_user']))
-        
-
-        if st.session_state['username'] == st.secrets['us'][5]:
-            l1, l2, l3  = st.columns([2.3, 3, 1])
-            with l2:
-                logo = logos.get('sta_casa_uruguaiana.png')
-                image = Image.open(logo)
-                st.image(image)
-            st.success('Welcome *%s*' % (st.session_state['name_user']))
-
-        if st.session_state['username'] == st.secrets['us'][6]:
-            l1, l2, l3  = st.columns(3)
-            with l2:
-                logo = logos.get('Logo_Santa-Casa-do-Rio-Grande-02-2(1).png')
-                image = Image.open(logo)
-                st.image(image)
-            st.success('Welcome *%s*' % (st.session_state['name_user']))
-        
-        if st.session_state['username'] == st.secrets['us'][7]:
-            l1, l2, l3 = st.columns([2.5, 3, 0.8])
-            with l2:
-                logo = logos.get('cor_uruguai(1).png')
-                image = Image.open(logo)
-                st.image(image)
-            st.success('Welcome *%s*' % (st.session_state['name_user']))
-        
-        if st.session_state['username'] == st.secrets['us'][8]:
-            st.success('Welcome *%s*' % (st.session_state['name_user']))
-        
-        if st.session_state['username'] == st.secrets['us'][9]:
-            st.success('Welcome *%s*' % (st.session_state['name_user']))
-
-
 if menu_id == 'timeline':
     if st.session_state['authentication_status'] == False or st.session_state['authentication_status'] == None:
         st.warning("This section is available for ESCLA members only")
@@ -274,6 +202,7 @@ if menu_id == 'timeline':
         
     else:
         st.warning('You are logged in as *%s*' % (st.session_state['name_user']))
+        st.info(' 🤙🏻 INFO: This is a interactive graph. You can click the variables names to change which one to see.')
         t1, t2, t3 = st.columns([1, 5, 0.8])
         with t2:
             pages = st_btn_select(('VMAT - DRGS', 'VMAT - DRMLC', 'Starshot', 'Picket Fence', 'Winston-Lutz', 'Field Analysis'), nav=False)

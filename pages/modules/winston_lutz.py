@@ -134,7 +134,7 @@ def wl():
             with st.spinner("Database inserting/uploading..."):
                 if st.session_state['authentication_status'] is not None:
                     t_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
-                    t = str(t_timezone.replace(tzinfo=None))
+                    t = t_timezone.replace(tzinfo=None)
                     date_table = (str(t.day) + '/' + str(t.month) + '/' + str(t.year) + ' ' + str(t.hour) + ':' + 
                                             str(t.minute) + ':' + str(t.second))
 
@@ -230,6 +230,10 @@ def wl():
                 submit_button = st.form_submit_button(label='Apply')
 
             if submit_button:
-                with st.spinner("Creating your PDF report..."):
-                    PDF.create_pdf_WL(st.session_state['filewl'], st.session_state['values_wl'], st.session_state['names_wl'], t_name, 
-                                        institution, author, unit, file_name, single_imgs)
+                if test_name or t_name or institution or author or unit or file_name is None:
+                    st.warning("⚠️ All fields should be filled!")
+                
+                if test_name and t_name and institution and author and unit and file_name != None:
+                    with st.spinner("Creating your PDF report..."):
+                        PDF.create_pdf_WL(st.session_state['filewl'], st.session_state['values_wl'], st.session_state['names_wl'], t_name, 
+                                            institution, author, unit, file_name, single_imgs)

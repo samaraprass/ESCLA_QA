@@ -17,6 +17,14 @@ class PDF(FPDF):
         self.set_text_color(r=58, g=73, b=107)
         self.set_font('Courier', 'I', 10)
         self.cell(0, 10, 'Page ' + str(self.page_no()) + '/{nb}', 0, 0, 'R')
+        self.set_y(-15)
+        self.set_text_color(r=0, g=0, b=0)
+        self.set_font('Courier', 'I', 6)
+        self.cell(0, 5, 'Pylinac is not liable for incorrect outputs.',  0, 0, 'L')
+        self.set_y(-10)
+        self.set_text_color(r=0, g=0, b=0)
+        self.set_font('Courier', 'I', 6)
+        self.cell(0, 5, 'ESCLA is not responsible for the usage of this data.',  0, 0, 'L')
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Create link for report download
 def create_download_link(val, filename):
@@ -390,7 +398,7 @@ def pdf_star_mf(t_name, institution, author, unit,
     pdf.cell(10, 20, str(names_files[2]) + ',' + str(names_files[3]) + '.', border=0, align='C')
 
     # FIRST IMAGE
-    stream0 = io.BytesIO
+    stream0 = io.BytesIO()
     test.save_analyzed_subimage(stream0, 'whole', transparent=True, bbox_inches='tight', dpi=250)
     pdf.image(stream0, 30, 115, 70, 55)
     

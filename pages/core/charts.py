@@ -27,7 +27,7 @@ def line_chart_vmat_drgs():
     fetch_res = db.fetch()
 
     if fetch_res.count == 0:
-        st.info("Run some tests and see the results timeline here")
+        st.info(" 📈 Run some tests and see the results timeline here")
 
     else:
         # list of dates from dicom images
@@ -80,7 +80,7 @@ def line_chart_vmat_drmlc():
     fetch_res = db.fetch()
 
     if fetch_res.count == 0:
-        st.info("Run some tests and see the results timeline here")
+        st.info(" 📈 Run some tests and see the results timeline here")
     
     else:
         # list of dates from dicom images
@@ -132,7 +132,7 @@ def line_chart_star():
     fetch_res = db.fetch()
 
     if fetch_res.count == 0:
-        st.info("Run some tests and see the results timeline here")
+        st.info(" 📈 Run some tests and see the results timeline here")
 
     else:
         # list of dates from dicom images
@@ -187,7 +187,7 @@ def line_chart_picket_fence(angle):
     fetch_res = db.fetch()
 
     if fetch_res.count == 0:
-        st.info("Run some tests and see the results timeline here")
+        st.info(" 📈 Run some tests and see the results timeline here")
 
     else:
         # list of dates from dicom images
@@ -392,7 +392,7 @@ def line_chart_wl():
     fetch_res = db.fetch()
 
     if fetch_res.count == 0:
-        st.info("Run some tests and see the results timeline here")
+        st.info(" 📈 Run some tests and see the results timeline here")
 
     #st.write(fetch_res.items)
     else:
@@ -521,7 +521,7 @@ def line_chart_fa(type):
     fetch_res = db.fetch()
 
     if fetch_res.count == 0:
-        st.info("Run some tests and see the results timeline here")
+        st.info(" 📈 Run some tests and see the results timeline here")
     
     else:
         names = [] # armazena os nomes dos arquivos

@@ -180,7 +180,7 @@ def FA():
                                                                 "of the "
                                                                 "image. This value only applies when centering is "
                                                                 "'Manual'.")
-                    submit_button = st.form_submit_button(label='Apply')
+                    submit_button1 = st.form_submit_button(label='Apply')
             with m_col4:
                 with st.form(key="hor_p", clear_on_submit=reset):
                     st.session_state['hor_p'] = st.number_input("Horizontal Position", min_value=0.0, max_value=1.0, value=0.5,
@@ -190,8 +190,8 @@ def FA():
                                                     "edge "
                                                     "of the image and 1.0 is at the bottom edge of the image.")
 
-                    submit_button = st.form_submit_button(label='Apply')
-            st.session_state['w_w'] = 0.15
+                    submit_button2 = st.form_submit_button(label='Apply')
+                st.session_state['w_w'] = 0.15
 
         # 2) != manual & = hill
         elif st.session_state['e'] == 'Inflection via Hill function' and st.session_state['c'] != "Manual":

@@ -168,7 +168,7 @@ def FA():
         if st.session_state['c'] == "Manual" and st.session_state['e'] != 'Inflection via Hill function':
             m_col1, m_col2, m_col3, m_col4, m_col5 = st.columns([1.5, 2.5, 0.2, 2.5, 1.5])
             with m_col2:
-                with st.form(key="vert_p", clear_on_submit=reset):
+                with st.form(key="vertp", clear_on_submit=reset):
                     st.session_state['vert_p'] = st.number_input("Vertical Position", min_value=0.0,
                                                 max_value=1.0,
                                                 value=0.5, help="The distance ratio of the image to sample. E.g. At the "

@@ -182,7 +182,7 @@ def FA():
                                                                 "'Manual'.")
                     submit_button1 = st.form_submit_button(label='Apply')
             with m_col4:
-                with st.form(key="hor_p", clear_on_submit=reset):
+                with st.form(key="horp", clear_on_submit=reset):
                     st.session_state['hor_p'] = st.number_input("Horizontal Position", min_value=0.0, max_value=1.0, value=0.5,
                                                 help="The distance ratio of the image to sample. E.g. At the default of "
                                                     "0.5 the "
@@ -197,7 +197,7 @@ def FA():
         elif st.session_state['e'] == 'Inflection via Hill function' and st.session_state['c'] != "Manual":
             e_col1, e_col2, e_col3 = st.columns([1.5, 2, 1.5])
             with e_col2:
-                with st.form(key="w_w", clear_on_submit=reset):
+                with st.form(key="ww", clear_on_submit=reset):
                     st.session_state['w_w'] = st.number_input("Hill window ratio", min_value=0.0, max_value=1.0, value=0.2,
                                             help="This is the size of the window (as a ratio) to use to fit the field "
                                                 "edge to the Hill function. E.g. 0.2 will using a window centered about each"

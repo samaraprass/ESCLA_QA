@@ -71,16 +71,16 @@ def Home():
         st.write(" ")
         with st.expander("⚠️ IMPORTANT", expanded=True):
             st.markdown('''
-                <p>This app should not be used as the only source for QA. As mentioned by <a style='text-align: center;' href="https://pylinac.readthedocs.io/en/latest/overview.html#what-is-pylinac-not" target=>Pylinac documentation</a>, the library itself is not liable for incorrect outputs. It's recommended to validate any type of results with another known methodology.</p>
+                <p>This app should not be used as the sole source of QA. As mentioned in <a style='text-align: center;' href="https://pylinac.readthedocs.io/en/latest/overview.html#what-is-pylinac-not" target=>Pylinac's documentation</a>, the library itself is not responsible for erroneous output. It is recommended to validate any kind of results with another known methodology</p>
                 </div>
                 ''', unsafe_allow_html=True)
-            st.write("This web app was developed aming to allow professionals with little or no programming knowledge to use this library.")
+            st.write("This web application was developed to allow professionals with little or no programming knowledge to use this library.")
     
     st.markdown('''
     <style>div.card{background-color: lightblue;  text-align:center; padding: 10px; border-radius: 3px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); transition: 0.3s;}</style>
     <div class="card">
     <div class="container">
-    <p> 💻 For better usability and experience, please use this web app on computer. <br>
+    <p> 💻 For better usability and experience, please use this web app on a computer. <br>
       📤 If you have any questions or suggestions, please send a message to <a href="mailto:samaraprass@gmail.com">samaraprass@gmail.com</a> / <a href="mailto:contato@escla.com.br">contato@escla.com.br</a>.
     </p></div></div>
     ''', unsafe_allow_html=True)
@@ -91,7 +91,7 @@ def Home():
         f'<div class="fade-in"><h3 font-weight:normal; style="font-size:30px;color:#000000; text-align:justify;">Acknowledgements</h3></div>',
         unsafe_allow_html=True)
 
-    t6 = '''The development of this web app was only achievable by the existence of the following amazing works: '''
+    t6 = '''The development of this web app was only possible due to the existence of the following amazing works.: '''
     txt.t_fade(t6, 17, 'black')
     st.write('➜ James Kerns - [Pylinac: A TG-142 toolkit for doing routine linear accelerator quality assurance](https://github.com/jrkerns/pylinac)')
     st.write('➜ Mohammad Khorasani - [Streamlit-Authenticator](https://github.com/mkhorasani/Streamlit-Authenticator)')

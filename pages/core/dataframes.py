@@ -14,7 +14,7 @@ def dataframe_drgs():
         st.info(" 📜 Run some tests and see your data history here")
     
     else:
-        with st.expander('Click here to expand data'):
+        with st.expander('📜 Click here to expand data'):
             with st.container():
                 names = ['File', 'Analysis Date (app)', 'Test Date (from DICOM)', 'CAX', 'SID', 'Tolerance', 'Absolute Mean Deviation (%)',  'Maximum Deviation (%)', 
                         'Result']
@@ -59,7 +59,7 @@ def dataframe_drmlc():
         st.info("📜 Run some tests and see your data history here")
     
     else:
-        with st.expander('Click here to expand data'):
+        with st.expander('📜 Click here to expand data'):
             with st.container():
                 names = ['File', 'Analysis Date (app)', 'Test Date (from DICOM)', 'CAX', 'SID', 'Tolerance', 'Absolute Mean Deviation (%)',  'Maximum Deviation (%)', 
                         'Result']
@@ -104,7 +104,7 @@ def dataframe_star():
         st.info("📜 Run some tests and see your data history here")
 
     else:
-        with st.expander('Click here to expand data'):
+        with st.expander('📜 Click here to expand data'):
             with st.container():
                 names = ['File', 'Analysis Date (app)', 'Test Date (from DICOM)', 'Circle Center', 'Circle Diameter', 'Circle Radius', 'Tolerance', 'Result']
 
@@ -151,7 +151,7 @@ def dataframe_picket_fence(angle):
         st.info("📜 Run some tests and see your data history here")
 
     else:
-        with st.expander('Click here to expand data'):
+        with st.expander('📜 Click here to expand data'):
             with st.container():
                 names = ['File', 'Analysis Date (app)', 'Test Date (from DICOM)', 'Angle', 'Absolute Median Error (mm)', 
                 'Maximum Error (mm)', 'Mean Picket Spacing (mm)', 'MLC Type', 'Number Pickets', 'Percent Leaves Passing (%)',
@@ -325,7 +325,7 @@ def dataframe_wl():
         st.info("📜 Run some tests and see your data history here")
 
     else:
-        with st.expander('Click here to expand data'):
+        with st.expander('📜 Click here to expand data'):
             with st.container():
                 names = ['File', 'Analysis Date (app)', 'Test Date (from DICOM)', 'Collimator 2D isocenter diameter (mm)', 
                         'Couch 2D isocenter diameter (mm)', 'Gantry 3D isocenter diameter (mm)', 'Maximum 2D CAX to BB (mm)', 
@@ -387,7 +387,7 @@ def dataframe_fa(type):
         st.info("📜 Run some tests and see your data history here")
 
     else:
-        with st.expander('Click here to expand data'):
+        with st.expander('📜 Click here to expand data'):
             with st.container():
                 names = ['File', 'Analysis Date (app)', 'Test Date (from DICOM)', 'Horizontal Field Size (mm)', 'Horizontal Flatness (%)', 
                 'Horizontal Symmetry (%)', 'Vertical Flatness (%)', 'Vertical Symmetry (%)', 'Vertical Field Size (mm)']

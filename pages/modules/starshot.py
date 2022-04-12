@@ -214,7 +214,7 @@ def star():
                     analy_date = st.session_state['date_table']
                     date_linac = str(date_obj)
                     key_star = names_sorted[0]
-                    st.write(key_star)
+                
                     # Update new registration
                     if key_star in keys:
                         chime.info()

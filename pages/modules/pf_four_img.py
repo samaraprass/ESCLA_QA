@@ -242,7 +242,7 @@ def pf_four():
 
                             # table date format
                             t_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
-                            t = str(t_timezone.replace(tzinfo=None))
+                            t = t_timezone.replace(tzinfo=None)
                             date_table = (str(t.day) + '/' + str(t.month) + '/' + str(t.year) + ' ' + str(t.hour) + ':' + 
                                                     str(t.minute) + ':' + str(t.second))
 
@@ -376,9 +376,9 @@ def pf_four():
                                 chime.success()
 
             except Exception as error:
-                # st.write(error)
-                st.error('An error occured during analysis. Try changing some parameters in box above (i.e. MLC type, crop image, tolerance).' 
-                    ' Also, check if your image is a valid DICOM file.')
+                st.write(error)
+                # st.error('An error occured during analysis. Try changing some parameters in box above (i.e. MLC type, crop image, tolerance).' 
+                #     ' Also, check if your image is a valid DICOM file.')
 
 
         # SECOND PAGE

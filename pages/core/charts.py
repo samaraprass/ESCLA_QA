@@ -603,6 +603,7 @@ def line_chart_fa(type):
             cax_to_left_mm_srs = []
             cax_to_right_srs = []
             cax_to_top_mm_srs = []
+            center_pixel_srs = []
             horizontal_field_size_srs = []
             horizontal_flatness_srs = []
             horizontal_symmetry_srs = []
@@ -618,6 +619,7 @@ def line_chart_fa(type):
                 cax_to_left_mm_srs.append(st.session_state['srs_sorted'][i]["cax_to_left_mm"])
                 cax_to_right_srs.append(st.session_state['srs_sorted'][i]["cax_to_right_mm"])
                 cax_to_top_mm_srs.append(st.session_state['srs_sorted'][i]["cax_to_top_mm"])
+                center_pixel_srs.append(st.session_state['srs_sorted'][i]['center_pixel'])
                 horizontal_field_size_srs.append(st.session_state['srs_sorted'][i]["horizontal_field_size"])
                 horizontal_flatness_srs.append(st.session_state['srs_sorted'][i]["horizontal_flatness"])
                 horizontal_symmetry_srs.append(st.session_state['srs_sorted'][i]["horizontal_symmetry"])
@@ -631,7 +633,7 @@ def line_chart_fa(type):
             #'title': {'text': 'TIMELINE'},
             'tooltip': {'trigger': 'axis'},
             'legend': {'data': ['Horizontal Field Size (mm)', 'Horizontal Flatness (%)', 'Horizontal Symmetry (%)', 
-                                'Vertical Flatness (%)', 'Vertical Symmetry (%)', 'Vertical Field Size (mm)']},
+                                'Vertical Flatness (%)', 'Vertical Symmetry (%)', 'Vertical Field Size (mm)', 'Center Pixel (pylinac array)']},
             "grid": {"left": "3%", "right": "4%", "bottom": "3%", "containLabel": True},
             'xAxis': {
                 "type": "category",
@@ -669,6 +671,11 @@ def line_chart_fa(type):
                     'name': 'Vertical Field Size (mm)',
                     'type': 'line',
                     'data': vertical_field_size_srs
+                },
+                {
+                    'name': 'Center Pixel (pylinac array)',
+                    'type': 'line',
+                    'data': center_pixel_srs
                 }
                     ]
                 }
@@ -681,6 +688,7 @@ def line_chart_fa(type):
             # cax_to_left_mm = []
             # cax_to_right = []
             # cax_to_top_mm = []
+            center_pixel = []
             horizontal_field_size = []
             horizontal_flatness = []
             horizontal_symmetry = []
@@ -696,6 +704,7 @@ def line_chart_fa(type):
                 # cax_to_left_mm.append(six_mv_sorted[i]["cax_to_left_mm"])
                 # cax_to_right.append(six_mv_sorted[i]["cax_to_right_mm"])
                 # cax_to_top_mm.append(six_mv_sorted[i]["cax_to_top_mm"])
+                center_pixel.append(st.session_state['six_mv_sorted'][i]['center_pixel'])
                 horizontal_field_size.append(st.session_state['six_mv_sorted'][i]["horizontal_field_size"])
                 horizontal_flatness.append(st.session_state['six_mv_sorted'][i]["horizontal_flatness"])
                 horizontal_symmetry.append(st.session_state['six_mv_sorted'][i]["horizontal_symmetry"])
@@ -708,7 +717,7 @@ def line_chart_fa(type):
             options = {
             #'title': {'text': 'TIMELINE'},
             'tooltip': {'trigger': 'axis'},
-            'legend': {'data': ['Horizontal Field Size (mm)', 'Horizontal Flatness (%)', 'Horizontal Symmetry (%)', 'Vertical Flatness (%)', 'Vertical Symmetry (%)', 'Vertical Field Size (mm)']},
+            'legend': {'data': ['Horizontal Field Size (mm)', 'Horizontal Flatness (%)', 'Horizontal Symmetry (%)', 'Vertical Flatness (%)', 'Vertical Symmetry (%)', 'Vertical Field Size (mm)', 'Center Pixel (pylinac array)']},
             "grid": {"left": "3%", "right": "4%", "bottom": "3%", "containLabel": True},
             'xAxis': {
                 "type": "category",
@@ -746,18 +755,24 @@ def line_chart_fa(type):
                     'name': 'Vertical Field Size (mm)',
                     'type': 'line',
                     'data': vertical_field_size
+                },
+                {
+                    'name': 'Center Pixel (pylinac array)',
+                    'type': 'line',
+                    'data': center_pixel
                 }
                     ]
                 }
 
             st_echarts(options=options, height='400px')
-        
+
         if type == '10MV':
             bottom_penumbra_ten = []
             cax_to_bottom_mm_ten = []
             cax_to_left_mm_ten = []
             cax_to_right_ten = []
             cax_to_top_mm_ten = []
+            center_pixel_ten = []
             horizontal_field_size_ten = []
             horizontal_flatness_ten = []
             horizontal_symmetry_ten = []
@@ -773,6 +788,7 @@ def line_chart_fa(type):
                 cax_to_left_mm_ten.append(st.session_state['ten_mv_sorted'][i]["cax_to_left_mm"])
                 cax_to_right_ten.append(st.session_state['ten_mv_sorted'][i]["cax_to_right_mm"])
                 cax_to_top_mm_ten.append(st.session_state['ten_mv_sorted'][i]["cax_to_top_mm"])
+                center_pixel_ten.append(st.session_state['ten_mv_sorted'][i]['center_pixel'])
                 horizontal_field_size_ten.append(st.session_state['ten_mv_sorted'][i]["horizontal_field_size"])
                 horizontal_flatness_ten.append(st.session_state['ten_mv_sorted'][i]["horizontal_flatness"])
                 horizontal_symmetry_ten.append(st.session_state['ten_mv_sorted'][i]["horizontal_symmetry"])
@@ -785,7 +801,7 @@ def line_chart_fa(type):
             options = {
             #'title': {'text': 'TIMELINE'},
             'tooltip': {'trigger': 'axis'},
-            'legend': {'data': ['Horizontal Field Size (mm)', 'Horizontal Flatness (%)', 'Horizontal Symmetry (%)', 'Vertical Flatness (%)', 'Vertical Symmetry (%)', 'Vertical Field Size (mm)']},
+            'legend': {'data': ['Horizontal Field Size (mm)', 'Horizontal Flatness (%)', 'Horizontal Symmetry (%)', 'Vertical Flatness (%)', 'Vertical Symmetry (%)', 'Vertical Field Size (mm)', 'Center Pixel (pylinac array)']},
             "grid": {"left": "3%", "right": "4%", "bottom": "3%", "containLabel": True},
             'xAxis': {
                 "type": "category",
@@ -823,6 +839,11 @@ def line_chart_fa(type):
                     'name': 'Vertical Field Size (mm)',
                     'type': 'line',
                     'data': vertical_field_size_ten
+                },
+                {
+                    'name': 'Center Pixel (pylinac array)',
+                    'type': 'line',
+                    'data': center_pixel_ten
                 }
                     ]
                 }
@@ -835,6 +856,7 @@ def line_chart_fa(type):
             cax_to_left_mm_fifteen = []
             cax_to_right_fifteen = []
             cax_to_top_mm_fifteen = []
+            center_pixel_fifteen = []
             horizontal_field_size_fifteen = []
             horizontal_flatness_fifteen = []
             horizontal_symmetry_fifteen = []
@@ -850,6 +872,7 @@ def line_chart_fa(type):
                 cax_to_left_mm_fifteen.append(st.session_state['fifteen_mv_sorted'][i]["cax_to_left_mm"])
                 cax_to_right_fifteen.append(st.session_state['fifteen_mv_sorted'][i]["cax_to_right_mm"])
                 cax_to_top_mm_fifteen.append(st.session_state['fifteen_mv_sorted'][i]["cax_to_top_mm"])
+                center_pixel_fifteen.append(st.session_state['fifteen_mv_sorted'][i]['center_pixel'])
                 horizontal_field_size_fifteen.append(st.session_state['fifteen_mv_sorted'][i]["horizontal_field_size"])
                 horizontal_flatness_fifteen.append(st.session_state['fifteen_mv_sorted'][i]["horizontal_flatness"])
                 horizontal_symmetry_fifteen.append(st.session_state['fifteen_mv_sorted'][i]["horizontal_symmetry"])
@@ -862,7 +885,7 @@ def line_chart_fa(type):
             options = {
             #'title': {'text': 'TIMELINE'},
             'tooltip': {'trigger': 'axis'},
-            'legend': {'data': ['Horizontal Field Size (mm)', 'Horizontal Flatness (%)', 'Horizontal Symmetry (%)', 'Vertical Flatness (%)', 'Vertical Symmetry (%)', 'Vertical Field Size (mm)']},
+            'legend': {'data': ['Horizontal Field Size (mm)', 'Horizontal Flatness (%)', 'Horizontal Symmetry (%)', 'Vertical Flatness (%)', 'Vertical Symmetry (%)', 'Vertical Field Size (mm)', 'Center Pixel (pylinac array)']},
             "grid": {"left": "3%", "right": "4%", "bottom": "3%", "containLabel": True},
             'xAxis': {
                 "type": "category",
@@ -900,6 +923,11 @@ def line_chart_fa(type):
                     'name': 'Vertical Field Size (mm)',
                     'type': 'line',
                     'data': vertical_field_size_fifteen
+                },
+                {
+                    'name': 'Center Pixel (pylinac array)',
+                    'type': 'line',
+                    'data': center_pixel_fifteen
                 }
                     ]
                 }

@@ -389,13 +389,14 @@ def dataframe_fa(type):
     else:
         with st.expander('📜 Click here to expand data'):
             with st.container():
-                names = ['File', 'Analysis Date (app)', 'Test Date (from DICOM)', 'Horizontal Field Size (mm)', 'Horizontal Flatness (%)', 
+                names = ['File', 'Analysis Date (app)', 'Test Date (from DICOM)', 'Center Pixel (pylinac array)', 'Horizontal Field Size (mm)', 'Horizontal Flatness (%)', 
                 'Horizontal Symmetry (%)', 'Vertical Flatness (%)', 'Vertical Symmetry (%)', 'Vertical Field Size (mm)']
 
                 if type == '6MV':
                     files_6MV = []
                     date_analysis_6MV = []
                     date_linac_6MV = []
+                    center_pixel_6MV = []
                     horizontal_field_size_6MV = []
                     horizontal_flatness_6MV = []
                     horizontal_symmetry_6MV = []
@@ -406,6 +407,7 @@ def dataframe_fa(type):
                         files_6MV.append(st.session_state['six_mv_sorted'][i]['key'])
                         date_analysis_6MV.append(st.session_state['six_mv_sorted'][i]['date_analysis'])
                         date_linac_6MV.append(st.session_state['six_mv_sorted'][i]['date_linac'])
+                        center_pixel_6MV.append(st.session_state['six_mv_sorted'][i]['center_pixel'])
                         horizontal_field_size_6MV.append(st.session_state['six_mv_sorted'][i]["horizontal_field_size"])
                         horizontal_flatness_6MV.append(st.session_state['six_mv_sorted'][i]["horizontal_flatness"])
                         horizontal_symmetry_6MV.append(st.session_state['six_mv_sorted'][i]["horizontal_symmetry"])
@@ -413,8 +415,8 @@ def dataframe_fa(type):
                         vert_symmetry_6MV.append(st.session_state['six_mv_sorted'][i]["vert_symmetry"])
                         vertical_field_size_6MV.append(st.session_state['six_mv_sorted'][i]["vertical_field_size"])
                     
-                    data_6MV = {names[0]: files_6MV, names[1]: date_analysis_6MV, names[2]: date_linac_6MV, names[3]: horizontal_field_size_6MV, names[4]: horizontal_flatness_6MV, 
-                    names[5]: horizontal_symmetry_6MV, names[6]: vert_flatness_6MV, names[7]: vert_symmetry_6MV, names[8]: vertical_field_size_6MV}                
+                    data_6MV = {names[0]: files_6MV, names[1]: date_analysis_6MV, names[2]: date_linac_6MV, names[3]: center_pixel_6MV,  names[4]: horizontal_field_size_6MV, names[5]: horizontal_flatness_6MV, 
+                    names[6]: horizontal_symmetry_6MV, names[7]: vert_flatness_6MV, names[8]: vert_symmetry_6MV, names[9]: vertical_field_size_6MV}                
                     df_6MV = pd.DataFrame(data_6MV)
 
                     st.dataframe(df_6MV)
@@ -424,6 +426,7 @@ def dataframe_fa(type):
                     files_6SRS = []
                     date_analysis_6SRS = []
                     date_linac_6SRS = []
+                    center_pixel_6SRS = []
                     horizontal_field_size_6SRS = []
                     horizontal_flatness_6SRS = []
                     horizontal_symmetry_6SRS = []
@@ -434,14 +437,15 @@ def dataframe_fa(type):
                         files_6SRS.append(st.session_state['srs_sorted'][i]['key'])
                         date_analysis_6SRS.append(st.session_state['srs_sorted'][i]['date_analysis'])
                         date_linac_6SRS.append(st.session_state['srs_sorted'][i]['date_linac'])
+                        center_pixel_6SRS.append(st.session_state['srs_sorted'][i]['center_pixel'])
                         horizontal_field_size_6SRS.append(st.session_state['srs_sorted'][i]["horizontal_field_size"])
                         horizontal_flatness_6SRS.append(st.session_state['srs_sorted'][i]["horizontal_flatness"])
                         horizontal_symmetry_6SRS.append(st.session_state['srs_sorted'][i]["horizontal_symmetry"])
                         vert_flatness_6SRS.append(st.session_state['srs_sorted'][i]["vert_flatness"])
                         vert_symmetry_6SRS.append(st.session_state['srs_sorted'][i]["vert_symmetry"])
                         vertical_field_size_6SRS.append(st.session_state['srs_sorted'][i]["vertical_field_size"])
-                    data_6SRS = {names[0]: files_6SRS, names[1]: date_analysis_6SRS, names[2]: date_linac_6SRS, names[3]: horizontal_field_size_6SRS, names[4]: horizontal_flatness_6SRS, 
-                    names[5]: horizontal_symmetry_6SRS, names[6]: vert_flatness_6SRS, names[7]: vert_symmetry_6SRS, names[8]: vertical_field_size_6SRS}                
+                    data_6SRS = {names[0]: files_6SRS, names[1]: date_analysis_6SRS, names[2]: date_linac_6SRS, names[4]: horizontal_field_size_6SRS, names[3]: center_pixel_6SRS, names[5]: horizontal_flatness_6SRS, 
+                    names[6]: horizontal_symmetry_6SRS, names[7]: vert_flatness_6SRS, names[8]: vert_symmetry_6SRS, names[9]: vertical_field_size_6SRS}                
                     df_6SRS = pd.DataFrame(data_6SRS)
 
                     st.dataframe(df_6SRS)
@@ -450,6 +454,7 @@ def dataframe_fa(type):
                     files_10MV = []
                     date_analysis_10MV = []
                     date_linac_10MV = []
+                    center_pixel_10MV = []
                     horizontal_field_size_10MV = []
                     horizontal_flatness_10MV = []
                     horizontal_symmetry_10MV = []
@@ -460,14 +465,15 @@ def dataframe_fa(type):
                         files_10MV.append(st.session_state['ten_mv_sorted'][i]['key'])
                         date_analysis_10MV.append(st.session_state['ten_mv_sorted'][i]['date_analysis'])
                         date_linac_10MV.append(st.session_state['ten_mv_sorted'][i]['date_linac'])
+                        center_pixel_10MV.append(st.session_state['ten_mv_sorted'][i]['center_pixel'])
                         horizontal_field_size_10MV.append(st.session_state['ten_mv_sorted'][i]["horizontal_field_size"])
                         horizontal_flatness_10MV.append(st.session_state['ten_mv_sorted'][i]["horizontal_flatness"])
                         horizontal_symmetry_10MV.append(st.session_state['ten_mv_sorted'][i]["horizontal_symmetry"])
                         vert_flatness_10MV.append(st.session_state['ten_mv_sorted'][i]["vert_flatness"])
                         vert_symmetry_10MV.append(st.session_state['ten_mv_sorted'][i]["vert_symmetry"])
                         vertical_field_size_10MV.append(st.session_state['ten_mv_sorted'][i]["vertical_field_size"])
-                    data_10MV = {names[0]: files_10MV, names[1]: date_analysis_10MV, names[2]: date_linac_10MV, names[3]: horizontal_field_size_10MV, names[4]: horizontal_flatness_10MV, 
-                    names[5]: horizontal_symmetry_10MV, names[6]: vert_flatness_10MV, names[7]: vert_symmetry_10MV, names[8]: vertical_field_size_10MV}                
+                    data_10MV = {names[0]: files_10MV, names[1]: date_analysis_10MV, names[2]: date_linac_10MV, names[3]: center_pixel_10MV, names[4]: horizontal_field_size_10MV, names[5]: horizontal_flatness_10MV, 
+                    names[6]: horizontal_symmetry_10MV, names[7]: vert_flatness_10MV, names[8]: vert_symmetry_10MV, names[9]: vertical_field_size_10MV}                
                     df_10MV = pd.DataFrame(data_10MV)
 
                     st.dataframe(df_10MV)
@@ -476,6 +482,7 @@ def dataframe_fa(type):
                     files_15MV = []
                     date_analysis_15MV = []
                     date_linac_15MV = []
+                    center_pixel_15MV = []
                     horizontal_field_size_15MV = []
                     horizontal_flatness_15MV = []
                     horizontal_symmetry_15MV = []
@@ -486,14 +493,15 @@ def dataframe_fa(type):
                         files_15MV.append(st.session_state['fifteen_sorted'][i]['key'])
                         date_analysis_15MV.append(st.session_state['fifteen_mv_sorted'][i]['date_analysis'])
                         date_linac_15MV.append(st.session_state['fifteen_mv_sorted'][i]['date_linac'])
+                        center_pixel_15MV.append(st.session_state['fifteen_mv_sorted'][i]['center_pixel'])
                         horizontal_field_size_15MV.append(st.session_state['fifteen_mv_sorted'][i]["horizontal_field_size"])
                         horizontal_flatness_15MV.append(st.session_state['fifteen_mv_sorted'][i]["horizontal_flatness"])
                         horizontal_symmetry_15MV.append(st.session_state['fifteen_mv_sorted'][i]["horizontal_symmetry"])
                         vert_flatness_15MV.append(st.session_state['fifteen_mv_sorted'][i]["vert_flatness"])
                         vert_symmetry_15MV.append(st.session_state['fifteen_mv_sorted'][i]["vert_symmetry"])
                         vertical_field_size_15MV.append(st.session_state['fifteen_mv_sorted'][i]["vertical_field_size"])
-                    data_15MV = {names[0]: files_15MV, names[1]: date_analysis_15MV, names[2]: date_linac_15MV, names[3]: horizontal_field_size_15MV, names[4]: horizontal_flatness_15MV, 
-                    names[5]: horizontal_symmetry_15MV, names[6]: vert_flatness_15MV, names[7]: vert_symmetry_15MV, names[8]: vertical_field_size_15MV}                
+                    data_15MV = {names[0]: files_15MV, names[1]: date_analysis_15MV, names[2]: date_linac_15MV, names[3]: center_pixel_15MV, names[4]: horizontal_field_size_15MV, names[5]: horizontal_flatness_15MV, 
+                    names[6]: horizontal_symmetry_15MV, names[7]: vert_flatness_15MV, names[8]: vert_symmetry_15MV, names[9]: vertical_field_size_15MV}                
                     df_15MV = pd.DataFrame(data_15MV)
 
                     st.dataframe(df_15MV)

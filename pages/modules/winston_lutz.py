@@ -16,7 +16,6 @@ from deta import Deta
 import pages.core.database as DB
 import tempfile
 import shutil
-import chime
 import pytz
 
 if 'gplot' not in st.session_state:
@@ -187,7 +186,6 @@ def wl():
                     
                     # Insert new registration
                     if key_w in keys:
-                        chime.info()
                         st.warning("Already exist analysis results for this image on database. For saving new analysis, press button bellow.")
                         bs = st.button("Save")
                         if bs:
@@ -196,7 +194,6 @@ def wl():
                             gantry_coll_3d_iso_diam, coll_2d_iso_diam, max_coll_rms_dev, couch_2d_iso, max_couch_rms_dev, shift, analy_date,
                             date_linac, key_w)
                             st.success(f"New analysis of {key_w} saved")
-                            chime.success()
                     
                     # Updating registration
                     elif key_w not in keys:
@@ -204,8 +201,7 @@ def wl():
                             median_2d_cax_bb, max_2d_cax_epid, median_2d_cax_epid, gantry_3d_iso_diam, max_gantry_rms_dev, max_epid_rms_dev,
                             gantry_coll_3d_iso_diam, coll_2d_iso_diam, max_coll_rms_dev, couch_2d_iso, max_couch_rms_dev, shift, analy_date,
                             date_linac, key_w)
-                        st.success(f"Analysis results of {key_w} saved")
-                        chime.success()        
+                        st.success(f"Analysis results of {key_w} saved")     
 
 
 

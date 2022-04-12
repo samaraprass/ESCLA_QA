@@ -13,7 +13,6 @@ import pages.core.pdf_new as PDF
 from datetime import datetime
 import pages.core.database as DB
 from deta import Deta
-import chime
 import pytz
 
 # -------------------------------------------
@@ -207,19 +206,16 @@ def vmat_drmlc():
 
                     # Insert new registration
                     if key in keys:
-                        chime.info()
                         st.warning("Already exist analysis results for this image on database. For saving new analysis, press button bellow.")
                         bs = st.button("Save")
                         if bs:
                             DB.database_update_VMAT_DRGS(db, sid, cax, tol, abs_mean_dev, max_dev, t_result, analy_date, date_linac, key)
                             st.success("New analysis saved")
-                            chime.success()
                     
                     # Update registration
                     elif key not in keys:
                         DB.database_insert_VMAT_DRGS(db, sid, cax, tol, abs_mean_dev, max_dev, t_result, analy_date, date_linac, key)
                         st.success("Analysis results saved")
-                        chime.success()
                     
             elif page == '2. CREATE PDF REPORT':
                 st.subheader("PDF Report")
@@ -393,19 +389,16 @@ def vmat_drmlc():
 
                     # Insert new registration
                     if key in keys:
-                        chime.info()
                         st.warning("Already exist analysis results for this image on database. For saving new analysis, press button bellow.")
                         bs = st.button("Save")
                         if bs:
                             DB.database_update_VMAT_DRMLC(db, sid, cax, tol, abs_mean_dev, max_dev, t_result, analy_date, date_linac, key)
                             st.success("New analysis saved")
-                            chime.success()
                     
                     # Update registration
                     elif key not in keys:
                         DB.database_insert_VMAT_DRMLC(db, sid, cax, tol, abs_mean_dev, max_dev, t_result, analy_date, date_linac, key)
-                        st.success("Analysis results saved")
-                        chime.success()       
+                        st.success("Analysis results saved")       
             
             elif page == '2. CREATE PDF REPORT':
                 st.subheader("PDF Report")

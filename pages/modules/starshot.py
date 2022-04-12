@@ -11,7 +11,6 @@ from datetime import datetime
 from pylinac.core.image import load_multiples
 from st_btn_select import st_btn_select
 import pages.core.pdf_new as PDF
-import chime
 from deta import Deta
 import pages.core.database as DB
 import pytz
@@ -217,19 +216,17 @@ def star():
                 
                     # Update new registration
                     if key_star in keys:
-                        chime.info()
                         st.warning("Analysis results already exist for this image in database. For saving new analysis, press 'Save'.")
                         bs = st.button("Save")
                         if bs:
                             DB.database_update_star(db, tol, circ_diam, circ_radius, circ_center, t_result, analy_date, date_linac, key_star)
                             st.success(f"New analysis of {key_star} set saved")
-                            chime.success()
                     
                     # Insert registration
                     elif key_star not in keys:
                         DB.database_insert_star(db, tol, circ_diam, circ_radius, circ_center, t_result, analy_date, date_linac, key_star)
                         st.success("Analysis results saved")
-                        chime.success()          
+        
 
             if main_pages == '2. CREATE PDF REPORT':
                 st.subheader("PDF Report")
@@ -263,8 +260,6 @@ def star():
                                                 st.session_state['star'], st.session_state['names_stars'], st.session_state['values_stars'],
                                                 st.session_state['files_names'], st.session_state['rs'])
                         html_pf = PDF.create_download_link(pdf.output(dest="S"), file_name)
-                        chime.theme('mario')
-                        chime.success()
                         st.success("Your PDF report is ready!")
                         st.markdown(html_pf, unsafe_allow_html=True)
 
@@ -412,19 +407,16 @@ def star():
 
                     # Update new registration
                     if key_star in keys:
-                        chime.info()
                         st.warning("Analysis results already exist for this image in database. For saving new analysis, press 'Save'.")
                         bs = st.button("Save")
                         if bs:
                             DB.database_update_star(db, tol, circ_diam, circ_radius, circ_center, t_result, analy_date, date_linac, key_star)
                             st.success("New analysis saved")
-                            chime.success()
                     
                     # Insert registration
                     elif key_star not in keys:
                         DB.database_insert_star(db, tol, circ_diam, circ_radius, circ_center, t_result, analy_date, date_linac, key_star)
                         st.success("Analysis results saved")
-                        chime.success()
 
             if main_pages == "2. CREATE PDF REPORT":
                 st.subheader("PDF Report")
@@ -458,7 +450,6 @@ def star():
                                                 st.session_state['star_s'], st.session_state['names_s'], st.session_state['values_s'],
                                                 st.session_state['star_image'].name, st.session_state['r_s'])
                             html_pf = PDF.create_download_link(pdf.output(dest="S"), file_name)
-                        chime.theme('mario')
-                        chime.success()
+            
                         st.success("Your PDF report is ready!")
                         st.markdown(html_pf, unsafe_allow_html=True)

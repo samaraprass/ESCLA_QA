@@ -20,7 +20,6 @@ import os
 import tempfile
 import shutil
 import pytz
-import chime
 
 if 'filedrgs_zip' not in st.session_state:
     st.session_state['filedrgs_zip'] = None
@@ -222,19 +221,16 @@ def vmat_drgs():
 
                     # Insert new registration
                     if key in keys:
-                        chime.info()
                         st.warning("Already exist analysis results for this image on database. For saving new analysis, press button bellow.")
                         bs = st.button("Save")
                         if bs:
                             DB.database_update_VMAT_DRGS(db, sid, cax, tol, abs_mean_dev, max_dev, t_result, analy_date, date_linac, key)
                             st.success("New analysis saved")
-                            chime.success()
                     
                     # Update registration
                     elif key not in keys:
                         DB.database_insert_VMAT_DRGS(db, sid, cax, tol, abs_mean_dev, max_dev, t_result, analy_date, date_linac, key)
-                        st.success("Analysis results saved")
-                        chime.success()             
+                        st.success("Analysis results saved")             
 
 
             elif page == "2. CREATE PDF REPORT":
@@ -425,19 +421,16 @@ def vmat_drgs():
 
                     # Insert new registration
                     if key in keys:
-                        chime.info()
                         st.warning("Already exist analysis results for this image on database. For saving new analysis, press button bellow.")
                         bs = st.button("Save")
                         if bs:
                             DB.database_update_VMAT_DRGS(db, sid, cax, tol, abs_mean_dev, max_dev, t_result, analy_date, date_linac, key)
                             st.success("New analysis saved")
-                            chime.success()
                     
                     # Update registration
                     elif key not in keys:
                         DB.database_insert_VMAT_DRGS(db, sid, cax, tol, abs_mean_dev, max_dev, t_result, analy_date, date_linac, key)
-                        st.success("Analysis results saved")
-                        chime.success()          
+                        st.success("Analysis results saved")        
 
             # creating PDF
             if page == '2. CREATE PDF REPORT':

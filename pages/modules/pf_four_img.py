@@ -7,7 +7,6 @@ from datetime import datetime
 from st_btn_select import st_btn_select
 import pages.modules.pf_analysis as PF_function
 import pages.core.pdf_new as PDF
-import chime
 from deta import Deta
 import pages.core.database as DB
 import pytz
@@ -329,51 +328,42 @@ def pf_four():
                             angle4 = angles[3]
 
                             if len([x for x in names if x in keys])==4:
-                                chime.info()
                                 st.warning("Analysis results already exist for this image on database. For saving new analysis, press button bellow.")
                                 bs = st.button("Save", key='fourth_img')
                                 if bs:
                                     DB.database_update_pf(db, mlc1, angle1, tol1, percent_leaves_pass1, number_pickets1, abs_median_error1, max_error1,
                                         mean_picket_spacing1, t_result1, analy_date1, date_linac1, key1)
                                     st.success(f"New analysis {key1} saved")
-                                    chime.success()
 
                                     DB.database_update_pf(db, mlc2, angle2, tol2, percent_leaves_pass2, number_pickets2, abs_median_error2, max_error2,
                                         mean_picket_spacing2, t_result2, analy_date2, date_linac2, key2)
                                     st.success(f"New analysis {key2} saved")
-                                    chime.success()
 
                                     DB.database_update_pf(db, mlc3, angle3, tol3, percent_leaves_pass3, number_pickets3, abs_median_error3, max_error3,
                                     mean_picket_spacing3, t_result3, analy_date3, date_linac3, key3)
                                     st.success(f"New analysis {key3} saved")
-                                    chime.success()
 
                                     DB.database_update_pf(db, mlc4, angle4, tol4, percent_leaves_pass4, number_pickets4, abs_median_error4, max_error4,
                                     mean_picket_spacing4, t_result4, analy_date4, date_linac4, key4)
                                     st.success(f"New analysis {key4} saved")
-                                    chime.success()
 
                             if len([x for x in names if x in keys]) != 4:            
                                 DB.database_insert_pf(db, mlc1, angle1, tol1, percent_leaves_pass1, number_pickets1, abs_median_error1, max_error1,
                                         mean_picket_spacing1, t_result1, analy_date1, date_linac1, key1)
                                 st.success(f"Analysis results for file {key1} saved")
-                                chime.success()
 
                                                          
                                 DB.database_insert_pf(db, mlc2, angle2, tol2, percent_leaves_pass2, number_pickets2, abs_median_error2, max_error2,
                                         mean_picket_spacing2, t_result2, analy_date2, date_linac2, key2)
                                 st.success(f"Analysis results for file {key2} saved")
-                                chime.success()
 
                                 DB.database_insert_pf(db, mlc3, angle3, tol3, percent_leaves_pass3, number_pickets3, abs_median_error3, max_error3,
                                         mean_picket_spacing3, t_result3, analy_date3, date_linac3, key3)
                                 st.success(f"Analysis results for file {key3} saved")
-                                chime.success()
 
                                 DB.database_insert_pf(db, mlc4, angle4, tol4, percent_leaves_pass4, number_pickets4, abs_median_error4, max_error4,
                                         mean_picket_spacing4, t_result4, analy_date4, date_linac4, key4)        
                                 st.success(f"Analysis results for file {key4} saved")
-                                chime.success()
 
             except Exception as error:
                 st.write(error)
@@ -463,7 +453,5 @@ def pf_four():
                                             st.session_state['h'], st.session_state['g2'], st.session_state['g3'], st.session_state['name4'], st.session_state['r5'])
                             
                     html_pf = PDF.create_download_link(pdf.output(dest="S"), file_name)
-                    chime.theme('mario')
-                    chime.success()
                     st.success("Your PDF report is ready!")
                     st.markdown(html_pf, unsafe_allow_html=True)

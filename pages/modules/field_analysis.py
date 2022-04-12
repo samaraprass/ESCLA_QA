@@ -3,7 +3,6 @@ import pages.core.text as text
 import pages.modules.fa_epid as FA_EPID
 from st_btn_select import st_btn_select
 import pages.core.pdf_new as PDF
-import chime
 from datetime import datetime
 from deta import Deta
 import pages.core.database as DB
@@ -360,7 +359,6 @@ def FA():
 
                         # Inserting in database
                         if key in keys:
-                            chime.info()
                             st.warning("Already exist analysis results for this image on database. For saving new analysis, press button bellow.")
                             bs = st.button("Save")
                             if bs:
@@ -368,15 +366,13 @@ def FA():
                                                     top_penum, bottom_penum, left_penum, right_penum, vert_fs, horiz_fs, cax_top, cax_bottom, cax_left, cax_right, 
                                                     analy_date, date_linac, key)
                                 st.success(f"New analysis of {key} saved")
-                                chime.success()
 
                         # Uploading database
                         if key not in keys:
                             DB.database_insert_fa(db, horiz_symmetry, vert_symmetry, horiz_flatness, vert_flatness, center_pixel, center_method, normal_method, interpol_method, edge_method,
                                                 top_penum, bottom_penum, left_penum, right_penum, vert_fs, horiz_fs, cax_top, cax_bottom, cax_left, cax_right, 
                                                 analy_date, date_linac, key)
-                            st.success(f"Analysis results of {key} saved")
-                            chime.success()  
+                            st.success(f"Analysis results of {key} saved")  
                              
             except Exception as error:
                 # st.write(error)
@@ -413,7 +409,5 @@ def FA():
                                         st.session_state['values'], st.session_state['f_name'])
 
                     html_pf = PDF.create_download_link(pdf.output(dest="S"), file_name)
-                chime.theme('mario')
-                chime.success()
                 st.success("Your PDF report is ready!")
                 st.markdown(html_pf, unsafe_allow_html=True)

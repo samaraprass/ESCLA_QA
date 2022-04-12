@@ -127,7 +127,6 @@ def star():
                     paths = star_imgs
                     names = [paths[0].name, paths[1].name, paths[2].name, paths[3].name]
                     names_sorted = np.sort(names)
-                    st.write(names_sorted)
                     superimposed_img = load_multiples(paths)
 
                 
@@ -214,7 +213,7 @@ def star():
                     t_result = st.session_state['rs']
                     analy_date = st.session_state['date_table']
                     date_linac = str(date_obj)
-                    key_star = star_imgs[0].name
+                    key_star = names_sorted[0]
                     st.write(key_star)
                     # Update new registration
                     if key_star in keys:

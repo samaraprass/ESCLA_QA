@@ -1,3 +1,4 @@
+from reprlib import recursive_repr
 import streamlit as st
 from pylinac.core.image import DicomImage
 from pylinac.core.decorators import lru_cache
@@ -14,8 +15,7 @@ import chime
 from deta import Deta
 import pages.core.database as DB
 import pytz
-
-chime.theme('mario')
+import numpy as np
 
 if 'min_peak_height' not in st.session_state:
     st.session_state['min_peak_height'] = None
@@ -80,7 +80,7 @@ def star():
 
                 with s1:
                     st.session_state['radius'] = st.number_input("Choose distance in '%' between starting point and closest image edge",
-                                            min_value=0.05, value=0.85, max_value=0.95, help="Used to build the circular profile which finds"
+                                            min_value=0.05, value=0.75, max_value=0.95, help="Used to build the circular profile which finds"
                                             " the radiation lines.")
                     
                     st.session_state['min_peak_height'] = st.number_input("Choose the percentage minimum height a peak must be to be considered a valid peak", 
@@ -125,6 +125,9 @@ def star():
                 # Load Image to module
                 with st.spinner("Loading analysis"):
                     paths = star_imgs
+                    names = [paths[0].name, paths[1].name, paths[2].name, paths[3].name]
+                    names_sorted = np.sort(names)
+                    st.write(names_sorted)
                     superimposed_img = load_multiples(paths)
 
                 
@@ -212,7 +215,7 @@ def star():
                     analy_date = st.session_state['date_table']
                     date_linac = str(date_obj)
                     key_star = star_imgs[0].name
-
+                    st.write(key_star)
                     # Update new registration
                     if key_star in keys:
                         chime.info()

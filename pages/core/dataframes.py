@@ -156,6 +156,7 @@ def dataframe_picket_fence(angle):
                 names = ['File', 'Analysis Date (app)', 'Test Date (from DICOM)', 'Angle', 'Absolute Median Error (mm)', 
                 'Maximum Error (mm)', 'Mean Picket Spacing (mm)', 'MLC Type', 'Number Pickets', 'Percent Leaves Passing (%)',
                 'Tolerance (mm)', 'Result']
+                
 
                 colors = ['rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(189, 215, 231)',
                         'rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(189, 215, 231)',

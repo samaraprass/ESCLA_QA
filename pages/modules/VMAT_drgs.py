@@ -80,7 +80,7 @@ if 'authentication_status' not in st.session_state:
 
 
 def vmat_drgs():
-    # Individual files        
+    # Individual files  
     ind_files = st.checkbox("Click here if you want to upload individual files")
     if ind_files:
         # working with files: https://blog.jcharistech.com/2020/11/08/working-with-file-uploads-in-streamlit-python/
@@ -194,43 +194,88 @@ def vmat_drgs():
 
                 # INSERTING/UPDATING IN DATABASE
                 if st.session_state['authentication_status'] is not None: 
-                    # Deta Database Connection
-                    data_connection = Deta(st.secrets['database']['data_key'])
-                    user_test = st.session_state['username'] + 'VMAT_DRGS'
-                    db = data_connection.Base(user_test)
-                    fetch_res = db.fetch()
-                     
-                    # Database keys list
-                    keys = [] 
-                    for i in fetch_res.items:
-                        keys.append(i['key'])
-                    
-                    # Variables to db function
-                    date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
-                    date_obj = date_time_obj.date()
+                    if st.session_state['unit'] != None:
+                        st.write(st.session_state['unit'])
 
-                    sid = sid1
-                    cax = cax1
-                    tol = dict_data1['tolerance_percent']
-                    abs_mean_dev = round(dict_data1['abs_mean_deviation'], 4)
-                    max_dev = round(dict_data1['max_deviation_percent'], 4)
-                    t_result = st.session_state['r1']
-                    analy_date = date_table
-                    date_linac = str(date_obj)
-                    key = str(file_open_drgs.name) + '&' + str(file_drgs.name)
+                        # Deta Database Connection
+                        data_connection = Deta(st.secrets['database']['data_key'])
+                        user_test = st.session_state['username'] + 'VMAT_DRGS' + st.session_state['unit']
+                        db = data_connection.Base(user_test)
+                        fetch_res = db.fetch()
+                        
+                        # Database keys list
+                        keys = [] 
+                        for i in fetch_res.items:
+                            keys.append(i['key'])
+                        
+                        # Variables to db function
+                        date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                        date_obj = date_time_obj.date()
 
-                    # Insert new registration
-                    if key in keys:
-                        st.warning("Already exist analysis results for this image on database. For saving new analysis, press button bellow.")
-                        bs = st.button("Save")
-                        if bs:
-                            DB.database_update_VMAT_DRGS(db, sid, cax, tol, abs_mean_dev, max_dev, t_result, analy_date, date_linac, key)
-                            st.success("New analysis saved")
-                    
-                    # Update registration
-                    elif key not in keys:
-                        DB.database_insert_VMAT_DRGS(db, sid, cax, tol, abs_mean_dev, max_dev, t_result, analy_date, date_linac, key)
-                        st.success("Analysis results saved")             
+                        sid = sid1
+                        cax = cax1
+                        tol = dict_data1['tolerance_percent']
+                        abs_mean_dev = round(dict_data1['abs_mean_deviation'], 4)
+                        max_dev = round(dict_data1['max_deviation_percent'], 4)
+                        t_result = st.session_state['r1']
+                        analy_date = date_table
+                        date_linac = str(date_obj)
+                        key = str(file_open_drgs.name) + '&' + str(file_drgs.name)
+
+                        # Insert new registration
+                        if key in keys:
+                            st.warning("Already exist analysis results for this image on database. For saving new analysis, press button bellow.")
+                            bs = st.button("Save")
+                            if bs:
+                                DB.database_update_VMAT_DRGS(db, sid, cax, tol, abs_mean_dev, max_dev, t_result, analy_date, date_linac, key)
+                                st.success("New analysis saved")
+                        
+                        # Update registration
+                        elif key not in keys:
+                            DB.database_insert_VMAT_DRGS(db, sid, cax, tol, abs_mean_dev, max_dev, t_result, analy_date, date_linac, key)
+                            st.success("Analysis results saved")  
+
+                    if st.session_state['unit'] == None:
+                        st.write(st.session_state['unit'])
+
+                        # Deta Database Connection
+                        data_connection = Deta(st.secrets['database']['data_key'])
+                        user_test = st.session_state['username'] + 'VMAT_DRGS'
+                        db = data_connection.Base(user_test)
+                        fetch_res = db.fetch()
+                        
+                        # Database keys list
+                        keys = [] 
+                        for i in fetch_res.items:
+                            keys.append(i['key'])
+                        
+                        # Variables to db function
+                        date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                        date_obj = date_time_obj.date()
+
+                        sid = sid1
+                        cax = cax1
+                        tol = dict_data1['tolerance_percent']
+                        abs_mean_dev = round(dict_data1['abs_mean_deviation'], 4)
+                        max_dev = round(dict_data1['max_deviation_percent'], 4)
+                        t_result = st.session_state['r1']
+                        analy_date = date_table
+                        date_linac = str(date_obj)
+                        key = str(file_open_drgs.name) + '&' + str(file_drgs.name)
+
+                        # Insert new registration
+                        if key in keys:
+                            st.warning("Already exist analysis results for this image on database. For saving new analysis, press button bellow.")
+                            bs = st.button("Save")
+                            if bs:
+                                DB.database_update_VMAT_DRGS(db, sid, cax, tol, abs_mean_dev, max_dev, t_result, analy_date, date_linac, key)
+                                st.success("New analysis saved")
+                        
+                        # Update registration
+                        elif key not in keys:
+                            DB.database_insert_VMAT_DRGS(db, sid, cax, tol, abs_mean_dev, max_dev, t_result, analy_date, date_linac, key)
+                            st.success("Analysis results saved")
+
 
 
             elif page == "2. CREATE PDF REPORT":
@@ -269,6 +314,7 @@ def vmat_drgs():
     # ZIP file
     else:
         file_zip = st.file_uploader("Choose your DRGS images (upload a zip file)", type=["ZIP"], key='drgs')
+        st.write(st.session_state['username'] + 'VMAT_DRGS')
 
         if file_zip is None:
             st.markdown("---")
@@ -402,6 +448,7 @@ def vmat_drgs():
                     # Deta Database Connection
                     data_connection = Deta(st.secrets['database']['data_key'])
                     user_test = st.session_state['username'] + 'VMAT_DRGS'
+                    st.write(user_test)
                     db = data_connection.Base(user_test)
                     fetch_res = db.fetch()
                      

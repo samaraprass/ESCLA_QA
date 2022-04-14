@@ -190,7 +190,7 @@ if menu_id == 'timeline':
     if st.session_state['authentication_status'] == False or st.session_state['authentication_status'] == None:
         st.warning("This section is available for ESCLA members only")
 
-        count = st_autorefresh(interval=600000, limit=100, key="dataframes")
+        # count = st_autorefresh(interval=600000, limit=100, key="dataframes")
         def load_lottieurl(url: str):
             r = requests.get(url)
             if r.status_code != 200:

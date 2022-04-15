@@ -314,7 +314,6 @@ def vmat_drgs():
     # ZIP file
     else:
         file_zip = st.file_uploader("Choose your DRGS images (upload a zip file)", type=["ZIP"], key='drgs')
-        st.write(st.session_state['username'] + 'VMAT_DRGS')
 
         if file_zip is None:
             st.markdown("---")

@@ -73,7 +73,7 @@ def dataframe_drmlc():
                 abs_mean_dev = []
                 max_dev = []
                 results = []
-                for i in st.session_state['sorted_dates_drgs']:
+                for i in st.session_state['sorted_dates_drmlc']:
                     fetch_res2 = db.fetch({"date_linac": i})
                     files.append(fetch_res2.items[0]["key"])
                     date_analysis.append(fetch_res2.items[0]['date_analysis'])
@@ -162,16 +162,35 @@ def dataframe_picket_fence(angle):
                         'rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(189, 215, 231)',
                         'rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(189, 215, 231)', 'rgb(107, 174, 214)']
 
+                # same_angle0 = []
+                # same_angle90 = []
+                # same_angle180 = []
+                # same_angle270 = []
+                # for i in st.session_state['sorted_dates_pf']:
+                #     fetch_res2 = db.fetch({"date_linac": i})
+                #     same_angle0.append(fetch_res2.items[0])
+                #     same_angle90.append(fetch_res2.items[3])
+                #     same_angle180.append(fetch_res2.items[1])
+                #     same_angle270.append(fetch_res2.items[2])
+
                 same_angle0 = []
                 same_angle90 = []
                 same_angle180 = []
                 same_angle270 = []
                 for i in st.session_state['sorted_dates_pf']:
                     fetch_res2 = db.fetch({"date_linac": i})
-                    same_angle0.append(fetch_res2.items[0])
-                    same_angle90.append(fetch_res2.items[3])
-                    same_angle180.append(fetch_res2.items[1])
-                    same_angle270.append(fetch_res2.items[2])
+                    for j in range(len(fetch_res2.items)):
+                        if int(round(fetch_res2.items[j]['angle'])) == 0:
+                            same_angle0.append(fetch_res2.items[j])
+
+                        if int(round(fetch_res2.items[j]['angle'])) == 90:
+                            same_angle90.append(fetch_res2.items[j])
+
+                        if int(round(fetch_res2.items[j]['angle'])) == 180:
+                            same_angle180.append(fetch_res2.items[j])
+
+                        if int(round(fetch_res2.items[j]["angle"])) == 270:
+                            same_angle270.append(fetch_res2.items[j])
 
                 
                 # Variables for 0º
@@ -187,7 +206,7 @@ def dataframe_picket_fence(angle):
                 percent_leaves = []
                 tolerance = []
                 results = []
-                for i in range(len(st.session_state['sorted_dates_pf'])):
+                for i in range(len(same_angle0)):
                     files.append(same_angle0[i]["key"])
                     date_analysis.append(same_angle0[i]["date_analysis"])
                     date_linac.append(same_angle0[i]["date_linac"])
@@ -214,7 +233,7 @@ def dataframe_picket_fence(angle):
                 percent_leaves_90 = []
                 tolerance_90 = []
                 results_90 = []
-                for i in range(len(st.session_state['sorted_dates_pf'])):
+                for i in range(len(same_angle90)):
                     files_90.append(same_angle90[i]["key"])
                     date_analysis_90.append(same_angle90[i]["date_analysis"])
                     date_linac_90.append(same_angle90[i]["date_linac"])
@@ -241,7 +260,7 @@ def dataframe_picket_fence(angle):
                 percent_leaves_180 = []
                 tolerance_180 = []
                 results_180 = []
-                for i in range(len(st.session_state['sorted_dates_pf'])):
+                for i in range(len(same_angle180)):
                     files_180.append(same_angle180[i]["key"])
                     date_analysis_180.append(same_angle180[i]["date_analysis"])
                     date_linac_180.append(same_angle180[i]["date_linac"])
@@ -268,7 +287,7 @@ def dataframe_picket_fence(angle):
                 percent_leaves_270 = []
                 tolerance_270 = []
                 results_270 = []
-                for i in range(len(st.session_state['sorted_dates_pf'])):
+                for i in range(len(same_angle270)):
                     files_270.append(same_angle270[i]["key"])
                     date_analysis_270.append(same_angle270[i]["date_analysis"])
                     date_linac_270.append(same_angle270[i]["date_linac"])

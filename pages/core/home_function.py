@@ -95,7 +95,7 @@ def Home():
     txt.t_fade(t6, 17, 'black')
     st.write('➜ James Kerns - [Pylinac: A TG-142 toolkit for doing routine linear accelerator quality assurance](https://github.com/jrkerns/pylinac)')
     st.write('➜ Mohammad Khorasani - [Streamlit-Authenticator](https://github.com/mkhorasani/Streamlit-Authenticator)')
-    st.write('➜ Ken McGrady - [streamlit-autorefresh: An autorefresh component for Streamlit apps](https://github.com/kmcgrady/streamlit-autorefresh)')
+    #st.write('➜ Ken McGrady - [streamlit-autorefresh: An autorefresh component for Streamlit apps](https://github.com/kmcgrady/streamlit-autorefresh)')
     st.write('➜ Fanilo Andrianasolo - [Streamlit-ECharts](https://github.com/andfanilo/streamlit-echarts) and [Streamlit Lottie](https://github.com/andfanilo/streamlit-lottie)')
     st.write('➜ [st-btn-select: Streamlit Button Select Component](https://github.com/0phoff/st-btn-select)')
     st.write('➜ [hydralits_components: A package of custom components for Streamlit and Hydralit](https://github.com/TangleSpace/hydralit_components)')

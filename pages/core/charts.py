@@ -210,16 +210,25 @@ def line_chart_picket_fence(angle):
         same_angle270 = []
         for i in st.session_state['sorted_dates_pf']:
             fetch_res2 = db.fetch({"date_linac": i})
-            same_angle0.append(fetch_res2.items[0])
-            same_angle90.append(fetch_res2.items[3])
-            same_angle180.append(fetch_res2.items[1])
-            same_angle270.append(fetch_res2.items[2])
+            for j in range(len(fetch_res2.items)):
+                if int(round(fetch_res2.items[j]['angle'])) == 0:
+                    same_angle0.append(fetch_res2.items[j])
+
+                if int(round(fetch_res2.items[j]['angle'])) == 90:
+                    same_angle90.append(fetch_res2.items[j])
+
+                if int(round(fetch_res2.items[j]['angle'])) == 180:
+                    same_angle180.append(fetch_res2.items[j])
+
+                if int(round(fetch_res2.items[j]["angle"])) == 270:
+                    same_angle270.append(fetch_res2.items[j])
+            
 
         # Variables for 0º
         abs_median_error0 = []
         max_error0 = []
         mean_picket_spacing0 = []
-        for i in range(len(st.session_state['sorted_dates_pf'])):
+        for i in range(len(same_angle0)):
             abs_median_error0.append(same_angle0[i]["abs_median_error"])
             max_error0.append(same_angle0[i]["max_error"])
             mean_picket_spacing0.append(same_angle0[i]["mean_picket_spacing"])
@@ -228,7 +237,7 @@ def line_chart_picket_fence(angle):
         abs_median_error90 = []
         max_error90 = []
         mean_picket_spacing90 = []
-        for i in range(len(st.session_state['sorted_dates_pf'])):
+        for i in range(len(same_angle90)):
             abs_median_error90.append(same_angle90[i]["abs_median_error"])
             max_error90.append(same_angle90[i]["max_error"])
             mean_picket_spacing90.append(same_angle90[i]["mean_picket_spacing"])
@@ -237,7 +246,7 @@ def line_chart_picket_fence(angle):
         abs_median_error180 = []
         max_error180 = []
         mean_picket_spacing180 = []
-        for i in range(len(st.session_state['sorted_dates_pf'])):
+        for i in range(len(same_angle180)):
             abs_median_error180.append(same_angle180[i]["abs_median_error"])
             max_error180.append(same_angle180[i]["max_error"])
             mean_picket_spacing180.append(same_angle180[i]["mean_picket_spacing"])
@@ -246,7 +255,7 @@ def line_chart_picket_fence(angle):
         abs_median_error270 = []
         max_error270 = []
         mean_picket_spacing270 = []
-        for i in range(len(st.session_state['sorted_dates_pf'])):
+        for i in range(len(same_angle270)):
             abs_median_error270.append(same_angle270[i]["abs_median_error"])
             max_error270.append(same_angle270[i]["max_error"])
             mean_picket_spacing270.append(same_angle270[i]["mean_picket_spacing"])

@@ -11,6 +11,7 @@ from st_btn_select import st_btn_select
 from deta import Deta
 from streamlit_autorefresh import st_autorefresh
 from PIL import Image
+import numpy as np
 
 #Importing Inside modules
 # -- Core
@@ -202,7 +203,14 @@ if menu_id == 'timeline':
         
     else:
         st.warning('You are logged in as *%s*' % (st.session_state['name_user']))
-        st.info(' 🤙🏻 INFO: This is a interactive graph. You can click the variables names to change which one to see.')
+        with st.expander(' 🔎  INFOS (click here to expand/collapse)', expanded=True):
+            st.write(' 🔹 This is an interactive time chart. You can click on the variable names to change which ones you want to see;')
+            st.write(' 🔹 The file name are the key to identifying data in the database. Be sure to ALWAYS upload files with DIFFERENT names;')
+            st.write(' 🔹 This timeline does not distinguish between data from different linacs. For this reason, you should upload data from the same linac to '
+            'better interpret the results of the timeline. This differentiation feature will be included in the next update of the app.')
+            st.write('Thanks 🤙🏻')
+
+        #st.info(' 🤙🏻 INFO: This is a interactive graph. You can click the variables names to change which one to see.')
         t1, t2, t3 = st.columns([1, 5, 0.8])
         with t2:
             pages = st_btn_select(('VMAT - DRGS', 'VMAT - DRMLC', 'Starshot', 'Picket Fence', 'Winston-Lutz', 'Field Analysis'), nav=False)

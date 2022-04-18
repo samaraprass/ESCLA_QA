@@ -70,7 +70,7 @@ def star():
     # MULTIPLE FILES
     if pages == 'Multiple Files':
         star_imgs = st.file_uploader("Choose your Starshot files", accept_multiple_files=True, key="multiple_files", type=['DCM'])
-        with st.expander(" 📊 Click here to change the analysis paremeters"):
+        with st.expander(" 📊 Click here to change the analysis parameters"):
             with st.form(key="analysis_m"):
                 t_drgs = 'Analysis parameters'
                 text.body(t_drgs, 18, "black")
@@ -187,45 +187,87 @@ def star():
 
                 # DATABASE
                 if st.session_state['authentication_status'] is not None:
-                    # Date from test image
-                    dcm_read = DicomImage(star_imgs[0])
-                    date_dcm = dcm_read.metadata.AcquisitionDate
+                    if st.session_state['unit'] != None:
+                        # Date from test image
+                        dcm_read = DicomImage(star_imgs[0])
+                        date_dcm = dcm_read.metadata.AcquisitionDate
 
-                    # Deta Database Connection
-                    data_connection = Deta(st.secrets['database']['data_key'])
-                    user_test = st.session_state['username'] + 'Starshot'
-                    db = data_connection.Base(user_test)
-                    fetch_res = db.fetch()
+                        # Deta Database Connection
+                        data_connection = Deta(st.secrets['database']['data_key'])
+                        user_test = st.session_state['username'] + 'Starshot' + '_' + st.session_state['unit']
+                        db = data_connection.Base(user_test)
+                        fetch_res = db.fetch()
+                        
+                        keys = [] # database keys list
+                        for i in fetch_res.items:
+                            keys.append(i['key'])
+                        
+                        date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                        date_obj = date_time_obj.date()
+                        
+                        # Variables to db function
+                        tol = r["tolerance_mm"]
+                        circ_diam = round(r['circle_diameter_mm'], 4)
+                        circ_radius = round(r["circle_radius_mm"], 4)
+                        circ_center = str(r["circle_center_x_y"])
+                        t_result = st.session_state['rs']
+                        analy_date = st.session_state['date_table']
+                        date_linac = str(date_obj)
+                        key_star = names_sorted[0]
                     
-                    keys = [] # database keys list
-                    for i in fetch_res.items:
-                        keys.append(i['key'])
+                        # Update new registration
+                        if key_star in keys:
+                            st.warning("Analysis results already exist for this image in database. For saving new analysis, press 'Save'.")
+                            bs = st.button("Save")
+                            if bs:
+                                DB.database_update_star(db, tol, circ_diam, circ_radius, circ_center, t_result, analy_date, date_linac, key_star)
+                                st.success(f"New analysis of {key_star} set saved")
+                        
+                        # Insert registration
+                        elif key_star not in keys:
+                            DB.database_insert_star(db, tol, circ_diam, circ_radius, circ_center, t_result, analy_date, date_linac, key_star)
+                            st.success("Analysis results saved")
+
+                    if st.session_state['unit'] == None:
+                        # Date from test image
+                        dcm_read = DicomImage(star_imgs[0])
+                        date_dcm = dcm_read.metadata.AcquisitionDate
+
+                        # Deta Database Connection
+                        data_connection = Deta(st.secrets['database']['data_key'])
+                        user_test = st.session_state['username'] + 'Starshot'
+                        db = data_connection.Base(user_test)
+                        fetch_res = db.fetch()
+                        
+                        keys = [] # database keys list
+                        for i in fetch_res.items:
+                            keys.append(i['key'])
+                        
+                        date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                        date_obj = date_time_obj.date()
+                        
+                        # Variables to db function
+                        tol = r["tolerance_mm"]
+                        circ_diam = round(r['circle_diameter_mm'], 4)
+                        circ_radius = round(r["circle_radius_mm"], 4)
+                        circ_center = str(r["circle_center_x_y"])
+                        t_result = st.session_state['rs']
+                        analy_date = st.session_state['date_table']
+                        date_linac = str(date_obj)
+                        key_star = names_sorted[0]
                     
-                    date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
-                    date_obj = date_time_obj.date()
-                    
-                    # Variables to db function
-                    tol = r["tolerance_mm"]
-                    circ_diam = round(r['circle_diameter_mm'], 4)
-                    circ_radius = round(r["circle_radius_mm"], 4)
-                    circ_center = str(r["circle_center_x_y"])
-                    t_result = st.session_state['rs']
-                    analy_date = st.session_state['date_table']
-                    date_linac = str(date_obj)
-                    key_star = names_sorted[0]
-                
-                    # Update new registration
-                    if key_star in keys:
-                        st.warning("Analysis results already exist for this image in database. For saving new analysis, press 'Save'.")
-                        bs = st.button("Save")
-                        if bs:
-                            DB.database_update_star(db, tol, circ_diam, circ_radius, circ_center, t_result, analy_date, date_linac, key_star)
-                            st.success(f"New analysis of {key_star} set saved")
-                    
-                    # Insert registration
-                    elif key_star not in keys:
-                        DB.database_insert_star(db, tol, circ_diam, circ_radius, circ_center, t_result, analy_date, date_linac, key_star)
-                        st.success("Analysis results saved")
+                        # Update new registration
+                        if key_star in keys:
+                            st.warning("Analysis results already exist for this image in database. For saving new analysis, press 'Save'.")
+                            bs = st.button("Save")
+                            if bs:
+                                DB.database_update_star(db, tol, circ_diam, circ_radius, circ_center, t_result, analy_date, date_linac, key_star)
+                                st.success(f"New analysis of {key_star} set saved")
+                        
+                        # Insert registration
+                        elif key_star not in keys:
+                            DB.database_insert_star(db, tol, circ_diam, circ_radius, circ_center, t_result, analy_date, date_linac, key_star)
+                            st.success("Analysis results saved")
         
 
             if main_pages == '2. CREATE PDF REPORT':
@@ -375,48 +417,91 @@ def star():
 
                 # DATABASE
                 if st.session_state['authentication_status'] is not None:
-                    # Deta Database Connection
-                    data_connection = Deta(st.secrets['database']['data_key'])
-                    user_test = st.session_state['username'] + 'Starshot'
-                    db = data_connection.Base(user_test)
-                    fetch_res = db.fetch()
+                    if st.session_state['unit'] != None:
+                        # Deta Database Connection
+                        data_connection = Deta(st.secrets['database']['data_key'])
+                        user_test = st.session_state['username'] + 'Starshot' + '_' + st.session_state['unit']
+                        db = data_connection.Base(user_test)
+                        fetch_res = db.fetch()
 
-                    # Date from test image
-                    
-                    try:
-                        dcm_read = DicomImage(st.session_state['star_image'])
-                        date_dcm = dcm_read.metadata.AcquisitionDate
-                        date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
-                        date_obj = date_time_obj.date()
+                        # Date from test image
+                        try:
+                            dcm_read = DicomImage(st.session_state['star_image'])
+                            date_dcm = dcm_read.metadata.AcquisitionDate
+                            date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                            date_obj = date_time_obj.date()
 
-                    except:
-                        date_obj = None
+                        except:
+                            date_obj = None
 
-                    keys = [] # database keys list
-                    for i in fetch_res.items:
-                        keys.append(i['key'])
-                    
-                    tol = r["tolerance_mm"]
-                    circ_diam = round(r['circle_diameter_mm'], 4)
-                    circ_radius = round(r["circle_radius_mm"], 4)
-                    circ_center = str(r["circle_center_x_y"])
-                    t_result = st.session_state['r_s']
-                    analy_date = st.session_state['date_table']
-                    date_linac = str(date_obj)
-                    key_star = st.session_state['star_image'].name
+                        keys = [] # database keys list
+                        for i in fetch_res.items:
+                            keys.append(i['key'])
+                        
+                        tol = r["tolerance_mm"]
+                        circ_diam = round(r['circle_diameter_mm'], 4)
+                        circ_radius = round(r["circle_radius_mm"], 4)
+                        circ_center = str(r["circle_center_x_y"])
+                        t_result = st.session_state['r_s']
+                        analy_date = st.session_state['date_table']
+                        date_linac = str(date_obj)
+                        key_star = st.session_state['star_image'].name
 
-                    # Update new registration
-                    if key_star in keys:
-                        st.warning("Analysis results already exist for this image in database. For saving new analysis, press 'Save'.")
-                        bs = st.button("Save")
-                        if bs:
-                            DB.database_update_star(db, tol, circ_diam, circ_radius, circ_center, t_result, analy_date, date_linac, key_star)
-                            st.success("New analysis saved")
-                    
-                    # Insert registration
-                    elif key_star not in keys:
-                        DB.database_insert_star(db, tol, circ_diam, circ_radius, circ_center, t_result, analy_date, date_linac, key_star)
-                        st.success("Analysis results saved")
+                        # Update new registration
+                        if key_star in keys:
+                            st.warning("Analysis results already exist for this image in database. For saving new analysis, press 'Save'.")
+                            bs = st.button("Save")
+                            if bs:
+                                DB.database_update_star(db, tol, circ_diam, circ_radius, circ_center, t_result, analy_date, date_linac, key_star)
+                                st.success("New analysis saved")
+                        
+                        # Insert registration
+                        elif key_star not in keys:
+                            DB.database_insert_star(db, tol, circ_diam, circ_radius, circ_center, t_result, analy_date, date_linac, key_star)
+                            st.success("Analysis results saved")
+
+                    if st.session_state['unit'] == None:
+                        # Deta Database Connection
+                        data_connection = Deta(st.secrets['database']['data_key'])
+                        user_test = st.session_state['username'] + 'Starshot'
+                        db = data_connection.Base(user_test)
+                        fetch_res = db.fetch()
+
+                        # Date from test image
+                        try:
+                            dcm_read = DicomImage(st.session_state['star_image'])
+                            date_dcm = dcm_read.metadata.AcquisitionDate
+                            date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                            date_obj = date_time_obj.date()
+
+                        except:
+                            date_obj = None
+
+                        keys = [] # database keys list
+                        for i in fetch_res.items:
+                            keys.append(i['key'])
+                        
+                        tol = r["tolerance_mm"]
+                        circ_diam = round(r['circle_diameter_mm'], 4)
+                        circ_radius = round(r["circle_radius_mm"], 4)
+                        circ_center = str(r["circle_center_x_y"])
+                        t_result = st.session_state['r_s']
+                        analy_date = st.session_state['date_table']
+                        date_linac = str(date_obj)
+                        key_star = st.session_state['star_image'].name
+
+                        # Update new registration
+                        if key_star in keys:
+                            st.warning("Analysis results already exist for this image in database. For saving new analysis, press 'Save'.")
+                            bs = st.button("Save")
+                            if bs:
+                                DB.database_update_star(db, tol, circ_diam, circ_radius, circ_center, t_result, analy_date, date_linac, key_star)
+                                st.success("New analysis saved")
+                        
+                        # Insert registration
+                        elif key_star not in keys:
+                            DB.database_insert_star(db, tol, circ_diam, circ_radius, circ_center, t_result, analy_date, date_linac, key_star)
+                            st.success("Analysis results saved")
 
             if main_pages == "2. CREATE PDF REPORT":
                 st.subheader("PDF Report")

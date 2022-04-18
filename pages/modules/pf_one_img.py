@@ -228,52 +228,94 @@ def pf_one():
 
                 with st.spinner("Database inserting/uploading..."):
                     # INSERTING/UPDATING IN DATABASE
-                    if st.session_state['authentication_status'] is not None: 
-                        # Deta Database Connection
-                        data_connection = Deta(st.secrets['database']['data_key'])
-                        user_test = st.session_state['username'] + 'Picket_Fence'
-                        db = data_connection.Base(user_test)
-                        fetch_res = db.fetch()
-                        
-                        # Database keys list
-                        keys = [] 
-                        for i in fetch_res.items:
-                            keys.append(i['key'])
-                        
-                        # Variables to db function
-                        date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
-                        date_obj = date_time_obj.date()
+                    if st.session_state['authentication_status'] is not None:
+                        if st.session_state['unit'] != None:
+                            # Deta Database Connection
+                            data_connection = Deta(st.secrets['database']['data_key'])
+                            user_test = st.session_state['username'] + 'Picket_Fence' + '_' + st.session_state['unit']
+                            db = data_connection.Base(user_test)
+                            fetch_res = db.fetch()
+                            
+                            # Database keys list
+                            keys = [] 
+                            for i in fetch_res.items:
+                                keys.append(i['key'])
+                            
+                            # Variables to db function
+                            date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                            date_obj = date_time_obj.date()
 
-                        mlc = st.session_state['i3'][0].name
-                        tol = st.session_state['i3'][2]
-                        percent_leaves_pass = st.session_state['i3'][4]
-                        number_pickets = st.session_state['i3'][5]
-                        abs_median_error = st.session_state['i3'][6]
-                        max_error = st.session_state['i3'][7]
-                        mean_picket_spacing = st.session_state['i3'][8]
-                        t_result = st.session_state['r1']
-                        analy_date = date_table
-                        date_linac = str(date_obj)
-                        file_name = pf.name
-                        angle = dcm_read.metadata.GantryAngle
+                            mlc = st.session_state['i3'][0].name
+                            tol = st.session_state['i3'][2]
+                            percent_leaves_pass = st.session_state['i3'][4]
+                            number_pickets = st.session_state['i3'][5]
+                            abs_median_error = st.session_state['i3'][6]
+                            max_error = st.session_state['i3'][7]
+                            mean_picket_spacing = st.session_state['i3'][8]
+                            t_result = st.session_state['r1']
+                            analy_date = date_table
+                            date_linac = str(date_obj)
+                            file_name = pf.name
+                            angle = dcm_read.metadata.GantryAngle
 
-                        # Insert new registration
-                        if file_name in keys:
-                            event = st.warning("Analysis results already exist for this image in database. For saving new analysis, press button bellow.")
-                            chime.info()
-                            bs = st.button("Save")
-                            if bs:
-                                DB.database_update_pf(db, mlc, angle, tol, percent_leaves_pass, number_pickets, abs_median_error, max_error,
-                                mean_picket_spacing, t_result, analy_date, date_linac, file_name)
-                                st.success("New analysis saved to database")
-                                chime.success()
-                        
-                        # Update registration
-                        elif file_name not in keys:
-                            DB.database_insert_pf(db, mlc, angle, tol, percent_leaves_pass, number_pickets, abs_median_error, max_error,
-                                mean_picket_spacing, t_result, analy_date, date_linac, file_name)
-                            st.success("Analysis results saved to database")
-                            chime.success()      
+                            # Insert new registration
+                            if file_name in keys:
+                                event = st.warning("Analysis results already exist for this image in database. For saving new analysis, press button bellow.")
+                                bs = st.button("Save")
+                                if bs:
+                                    DB.database_update_pf(db, mlc, angle, tol, percent_leaves_pass, number_pickets, abs_median_error, max_error,
+                                    mean_picket_spacing, t_result, analy_date, date_linac, file_name)
+                                    st.success("New analysis saved to database")
+                            
+                            # Update registration
+                            elif file_name not in keys:
+                                DB.database_insert_pf(db, mlc, angle, tol, percent_leaves_pass, number_pickets, abs_median_error, max_error,
+                                    mean_picket_spacing, t_result, analy_date, date_linac, file_name)
+                                st.success("Analysis results saved to database")
+
+                        if st.session_state['unit'] == None:
+                            # Deta Database Connection
+                            data_connection = Deta(st.secrets['database']['data_key'])
+                            user_test = st.session_state['username'] + 'Picket_Fence'
+                            db = data_connection.Base(user_test)
+                            fetch_res = db.fetch()
+                            
+                            # Database keys list
+                            keys = [] 
+                            for i in fetch_res.items:
+                                keys.append(i['key'])
+                            
+                            # Variables to db function
+                            date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                            date_obj = date_time_obj.date()
+
+                            mlc = st.session_state['i3'][0].name
+                            tol = st.session_state['i3'][2]
+                            percent_leaves_pass = st.session_state['i3'][4]
+                            number_pickets = st.session_state['i3'][5]
+                            abs_median_error = st.session_state['i3'][6]
+                            max_error = st.session_state['i3'][7]
+                            mean_picket_spacing = st.session_state['i3'][8]
+                            t_result = st.session_state['r1']
+                            analy_date = date_table
+                            date_linac = str(date_obj)
+                            file_name = pf.name
+                            angle = dcm_read.metadata.GantryAngle
+
+                            # Insert new registration
+                            if file_name in keys:
+                                event = st.warning("Analysis results already exist for this image in database. For saving new analysis, press button bellow.")
+                                bs = st.button("Save")
+                                if bs:
+                                    DB.database_update_pf(db, mlc, angle, tol, percent_leaves_pass, number_pickets, abs_median_error, max_error,
+                                    mean_picket_spacing, t_result, analy_date, date_linac, file_name)
+                                    st.success("New analysis saved to database")
+                            
+                            # Update registration
+                            elif file_name not in keys:
+                                DB.database_insert_pf(db, mlc, angle, tol, percent_leaves_pass, number_pickets, abs_median_error, max_error,
+                                    mean_picket_spacing, t_result, analy_date, date_linac, file_name)
+                                st.success("Analysis results saved to database")     
 
             except Exception as ex:
                 #st.write(ex)

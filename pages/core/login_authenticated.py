@@ -88,6 +88,8 @@ def login_verified():
     
     if st.session_state['username'] == st.secrets['us'][8]:
         st.success('Welcome *%s*' % (st.session_state['name_user']))
+        st.session_state['unit']=None
     
     if st.session_state['username'] == st.secrets['us'][9]:
         st.success('Welcome *%s*' % (st.session_state['name_user']))
+        st.session_state['unit']=None

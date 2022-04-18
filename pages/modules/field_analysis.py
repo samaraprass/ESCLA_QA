@@ -311,68 +311,133 @@ def FA():
 
                 with st.spinner("Database inserting/uploading..."):
                     if st.session_state['authentication_status'] is not None:
-                        t_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
-                        t = t_timezone.replace(tzinfo=None)
-                        date_table = (str(t.day) + '/' + str(t.month) + '/' + str(t.year) + ' ' + str(t.hour) + ':' + 
-                                                str(t.minute) + ':' + str(t.second))
+                        if st.session_state['unit'] != None:
+                            t_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
+                            t = t_timezone.replace(tzinfo=None)
+                            date_table = (str(t.day) + '/' + str(t.month) + '/' + str(t.year) + ' ' + str(t.hour) + ':' + 
+                                                    str(t.minute) + ':' + str(t.second))
 
-                        # Deta Database Connection
-                        data_connection = Deta(st.secrets['database']['data_key'])
-                        user_test = st.session_state['username'] + 'Field_Analysis'
-                        db = data_connection.Base(user_test)
-                        fetch_res = db.fetch()
+                            # Deta Database Connection
+                            data_connection = Deta(st.secrets['database']['data_key'])
+                            user_test = st.session_state['username'] + 'Field_Analysis' + '_' + st.session_state['unit']
+                            db = data_connection.Base(user_test)
+                            fetch_res = db.fetch()
 
-                        # INFO from DICOM images
-                        dcm_read = DicomImage(st.session_state['file_field_analysis'])
-                        date = dcm_read.metadata.AcquisitionDate
-                        date_time_obj = datetime.strptime(date, '%Y%m%d')
-                        date_obj = date_time_obj.date()
-                        date_linac = str(date_obj) 
+                            # INFO from DICOM images
+                            dcm_read = DicomImage(st.session_state['file_field_analysis'])
+                            date = dcm_read.metadata.AcquisitionDate
+                            date_time_obj = datetime.strptime(date, '%Y%m%d')
+                            date_obj = date_time_obj.date()
+                            date_linac = str(date_obj) 
 
-                        # Database keys list
-                        keys = [] # storing keys from database to list
-                        for i in fetch_res.items:
-                            keys.append(i['key'])
+                            # Database keys list
+                            keys = [] # storing keys from database to list
+                            for i in fetch_res.items:
+                                keys.append(i['key'])
 
-                        # Variables to db function
-                        horiz_symmetry = st.session_state['values'][3]
-                        vert_symmetry = st.session_state['values'][4]
-                        horiz_flatness = st.session_state['values'][5]
-                        vert_flatness = st.session_state['values'][6]
-                        center_pixel = st.session_state['values'][7]
-                        center_method = st.session_state['values'][8]
-                        normal_method = st.session_state['values'][9]
-                        interpol_method = st.session_state['values'][10]
-                        edge_method = st.session_state['values'][11]
-                        top_penum = st.session_state['values'][12]
-                        bottom_penum = st.session_state['values'][13]
-                        left_penum = st.session_state['values'][14]
-                        right_penum = st.session_state['values'][15]
-                        vert_fs = st.session_state['values'][18]
-                        horiz_fs = st.session_state['values'][19]
-                        cax_top = st.session_state['values'][24]
-                        cax_bottom = st.session_state['values'][25]
-                        cax_left = st.session_state['values'][26]
-                        cax_right = st.session_state['values'][27]
-                        analy_date = date_table
-                        key = st.session_state['file_field_analysis'].name
+                            # Variables to db function
+                            horiz_symmetry = st.session_state['values'][3]
+                            vert_symmetry = st.session_state['values'][4]
+                            horiz_flatness = st.session_state['values'][5]
+                            vert_flatness = st.session_state['values'][6]
+                            center_pixel = st.session_state['values'][7]
+                            center_method = st.session_state['values'][8]
+                            normal_method = st.session_state['values'][9]
+                            interpol_method = st.session_state['values'][10]
+                            edge_method = st.session_state['values'][11]
+                            top_penum = st.session_state['values'][12]
+                            bottom_penum = st.session_state['values'][13]
+                            left_penum = st.session_state['values'][14]
+                            right_penum = st.session_state['values'][15]
+                            vert_fs = st.session_state['values'][18]
+                            horiz_fs = st.session_state['values'][19]
+                            cax_top = st.session_state['values'][24]
+                            cax_bottom = st.session_state['values'][25]
+                            cax_left = st.session_state['values'][26]
+                            cax_right = st.session_state['values'][27]
+                            analy_date = date_table
+                            key = st.session_state['file_field_analysis'].name
 
-                        # Inserting in database
-                        if key in keys:
-                            st.warning("Already exist analysis results for this image on database. For saving new analysis, press button bellow.")
-                            bs = st.button("Save")
-                            if bs:
-                                DB.database_update_fa(db, horiz_symmetry, vert_symmetry, horiz_flatness, vert_flatness, center_pixel, center_method, normal_method, interpol_method, edge_method,
+                            # Inserting in database
+                            if key in keys:
+                                st.warning("Already exist analysis results for this image on database. For saving new analysis, press button bellow.")
+                                bs = st.button("Save")
+                                if bs:
+                                    DB.database_update_fa(db, horiz_symmetry, vert_symmetry, horiz_flatness, vert_flatness, center_pixel, center_method, normal_method, interpol_method, edge_method,
+                                                        top_penum, bottom_penum, left_penum, right_penum, vert_fs, horiz_fs, cax_top, cax_bottom, cax_left, cax_right, 
+                                                        analy_date, date_linac, key)
+                                    st.success(f"New analysis of {key} saved")
+
+                            # Uploading database
+                            if key not in keys:
+                                DB.database_insert_fa(db, horiz_symmetry, vert_symmetry, horiz_flatness, vert_flatness, center_pixel, center_method, normal_method, interpol_method, edge_method,
                                                     top_penum, bottom_penum, left_penum, right_penum, vert_fs, horiz_fs, cax_top, cax_bottom, cax_left, cax_right, 
                                                     analy_date, date_linac, key)
-                                st.success(f"New analysis of {key} saved")
+                                st.success(f"Analysis results of {key} saved")
+                            
+                        if st.session_state['unit'] == None:
+                            t_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
+                            t = t_timezone.replace(tzinfo=None)
+                            date_table = (str(t.day) + '/' + str(t.month) + '/' + str(t.year) + ' ' + str(t.hour) + ':' + 
+                                                    str(t.minute) + ':' + str(t.second))
 
-                        # Uploading database
-                        if key not in keys:
-                            DB.database_insert_fa(db, horiz_symmetry, vert_symmetry, horiz_flatness, vert_flatness, center_pixel, center_method, normal_method, interpol_method, edge_method,
-                                                top_penum, bottom_penum, left_penum, right_penum, vert_fs, horiz_fs, cax_top, cax_bottom, cax_left, cax_right, 
-                                                analy_date, date_linac, key)
-                            st.success(f"Analysis results of {key} saved")  
+                            # Deta Database Connection
+                            data_connection = Deta(st.secrets['database']['data_key'])
+                            user_test = st.session_state['username'] + 'Field_Analysis'
+                            db = data_connection.Base(user_test)
+                            fetch_res = db.fetch()
+
+                            # INFO from DICOM images
+                            dcm_read = DicomImage(st.session_state['file_field_analysis'])
+                            date = dcm_read.metadata.AcquisitionDate
+                            date_time_obj = datetime.strptime(date, '%Y%m%d')
+                            date_obj = date_time_obj.date()
+                            date_linac = str(date_obj) 
+
+                            # Database keys list
+                            keys = [] # storing keys from database to list
+                            for i in fetch_res.items:
+                                keys.append(i['key'])
+
+                            # Variables to db function
+                            horiz_symmetry = st.session_state['values'][3]
+                            vert_symmetry = st.session_state['values'][4]
+                            horiz_flatness = st.session_state['values'][5]
+                            vert_flatness = st.session_state['values'][6]
+                            center_pixel = st.session_state['values'][7]
+                            center_method = st.session_state['values'][8]
+                            normal_method = st.session_state['values'][9]
+                            interpol_method = st.session_state['values'][10]
+                            edge_method = st.session_state['values'][11]
+                            top_penum = st.session_state['values'][12]
+                            bottom_penum = st.session_state['values'][13]
+                            left_penum = st.session_state['values'][14]
+                            right_penum = st.session_state['values'][15]
+                            vert_fs = st.session_state['values'][18]
+                            horiz_fs = st.session_state['values'][19]
+                            cax_top = st.session_state['values'][24]
+                            cax_bottom = st.session_state['values'][25]
+                            cax_left = st.session_state['values'][26]
+                            cax_right = st.session_state['values'][27]
+                            analy_date = date_table
+                            key = st.session_state['file_field_analysis'].name
+
+                            # Inserting in database
+                            if key in keys:
+                                st.warning("Already exist analysis results for this image on database. For saving new analysis, press button bellow.")
+                                bs = st.button("Save")
+                                if bs:
+                                    DB.database_update_fa(db, horiz_symmetry, vert_symmetry, horiz_flatness, vert_flatness, center_pixel, center_method, normal_method, interpol_method, edge_method,
+                                                        top_penum, bottom_penum, left_penum, right_penum, vert_fs, horiz_fs, cax_top, cax_bottom, cax_left, cax_right, 
+                                                        analy_date, date_linac, key)
+                                    st.success(f"New analysis of {key} saved")
+
+                            # Uploading database
+                            if key not in keys:
+                                DB.database_insert_fa(db, horiz_symmetry, vert_symmetry, horiz_flatness, vert_flatness, center_pixel, center_method, normal_method, interpol_method, edge_method,
+                                                    top_penum, bottom_penum, left_penum, right_penum, vert_fs, horiz_fs, cax_top, cax_bottom, cax_left, cax_right, 
+                                                    analy_date, date_linac, key)
+                                st.success(f"Analysis results of {key} saved")  
                              
             except Exception as error:
                 # st.write(error)

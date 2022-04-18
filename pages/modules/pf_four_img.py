@@ -236,134 +236,260 @@ def pf_four():
                         st.image(st.session_state['a1'], width=500, use_column_width=True)
                     
                     with st.spinner("Database inserting/uploading..."):
-
                         if st.session_state['authentication_status'] is not None:
+                            if st.session_state['unit'] != None:
+                                # table date format
+                                t_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
+                                t = t_timezone.replace(tzinfo=None)
+                                date_table = (str(t.day) + '/' + str(t.month) + '/' + str(t.year) + ' ' + str(t.hour) + ':' + 
+                                                        str(t.minute) + ':' + str(t.second))
 
-                            # table date format
-                            t_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
-                            t = t_timezone.replace(tzinfo=None)
-                            date_table = (str(t.day) + '/' + str(t.month) + '/' + str(t.year) + ' ' + str(t.hour) + ':' + 
-                                                    str(t.minute) + ':' + str(t.second))
+                                # Deta Database Connection
+                                data_connection = Deta(st.secrets['database']['data_key'])
+                                user_test = st.session_state['username'] + 'Picket_Fence' + '_' + st.session_state['unit']
+                                db = data_connection.Base(user_test)
+                                fetch_res = db.fetch()
 
-                            # Deta Database Connection
-                            data_connection = Deta(st.secrets['database']['data_key'])
-                            user_test = st.session_state['username'] + 'Picket_Fence'
-                            db = data_connection.Base(user_test)
-                            fetch_res = db.fetch()
+                                # INFO from DICOM images
+                                dates = []
+                                names = []
+                                angles = []
+                                for i in range(len(pf_up2)):
+                                    dcm_read = DicomImage(pf_up2[i])
+                                    date = dcm_read.metadata.AcquisitionDate
+                                    date_time_obj = datetime.strptime(date, '%Y%m%d')
+                                    date_obj = date_time_obj.date()
+                                    date_linac = str(date_obj)
+                                    name = pf_up2[i].name
+                                    names.append(name)
+                                    dates.append(date_linac)
+                                    angles.append(dcm_read.metadata.GantryAngle)
+                                
+                                # Database keys list
+                                keys = [] # storing keys from database to list
+                                for i in fetch_res.items:
+                                    keys.append(i['key'])
 
-                            # INFO from DICOM images
-                            dates = []
-                            names = []
-                            angles = []
-                            for i in range(len(pf_up2)):
-                                dcm_read = DicomImage(pf_up2[i])
-                                date = dcm_read.metadata.AcquisitionDate
-                                date_time_obj = datetime.strptime(date, '%Y%m%d')
-                                date_obj = date_time_obj.date()
-                                date_linac = str(date_obj)
-                                name = pf_up2[i].name
-                                names.append(name)
-                                dates.append(date_linac)
-                                angles.append(dcm_read.metadata.GantryAngle)
-                            
-                            # Database keys list
-                            keys = [] # storing keys from database to list
-                            for i in fetch_res.items:
-                                keys.append(i['key'])
+                                # FIRST IMAGE - Variables to db function
+                                mlc1 = st.session_state['a3'][0].name
+                                tol1 = st.session_state['a3'][2]
+                                percent_leaves_pass1 = st.session_state['a3'][4]
+                                number_pickets1 = st.session_state['a3'][5]
+                                abs_median_error1 = st.session_state['a3'][6]
+                                max_error1 = st.session_state['a3'][7]
+                                mean_picket_spacing1 = st.session_state['a3'][8]
+                                t_result1 = st.session_state['r2']
+                                analy_date1 = date_table
+                                date_linac1 = dates[0]
+                                key1 = names[0]
+                                angle1 = angles[0]
 
-                            # FIRST IMAGE - Variables to db function
-                            mlc1 = st.session_state['a3'][0].name
-                            tol1 = st.session_state['a3'][2]
-                            percent_leaves_pass1 = st.session_state['a3'][4]
-                            number_pickets1 = st.session_state['a3'][5]
-                            abs_median_error1 = st.session_state['a3'][6]
-                            max_error1 = st.session_state['a3'][7]
-                            mean_picket_spacing1 = st.session_state['a3'][8]
-                            t_result1 = st.session_state['r2']
-                            analy_date1 = date_table
-                            date_linac1 = dates[0]
-                            key1 = names[0]
-                            angle1 = angles[0]
+                                # SECOND IMAGE - Variables to db function
+                                mlc2 = st.session_state['c3'][0].name
+                                tol2 = st.session_state['c3'][2]
+                                percent_leaves_pass2 = st.session_state['c3'][4]
+                                number_pickets2 = st.session_state['c3'][5]
+                                abs_median_error2 = st.session_state['c3'][6]
+                                max_error2 = st.session_state['c3'][7]
+                                mean_picket_spacing2 = st.session_state['c3'][8]
+                                t_result2 = st.session_state['r3']
+                                analy_date2 = date_table
+                                date_linac2 = dates[1]
+                                key2 = names[1]
+                                angle2 = angles[1]
 
-                            # SECOND IMAGE - Variables to db function
-                            mlc2 = st.session_state['c3'][0].name
-                            tol2 = st.session_state['c3'][2]
-                            percent_leaves_pass2 = st.session_state['c3'][4]
-                            number_pickets2 = st.session_state['c3'][5]
-                            abs_median_error2 = st.session_state['c3'][6]
-                            max_error2 = st.session_state['c3'][7]
-                            mean_picket_spacing2 = st.session_state['c3'][8]
-                            t_result2 = st.session_state['r3']
-                            analy_date2 = date_table
-                            date_linac2 = dates[1]
-                            key2 = names[1]
-                            angle2 = angles[1]
+                                # THIRD IMAGE - Variables to db function
+                                mlc3 = st.session_state['e3'][0].name
+                                tol3 = st.session_state['e3'][2]
+                                percent_leaves_pass3 = st.session_state['e3'][4]
+                                number_pickets3 = st.session_state['e3'][5]
+                                abs_median_error3 = st.session_state['e3'][6]
+                                max_error3 = st.session_state['e3'][7]
+                                mean_picket_spacing3 = st.session_state['e3'][8]
+                                t_result3 = st.session_state['r4']
+                                analy_date3 = date_table
+                                date_linac3 = dates[2]
+                                key3 = names[2]
+                                angle3 = angles[2]
 
-                            # THIRD IMAGE - Variables to db function
-                            mlc3 = st.session_state['e3'][0].name
-                            tol3 = st.session_state['e3'][2]
-                            percent_leaves_pass3 = st.session_state['e3'][4]
-                            number_pickets3 = st.session_state['e3'][5]
-                            abs_median_error3 = st.session_state['e3'][6]
-                            max_error3 = st.session_state['e3'][7]
-                            mean_picket_spacing3 = st.session_state['e3'][8]
-                            t_result3 = st.session_state['r4']
-                            analy_date3 = date_table
-                            date_linac3 = dates[2]
-                            key3 = names[2]
-                            angle3 = angles[2]
+                                #FOURTH IMAGE - Variables to db function
+                                mlc4 = st.session_state['g3'][0].name
+                                tol4 = st.session_state['g3'][2]
+                                percent_leaves_pass4 = st.session_state['g3'][4]
+                                number_pickets4 = st.session_state['g3'][5]
+                                abs_median_error4 = st.session_state['g3'][6]
+                                max_error4 = st.session_state['g3'][7]
+                                mean_picket_spacing4 = st.session_state['g3'][8]
+                                t_result4 = st.session_state['r5']
+                                analy_date4 = date_table
+                                date_linac4 = dates[3]
+                                key4 = names[3]
+                                angle4 = angles[3]
 
-                            #FOURTH IMAGE - Variables to db function
-                            mlc4 = st.session_state['g3'][0].name
-                            tol4 = st.session_state['g3'][2]
-                            percent_leaves_pass4 = st.session_state['g3'][4]
-                            number_pickets4 = st.session_state['g3'][5]
-                            abs_median_error4 = st.session_state['g3'][6]
-                            max_error4 = st.session_state['g3'][7]
-                            mean_picket_spacing4 = st.session_state['g3'][8]
-                            t_result4 = st.session_state['r5']
-                            analy_date4 = date_table
-                            date_linac4 = dates[3]
-                            key4 = names[3]
-                            angle4 = angles[3]
+                                if len([x for x in names if x in keys])==4:
+                                    st.warning("Analysis results already exist for this image on database. For saving new analysis, press button bellow.")
+                                    bs = st.button("Save", key='fourth_img')
+                                    if bs:
+                                        DB.database_update_pf(db, mlc1, angle1, tol1, percent_leaves_pass1, number_pickets1, abs_median_error1, max_error1,
+                                            mean_picket_spacing1, t_result1, analy_date1, date_linac1, key1)
+                                        st.success(f"New analysis {key1} saved")
 
-                            if len([x for x in names if x in keys])==4:
-                                st.warning("Analysis results already exist for this image on database. For saving new analysis, press button bellow.")
-                                bs = st.button("Save", key='fourth_img')
-                                if bs:
-                                    DB.database_update_pf(db, mlc1, angle1, tol1, percent_leaves_pass1, number_pickets1, abs_median_error1, max_error1,
-                                        mean_picket_spacing1, t_result1, analy_date1, date_linac1, key1)
-                                    st.success(f"New analysis {key1} saved")
+                                        DB.database_update_pf(db, mlc2, angle2, tol2, percent_leaves_pass2, number_pickets2, abs_median_error2, max_error2,
+                                            mean_picket_spacing2, t_result2, analy_date2, date_linac2, key2)
+                                        st.success(f"New analysis {key2} saved")
 
-                                    DB.database_update_pf(db, mlc2, angle2, tol2, percent_leaves_pass2, number_pickets2, abs_median_error2, max_error2,
-                                        mean_picket_spacing2, t_result2, analy_date2, date_linac2, key2)
-                                    st.success(f"New analysis {key2} saved")
-
-                                    DB.database_update_pf(db, mlc3, angle3, tol3, percent_leaves_pass3, number_pickets3, abs_median_error3, max_error3,
-                                    mean_picket_spacing3, t_result3, analy_date3, date_linac3, key3)
-                                    st.success(f"New analysis {key3} saved")
-
-                                    DB.database_update_pf(db, mlc4, angle4, tol4, percent_leaves_pass4, number_pickets4, abs_median_error4, max_error4,
-                                    mean_picket_spacing4, t_result4, analy_date4, date_linac4, key4)
-                                    st.success(f"New analysis {key4} saved")
-
-                            if len([x for x in names if x in keys]) != 4:            
-                                DB.database_insert_pf(db, mlc1, angle1, tol1, percent_leaves_pass1, number_pickets1, abs_median_error1, max_error1,
-                                        mean_picket_spacing1, t_result1, analy_date1, date_linac1, key1)
-                                st.success(f"Analysis results for file {key1} saved")
-
-                                                         
-                                DB.database_insert_pf(db, mlc2, angle2, tol2, percent_leaves_pass2, number_pickets2, abs_median_error2, max_error2,
-                                        mean_picket_spacing2, t_result2, analy_date2, date_linac2, key2)
-                                st.success(f"Analysis results for file {key2} saved")
-
-                                DB.database_insert_pf(db, mlc3, angle3, tol3, percent_leaves_pass3, number_pickets3, abs_median_error3, max_error3,
+                                        DB.database_update_pf(db, mlc3, angle3, tol3, percent_leaves_pass3, number_pickets3, abs_median_error3, max_error3,
                                         mean_picket_spacing3, t_result3, analy_date3, date_linac3, key3)
-                                st.success(f"Analysis results for file {key3} saved")
+                                        st.success(f"New analysis {key3} saved")
 
-                                DB.database_insert_pf(db, mlc4, angle4, tol4, percent_leaves_pass4, number_pickets4, abs_median_error4, max_error4,
-                                        mean_picket_spacing4, t_result4, analy_date4, date_linac4, key4)        
-                                st.success(f"Analysis results for file {key4} saved")
+                                        DB.database_update_pf(db, mlc4, angle4, tol4, percent_leaves_pass4, number_pickets4, abs_median_error4, max_error4,
+                                        mean_picket_spacing4, t_result4, analy_date4, date_linac4, key4)
+                                        st.success(f"New analysis {key4} saved")
+
+                                if len([x for x in names if x in keys]) != 4:            
+                                    DB.database_insert_pf(db, mlc1, angle1, tol1, percent_leaves_pass1, number_pickets1, abs_median_error1, max_error1,
+                                            mean_picket_spacing1, t_result1, analy_date1, date_linac1, key1)
+                                    st.success(f"Analysis results for file {key1} saved")
+
+                                                            
+                                    DB.database_insert_pf(db, mlc2, angle2, tol2, percent_leaves_pass2, number_pickets2, abs_median_error2, max_error2,
+                                            mean_picket_spacing2, t_result2, analy_date2, date_linac2, key2)
+                                    st.success(f"Analysis results for file {key2} saved")
+
+                                    DB.database_insert_pf(db, mlc3, angle3, tol3, percent_leaves_pass3, number_pickets3, abs_median_error3, max_error3,
+                                            mean_picket_spacing3, t_result3, analy_date3, date_linac3, key3)
+                                    st.success(f"Analysis results for file {key3} saved")
+
+                                    DB.database_insert_pf(db, mlc4, angle4, tol4, percent_leaves_pass4, number_pickets4, abs_median_error4, max_error4,
+                                            mean_picket_spacing4, t_result4, analy_date4, date_linac4, key4)        
+                                    st.success(f"Analysis results for file {key4} saved")
+                                    
+                            if st.session_state['unit'] == None:
+                                # table date format
+                                t_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
+                                t = t_timezone.replace(tzinfo=None)
+                                date_table = (str(t.day) + '/' + str(t.month) + '/' + str(t.year) + ' ' + str(t.hour) + ':' + 
+                                                        str(t.minute) + ':' + str(t.second))
+
+                                # Deta Database Connection
+                                data_connection = Deta(st.secrets['database']['data_key'])
+                                user_test = st.session_state['username'] + 'Picket_Fence'
+                                db = data_connection.Base(user_test)
+                                fetch_res = db.fetch()
+
+                                # INFO from DICOM images
+                                dates = []
+                                names = []
+                                angles = []
+                                for i in range(len(pf_up2)):
+                                    dcm_read = DicomImage(pf_up2[i])
+                                    date = dcm_read.metadata.AcquisitionDate
+                                    date_time_obj = datetime.strptime(date, '%Y%m%d')
+                                    date_obj = date_time_obj.date()
+                                    date_linac = str(date_obj)
+                                    name = pf_up2[i].name
+                                    names.append(name)
+                                    dates.append(date_linac)
+                                    angles.append(dcm_read.metadata.GantryAngle)
+                                
+                                # Database keys list
+                                keys = [] # storing keys from database to list
+                                for i in fetch_res.items:
+                                    keys.append(i['key'])
+
+                                # FIRST IMAGE - Variables to db function
+                                mlc1 = st.session_state['a3'][0].name
+                                tol1 = st.session_state['a3'][2]
+                                percent_leaves_pass1 = st.session_state['a3'][4]
+                                number_pickets1 = st.session_state['a3'][5]
+                                abs_median_error1 = st.session_state['a3'][6]
+                                max_error1 = st.session_state['a3'][7]
+                                mean_picket_spacing1 = st.session_state['a3'][8]
+                                t_result1 = st.session_state['r2']
+                                analy_date1 = date_table
+                                date_linac1 = dates[0]
+                                key1 = names[0]
+                                angle1 = angles[0]
+
+                                # SECOND IMAGE - Variables to db function
+                                mlc2 = st.session_state['c3'][0].name
+                                tol2 = st.session_state['c3'][2]
+                                percent_leaves_pass2 = st.session_state['c3'][4]
+                                number_pickets2 = st.session_state['c3'][5]
+                                abs_median_error2 = st.session_state['c3'][6]
+                                max_error2 = st.session_state['c3'][7]
+                                mean_picket_spacing2 = st.session_state['c3'][8]
+                                t_result2 = st.session_state['r3']
+                                analy_date2 = date_table
+                                date_linac2 = dates[1]
+                                key2 = names[1]
+                                angle2 = angles[1]
+
+                                # THIRD IMAGE - Variables to db function
+                                mlc3 = st.session_state['e3'][0].name
+                                tol3 = st.session_state['e3'][2]
+                                percent_leaves_pass3 = st.session_state['e3'][4]
+                                number_pickets3 = st.session_state['e3'][5]
+                                abs_median_error3 = st.session_state['e3'][6]
+                                max_error3 = st.session_state['e3'][7]
+                                mean_picket_spacing3 = st.session_state['e3'][8]
+                                t_result3 = st.session_state['r4']
+                                analy_date3 = date_table
+                                date_linac3 = dates[2]
+                                key3 = names[2]
+                                angle3 = angles[2]
+
+                                #FOURTH IMAGE - Variables to db function
+                                mlc4 = st.session_state['g3'][0].name
+                                tol4 = st.session_state['g3'][2]
+                                percent_leaves_pass4 = st.session_state['g3'][4]
+                                number_pickets4 = st.session_state['g3'][5]
+                                abs_median_error4 = st.session_state['g3'][6]
+                                max_error4 = st.session_state['g3'][7]
+                                mean_picket_spacing4 = st.session_state['g3'][8]
+                                t_result4 = st.session_state['r5']
+                                analy_date4 = date_table
+                                date_linac4 = dates[3]
+                                key4 = names[3]
+                                angle4 = angles[3]
+
+                                if len([x for x in names if x in keys])==4:
+                                    st.warning("Analysis results already exist for this image on database. For saving new analysis, press button bellow.")
+                                    bs = st.button("Save", key='fourth_img')
+                                    if bs:
+                                        DB.database_update_pf(db, mlc1, angle1, tol1, percent_leaves_pass1, number_pickets1, abs_median_error1, max_error1,
+                                            mean_picket_spacing1, t_result1, analy_date1, date_linac1, key1)
+                                        st.success(f"New analysis {key1} saved")
+
+                                        DB.database_update_pf(db, mlc2, angle2, tol2, percent_leaves_pass2, number_pickets2, abs_median_error2, max_error2,
+                                            mean_picket_spacing2, t_result2, analy_date2, date_linac2, key2)
+                                        st.success(f"New analysis {key2} saved")
+
+                                        DB.database_update_pf(db, mlc3, angle3, tol3, percent_leaves_pass3, number_pickets3, abs_median_error3, max_error3,
+                                        mean_picket_spacing3, t_result3, analy_date3, date_linac3, key3)
+                                        st.success(f"New analysis {key3} saved")
+
+                                        DB.database_update_pf(db, mlc4, angle4, tol4, percent_leaves_pass4, number_pickets4, abs_median_error4, max_error4,
+                                        mean_picket_spacing4, t_result4, analy_date4, date_linac4, key4)
+                                        st.success(f"New analysis {key4} saved")
+
+                                if len([x for x in names if x in keys]) != 4:            
+                                    DB.database_insert_pf(db, mlc1, angle1, tol1, percent_leaves_pass1, number_pickets1, abs_median_error1, max_error1,
+                                            mean_picket_spacing1, t_result1, analy_date1, date_linac1, key1)
+                                    st.success(f"Analysis results for file {key1} saved")
+
+                                                            
+                                    DB.database_insert_pf(db, mlc2, angle2, tol2, percent_leaves_pass2, number_pickets2, abs_median_error2, max_error2,
+                                            mean_picket_spacing2, t_result2, analy_date2, date_linac2, key2)
+                                    st.success(f"Analysis results for file {key2} saved")
+
+                                    DB.database_insert_pf(db, mlc3, angle3, tol3, percent_leaves_pass3, number_pickets3, abs_median_error3, max_error3,
+                                            mean_picket_spacing3, t_result3, analy_date3, date_linac3, key3)
+                                    st.success(f"Analysis results for file {key3} saved")
+
+                                    DB.database_insert_pf(db, mlc4, angle4, tol4, percent_leaves_pass4, number_pickets4, abs_median_error4, max_error4,
+                                            mean_picket_spacing4, t_result4, analy_date4, date_linac4, key4)        
+                                    st.success(f"Analysis results for file {key4} saved")
 
             except Exception as error:
                 st.write(error)

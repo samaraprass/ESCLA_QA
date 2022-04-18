@@ -150,60 +150,112 @@ def wl():
                         shutil.rmtree(path)
                     date_time_obj = datetime.strptime(date_img, '%Y%m%d')
                     date_obj = date_time_obj.date()
-            
-                    # Deta Database Connection
-                    data_connection = Deta(st.secrets['database']['data_key'])
-                    user_test = st.session_state['username'] + 'Winston_Lutz'
-                    db = data_connection.Base(user_test)
-                    fetch_res = db.fetch()
 
-                    keys = [] # database keys list
-                    for i in fetch_res.items:
-                        keys.append(i['key'])
-                    
-                    # Variables to db function
-                    n_gantry_imgs = st.session_state['values_wl'][2]
-                    n_gan_col_imgs = st.session_state['values_wl'][3]
-                    n_col_imgs = st.session_state['values_wl'][4]
-                    n_couch_imgs = st.session_state['values_wl'][5]
-                    n_tot_imgs =st.session_state['values_wl'][6]
-                    max_2d_cax_bb = st.session_state['values_wl'][7]
-                    median_2d_cax_bb = st.session_state['values_wl'][8]
-                    max_2d_cax_epid = st.session_state['values_wl'][9]
-                    median_2d_cax_epid = st.session_state['values_wl'][10]
-                    gantry_3d_iso_diam = st.session_state['values_wl'][11]
-                    max_gantry_rms_dev = st.session_state['values_wl'][12]
-                    max_epid_rms_dev = st.session_state['values_wl'][13]
-                    gantry_coll_3d_iso_diam = st.session_state['values_wl'][14]
-                    coll_2d_iso_diam = st.session_state['values_wl'][15]
-                    max_coll_rms_dev = st.session_state['values_wl'][16]
-                    couch_2d_iso = st.session_state['values_wl'][17]
-                    max_couch_rms_dev = st.session_state['values_wl'][18]
-                    shift = st.session_state['values_wl'][19]
-                    analy_date = date_table
-                    date_linac = str(date_obj)
-                    key_w = file_zip.name
-                    
-                    # Insert new registration
-                    if key_w in keys:
-                        st.warning("Already exist analysis results for this image on database. For saving new analysis, press button bellow.")
-                        bs = st.button("Save")
-                        if bs:
-                            DB.database_update_wl(db, n_gantry_imgs, n_gan_col_imgs, n_col_imgs, n_couch_imgs, n_tot_imgs, max_2d_cax_bb,
-                            median_2d_cax_bb, max_2d_cax_epid, median_2d_cax_epid, gantry_3d_iso_diam, max_gantry_rms_dev, max_epid_rms_dev,
-                            gantry_coll_3d_iso_diam, coll_2d_iso_diam, max_coll_rms_dev, couch_2d_iso, max_couch_rms_dev, shift, analy_date,
-                            date_linac, key_w)
-                            st.success(f"New analysis of {key_w} saved")
-                    
-                    # Updating registration
-                    if key_w not in keys:
-                        DB.database_insert_wl(db, n_gantry_imgs, n_gan_col_imgs, n_col_imgs, n_couch_imgs, n_tot_imgs, max_2d_cax_bb,
-                            median_2d_cax_bb, max_2d_cax_epid, median_2d_cax_epid, gantry_3d_iso_diam, max_gantry_rms_dev, max_epid_rms_dev,
-                            gantry_coll_3d_iso_diam, coll_2d_iso_diam, max_coll_rms_dev, couch_2d_iso, max_couch_rms_dev, shift, analy_date,
-                            date_linac, key_w)
-                        st.success(f"Analysis results of {key_w} saved")     
+                    if st.session_state['unit'] != None:                
+                        # Deta Database Connection
+                        data_connection = Deta(st.secrets['database']['data_key'])
+                        user_test = st.session_state['username'] + 'Winston_Lutz'+ '_' + st.session_state['unit']
+                        db = data_connection.Base(user_test)
+                        fetch_res = db.fetch()
 
+                        keys = [] # database keys list
+                        for i in fetch_res.items:
+                            keys.append(i['key'])
+                        
+                        # Variables to db function
+                        n_gantry_imgs = st.session_state['values_wl'][2]
+                        n_gan_col_imgs = st.session_state['values_wl'][3]
+                        n_col_imgs = st.session_state['values_wl'][4]
+                        n_couch_imgs = st.session_state['values_wl'][5]
+                        n_tot_imgs =st.session_state['values_wl'][6]
+                        max_2d_cax_bb = st.session_state['values_wl'][7]
+                        median_2d_cax_bb = st.session_state['values_wl'][8]
+                        max_2d_cax_epid = st.session_state['values_wl'][9]
+                        median_2d_cax_epid = st.session_state['values_wl'][10]
+                        gantry_3d_iso_diam = st.session_state['values_wl'][11]
+                        max_gantry_rms_dev = st.session_state['values_wl'][12]
+                        max_epid_rms_dev = st.session_state['values_wl'][13]
+                        gantry_coll_3d_iso_diam = st.session_state['values_wl'][14]
+                        coll_2d_iso_diam = st.session_state['values_wl'][15]
+                        max_coll_rms_dev = st.session_state['values_wl'][16]
+                        couch_2d_iso = st.session_state['values_wl'][17]
+                        max_couch_rms_dev = st.session_state['values_wl'][18]
+                        shift = st.session_state['values_wl'][19]
+                        analy_date = date_table
+                        date_linac = str(date_obj)
+                        key_w = file_zip.name
+                        
+                        # Insert new registration
+                        if key_w in keys:
+                            st.warning("Already exist analysis results for this image on database. For saving new analysis, press button bellow.")
+                            bs = st.button("Save")
+                            if bs:
+                                DB.database_update_wl(db, n_gantry_imgs, n_gan_col_imgs, n_col_imgs, n_couch_imgs, n_tot_imgs, max_2d_cax_bb,
+                                median_2d_cax_bb, max_2d_cax_epid, median_2d_cax_epid, gantry_3d_iso_diam, max_gantry_rms_dev, max_epid_rms_dev,
+                                gantry_coll_3d_iso_diam, coll_2d_iso_diam, max_coll_rms_dev, couch_2d_iso, max_couch_rms_dev, shift, analy_date,
+                                date_linac, key_w)
+                                st.success(f"New analysis of {key_w} saved")
+                        
+                        # Updating registration
+                        if key_w not in keys:
+                            DB.database_insert_wl(db, n_gantry_imgs, n_gan_col_imgs, n_col_imgs, n_couch_imgs, n_tot_imgs, max_2d_cax_bb,
+                                median_2d_cax_bb, max_2d_cax_epid, median_2d_cax_epid, gantry_3d_iso_diam, max_gantry_rms_dev, max_epid_rms_dev,
+                                gantry_coll_3d_iso_diam, coll_2d_iso_diam, max_coll_rms_dev, couch_2d_iso, max_couch_rms_dev, shift, analy_date,
+                                date_linac, key_w)
+                            st.success(f"Analysis results of {key_w} saved")
 
+                    if st.session_state['unit'] == None:                
+                        # Deta Database Connection
+                        data_connection = Deta(st.secrets['database']['data_key'])
+                        user_test = st.session_state['username'] + 'Winston_Lutz'
+                        db = data_connection.Base(user_test)
+                        fetch_res = db.fetch()
+
+                        keys = [] # database keys list
+                        for i in fetch_res.items:
+                            keys.append(i['key'])
+                        
+                        # Variables to db function
+                        n_gantry_imgs = st.session_state['values_wl'][2]
+                        n_gan_col_imgs = st.session_state['values_wl'][3]
+                        n_col_imgs = st.session_state['values_wl'][4]
+                        n_couch_imgs = st.session_state['values_wl'][5]
+                        n_tot_imgs =st.session_state['values_wl'][6]
+                        max_2d_cax_bb = st.session_state['values_wl'][7]
+                        median_2d_cax_bb = st.session_state['values_wl'][8]
+                        max_2d_cax_epid = st.session_state['values_wl'][9]
+                        median_2d_cax_epid = st.session_state['values_wl'][10]
+                        gantry_3d_iso_diam = st.session_state['values_wl'][11]
+                        max_gantry_rms_dev = st.session_state['values_wl'][12]
+                        max_epid_rms_dev = st.session_state['values_wl'][13]
+                        gantry_coll_3d_iso_diam = st.session_state['values_wl'][14]
+                        coll_2d_iso_diam = st.session_state['values_wl'][15]
+                        max_coll_rms_dev = st.session_state['values_wl'][16]
+                        couch_2d_iso = st.session_state['values_wl'][17]
+                        max_couch_rms_dev = st.session_state['values_wl'][18]
+                        shift = st.session_state['values_wl'][19]
+                        analy_date = date_table
+                        date_linac = str(date_obj)
+                        key_w = file_zip.name
+                        
+                        # Insert new registration
+                        if key_w in keys:
+                            st.warning("Already exist analysis results for this image on database. For saving new analysis, press button bellow.")
+                            bs = st.button("Save")
+                            if bs:
+                                DB.database_update_wl(db, n_gantry_imgs, n_gan_col_imgs, n_col_imgs, n_couch_imgs, n_tot_imgs, max_2d_cax_bb,
+                                median_2d_cax_bb, max_2d_cax_epid, median_2d_cax_epid, gantry_3d_iso_diam, max_gantry_rms_dev, max_epid_rms_dev,
+                                gantry_coll_3d_iso_diam, coll_2d_iso_diam, max_coll_rms_dev, couch_2d_iso, max_couch_rms_dev, shift, analy_date,
+                                date_linac, key_w)
+                                st.success(f"New analysis of {key_w} saved")
+                        
+                        # Updating registration
+                        if key_w not in keys:
+                            DB.database_insert_wl(db, n_gantry_imgs, n_gan_col_imgs, n_col_imgs, n_couch_imgs, n_tot_imgs, max_2d_cax_bb,
+                                median_2d_cax_bb, max_2d_cax_epid, median_2d_cax_epid, gantry_3d_iso_diam, max_gantry_rms_dev, max_epid_rms_dev,
+                                gantry_coll_3d_iso_diam, coll_2d_iso_diam, max_coll_rms_dev, couch_2d_iso, max_couch_rms_dev, shift, analy_date,
+                                date_linac, key_w)
+                            st.success(f"Analysis results of {key_w} saved")     
 
         elif page1 == '2. CREATE PDF REPORT':
             st.subheader("PDF Report")

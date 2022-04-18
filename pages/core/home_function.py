@@ -68,17 +68,26 @@ def Home():
             flatness & symmetry. The module is very flexible, allowing users to choose different types of interpolation, 
             normalization, centering, etc. '''
         txt.t_fade(t5, 17, 'black')
-        st.write(" ")
-        with st.expander("⚠️ IMPORTANT", expanded=True):
-            st.markdown('''
-                <p>This app should not be used as the sole source of QA. As mentioned in <a style='text-align: center;' href="https://pylinac.readthedocs.io/en/latest/overview.html#what-is-pylinac-not" target=>Pylinac's documentation</a>, the library itself is not responsible for erroneous output. It is recommended to validate any kind of results with another known methodology</p>
-                </div>
-                ''', unsafe_allow_html=True)
-            st.write("This web application was developed to allow professionals with little or no programming knowledge to use this library.")
-    
+        # with st.expander("⚠️ IMPORTANT", expanded=True):
+        #     st.markdown('''
+        #         <p>This app should not be used as the sole source of QA. As mentioned in <a style='text-align: center;' href="https://pylinac.readthedocs.io/en/latest/overview.html#what-is-pylinac-not" target=>Pylinac's documentation</a>, the library itself is not responsible for erroneous output. It is recommended to validate any kind of results with another known methodology</p>
+        #         </div>
+        #         ''', unsafe_allow_html=True)
+        #     st.write("This web application was developed to allow professionals with little or no programming knowledge to use this library.")
+        st.markdown('''
+        <style>div.card_f{background-color: rgba(255, 255, 0, 0.3);  text-align:justify; padding: 20px; border-radius: 3px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); transition: 0.3s;}</style>
+        <div class="card_f">
+        <div class="container">
+        <h6> ⚠️ IMPORTANT </h6>
+        <p> This app should not be used as the sole source of QA. As mentioned in <a style='text-align: center;' href="https://pylinac.readthedocs.io/en/latest/overview.html#what-is-pylinac-not" target=>Pylinac's documentation</a>, the library itself is not responsible for erroneous output. It is recommended to validate any kind of results with another known methodology. <br>
+        This web application was developed to allow professionals with little or no programming knowledge to use this library.
+        </p></div></div>
+        ''', unsafe_allow_html=True)
+
+    st.write("")
     st.markdown('''
-    <style>div.card{background-color: lightblue;  text-align:center; padding: 10px; border-radius: 3px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); transition: 0.3s;}</style>
-    <div class="card">
+    <style>div.card_s{background-color: lightblue;  text-align:center; padding: 10px; border-radius: 3px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); transition: 0.3s;}</style>
+    <div class="card_s">
     <div class="container">
     <p> 💻 For better usability and experience, please use this web app on a computer. <br>
       📤 If you have any questions or suggestions, please send a message to <a href="mailto:samaraprass@gmail.com">samaraprass@gmail.com</a> / <a href="mailto:contato@escla.com.br">contato@escla.com.br</a>.

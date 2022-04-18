@@ -32,7 +32,7 @@ def create_download_link(val, filename):
     return f'<a href="data:application/octet-stream;base64,{b64.decode()}" download="{filename}.pdf">Download file</a>'
 #-----------------------------------------------------------------------------------------------------------------------------------------
 # Add new page with template
-def new_page(pdf_file, t_name, institution, author, unit):
+def new_page(pdf_file, t_name, date_dicom, institution, author, unit):
     # Background
     pdf_file.add_page()
     pdf_file.set_text_color(0, 0, 0)
@@ -41,8 +41,20 @@ def new_page(pdf_file, t_name, institution, author, unit):
     # Title
     pdf_file.set_text_color(r=58, g=73, b=107)
     pdf_file.set_font('Courier', 'B', 25)
-    pdf_file.set_xy(100, 25)
+    pdf_file.set_xy(100, 20)
     pdf_file.cell(10, 20, t_name, border=0, align='C')
+
+    # Date&Hour Creation
+    date_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
+    date_i = str(date_timezone.replace(tzinfo=None))
+    format_date = "%Y-%m-%d %H:%M:%S.%f"
+    real_date = datetime.strptime(date_i, format_date)
+    date_table = (str(real_date.day) + '/' + str(real_date.month) + '/' + str(real_date.year) + ' ' + str(real_date.hour) + ':' + 
+                            str(real_date.minute))
+    dt_string = 'Creation datetime: ' + date_table
+    pdf_file.set_font('Courier', 'I', 9)
+    pdf_file.set_xy(100, 30)
+    pdf_file.cell(10, 20, dt_string, border=0, align='C')
 
     # Institute Name
     pdf_file.set_text_color(r=0, g=0, b=0)
@@ -54,23 +66,23 @@ def new_page(pdf_file, t_name, institution, author, unit):
     pdf_file.set_xy(85,53)
     pdf_file.cell(10, 20, author, border=0, align='C')
 
-    # Date&Hour
-    date_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
-    date_i = str(date_timezone.replace(tzinfo=None))
-    format_date = "%Y-%m-%d %H:%M:%S.%f"
-    real_date = datetime.strptime(date_i, format_date)
-    date_table = (str(real_date.day) + '/' + str(real_date.month) + '/' + str(real_date.year) + ' ' + str(real_date.hour) + ':' + 
-                            str(real_date.minute)) 
+    # Date Test
+    # date_timezone = datetime.now(pytz.timezone("America/Sao_Paulo"))
+    # date_i = str(date_timezone.replace(tzinfo=None))
+    # format_date = "%Y-%m-%d %H:%M:%S.%f"
+    # real_date = datetime.strptime(date_i, format_date)
+    # date_table = (str(real_date.day) + '/' + str(real_date.month) + '/' + str(real_date.year) + ' ' + str(real_date.hour) + ':' + 
+    #                         str(real_date.minute)) 
 
     pdf_file.set_xy(135,53)
-    pdf_file.cell(10, 20, date_table, border=0, align='C')
+    pdf_file.cell(10, 20, date_dicom, border=0, align='C')
 
     # LINAC model
     pdf_file.set_xy(178,53)
     pdf_file.cell(10, 20, unit, border=0, align='C')
 # ----------------------------------------------------------------------------------------------------------------------------------------
 # @st.cache(allow_output_mutation=True)
-def create_pdf_VMAT(test, keys, values, t_dmlc, drmlc_name, t_open, openbeam_name, t_name, institution, author, unit, r, file_name):
+def create_pdf_VMAT(test, keys, values, t_dmlc, drmlc_name, t_open, openbeam_name, t_name, date_dicom, institution, author, unit, r, file_name):
 
     # render table
     t = pd.DataFrame(values, columns=["Results"])
@@ -80,7 +92,7 @@ def create_pdf_VMAT(test, keys, values, t_dmlc, drmlc_name, t_open, openbeam_nam
 
     # PDF creation
     pdf = PDF(orientation='P', unit='mm', format='A4')
-    new_page(pdf, t_name, institution, author, unit)
+    new_page(pdf, t_name, date_dicom, institution, author, unit)
 
     pdf.set_font('Courier', '', 11)
     pdf.set_xy(50,76)
@@ -107,14 +119,14 @@ def create_pdf_VMAT(test, keys, values, t_dmlc, drmlc_name, t_open, openbeam_nam
     pdf.cell(10, 20, "Median Profiles", border=0, align='C')
     stream3 = io.BytesIO()
     test._save_analyzed_subimage(stream3, ImageType.PROFILE, transparent=True, dpi=200)
-    pdf.image(stream3, 5, 160, 100, 60)
+    pdf.image(stream3, 17, 160, 75, 75)
 
     pdf.set_font('Courier', '', 11)
     pdf.set_xy(150, 156)
     pdf.cell(10, 20, "Results Summary", border=0, align='C')
     stream4 = io.BytesIO()
-    fig.savefig(stream4)
-    pdf.image(stream4, 110, 170, 90, 35)
+    fig.savefig(stream4, dpi=200)
+    pdf.image(stream4, 103, 170, 100, 35)
 
     if r == "PASS":
         pdf.set_text_color(r=58, g=73, b=107)

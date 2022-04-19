@@ -194,6 +194,9 @@ def vmat_drgs():
                 dcm_read = DicomImage(file_open_drgs)
                 date_dcm = dcm_read.metadata.AcquisitionDate
 
+                date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                st.session_state['date_obj'] = date_time_obj.date()
+
 
                 # INSERTING/UPDATING IN DATABASE
                 if st.session_state['authentication_status'] is not None: 
@@ -210,8 +213,8 @@ def vmat_drgs():
                             keys.append(i['key'])
                         
                         # Variables to db function
-                        date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
-                        st.session_state['date_obj'] = date_time_obj.date()
+                        # date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                        # st.session_state['date_obj'] = date_time_obj.date()
 
                         sid = sid1
                         cax = cax1
@@ -249,8 +252,8 @@ def vmat_drgs():
                             keys.append(i['key'])
                         
                         # Variables to db function
-                        date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
-                        st.session_state['date_obj'] = date_time_obj.date()
+                        # date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                        # st.session_state['date_obj'] = date_time_obj.date()
 
                         sid = sid1
                         cax = cax1
@@ -306,7 +309,7 @@ def vmat_drgs():
                         with st.spinner("Creating your PDF report..."):
                             PDF_N.create_pdf_VMAT(st.session_state['mydrgs'], st.session_state['keys1'][:len(st.session_state['keys1'])-1], 
                             st.session_state['values1'][:len(st.session_state['values1'])-1], st.session_state['t_drmlc1'], st.session_state['drmlc_name1'],
-                            st.session_state['t_open1'], st.session_state['openbeam_name1'], t_name1, st.session_state['date_linac'], institution1, author1, unit1, 
+                            st.session_state['t_open1'], st.session_state['openbeam_name1'], t_name1, str(st.session_state['date_obj']), institution1, author1, unit1, 
                             st.session_state['r1'], file_name1)
 
 

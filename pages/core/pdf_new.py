@@ -51,7 +51,7 @@ def new_page(pdf_file, t_name, date_dicom, institution, author, unit):
     real_date = datetime.strptime(date_i, format_date)
     date_table = (str(real_date.day) + '/' + str(real_date.month) + '/' + str(real_date.year) + ' ' + str(real_date.hour) + ':' + 
                             str(real_date.minute))
-    dt_string = 'Creation datetime: ' + date_table
+    dt_string = 'Creation datetime - ' + date_table
     pdf_file.set_font('Courier', 'I', 9)
     pdf_file.set_xy(100, 30)
     pdf_file.cell(10, 20, dt_string, border=0, align='C')
@@ -119,7 +119,7 @@ def create_pdf_VMAT(test, keys, values, t_dmlc, drmlc_name, t_open, openbeam_nam
     pdf.cell(10, 20, "Median Profiles", border=0, align='C')
     stream3 = io.BytesIO()
     test._save_analyzed_subimage(stream3, ImageType.PROFILE, transparent=True, dpi=200)
-    pdf.image(stream3, 17, 160, 75, 75)
+    pdf.image(stream3, 10, 160, 90, 75)
 
     pdf.set_font('Courier', '', 11)
     pdf.set_xy(150, 156)

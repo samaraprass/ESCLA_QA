@@ -289,8 +289,8 @@ def vmat_drmlc():
                 zipfile_ob = zipfile.ZipFile(io.BytesIO(file))
                 st.session_state['filedrmlc_zip'] = DRMLC.from_zip(io.BytesIO(file))
                 st.session_state['filedrmlc_zip'].analyze(tolerance=tolerance, segment_size_mm=(w, h))
-                st.session_state['drmlc_name2'] = zipfile_ob.namelist()[0]  # name of drmlc image
-                st.session_state['openbeam_name2'] = zipfile_ob.namelist()[1]  # name of open beam image
+                st.session_state['openbeam_name2'] = zipfile_ob.namelist()[0]  # name of open beam image
+                st.session_state['drmlc_name2'] = zipfile_ob.namelist()[1]  # name of drmlc image
                 img_data = zipfile_ob.open(st.session_state['openbeam_name2'])
                 st.session_state['sid2'] = DicomImage(img_data).sid
                 st.session_state['cax2'] = DicomImage(img_data).cax
@@ -340,7 +340,7 @@ def vmat_drmlc():
 
                 Col1, Col2, Col3, Col4, Col5 = st.columns([1, 3, 0.5, 3, 1])
                 with Col2:
-                    st.session_state['t_dmlc'] = 'DMLC Image - '
+                    st.session_state['t_dmlc'] = 'DMLC Image - ' + st.session_state['drmlc_name2']
                     text.body_center(st.session_state['t_dmlc'], 15, "gray")
                     # filedrgs_zip._save_analyzed_subimage('DRGS.png', ImageType.DMLC, transparent=True)
                     # st.image('DRGS.png', caption='DMLC Image - ' + str(drgs_name))
@@ -349,7 +349,7 @@ def vmat_drmlc():
                     st.pyplot(drmlc_plot, clear_figure=True, transparent=True)
 
                 with Col4:
-                    st.session_state['t_open2'] = 'Open Image - ' 
+                    st.session_state['t_open2'] = 'Open Image - ' + st.session_state['openbeam_name2'] 
                     text.body_center(st.session_state['t_open2'], 15, "gray")
                     drgs_plot_open = st.session_state['filedrmlc_zip']._plot_analyzed_subimage(ImageType.OPEN)
                     plt.tight_layout()

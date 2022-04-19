@@ -342,8 +342,6 @@ def vmat_drmlc():
                 with Col2:
                     st.session_state['t_dmlc'] = 'DMLC Image - ' + st.session_state['drmlc_name2']
                     text.body_center(st.session_state['t_dmlc'], 15, "gray")
-                    # filedrgs_zip._save_analyzed_subimage('DRGS.png', ImageType.DMLC, transparent=True)
-                    # st.image('DRGS.png', caption='DMLC Image - ' + str(drgs_name))
                     drmlc_plot = st.session_state['filedrmlc_zip']._plot_analyzed_subimage(ImageType.DMLC)
                     plt.tight_layout()
                     st.pyplot(drmlc_plot, clear_figure=True, transparent=True)

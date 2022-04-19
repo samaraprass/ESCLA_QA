@@ -66,6 +66,9 @@ if 't_drmlc1' not in st.session_state:
 if 'date_linac' not in st.session_state:
     st.session_state['date_linac'] = None
 
+if 'date_obj' not in st.session_state:
+    st.session_state['date_obj'] = None
+    
 if 'drmlc_name1' not in st.session_state:
     st.session_state['drmlc_name1'] = None
 
@@ -379,7 +382,7 @@ def vmat_drgs():
                     shutil.rmtree(path)
 
                 date_time_obj = datetime.strptime(st.session_state['date_img'], '%Y%m%d')
-                date_obj = date_time_obj.date()
+                st.session_state['date_obj'] = date_time_obj.date()
 
                 text.title("Test results", 20, "#8C438D")
                 a = datetime.now(pytz.timezone("America/Sao_Paulo"))
@@ -464,7 +467,7 @@ def vmat_drgs():
                         max_dev = round(dict_data['max_deviation_percent'], 4)
                         t_result = st.session_state['r']
                         analy_date = date_table
-                        st.session_state['date_linac'] = str(date_obj)
+                        st.session_state['date_linac'] = str(st.session_state['date_obj'])
                         key = file_zip.name
                         
                         # Insert new registration
@@ -499,7 +502,7 @@ def vmat_drgs():
                         max_dev = round(dict_data['max_deviation_percent'], 4)
                         t_result = st.session_state['r']
                         analy_date = date_table
-                        st.session_state['date_linac'] = str(date_obj)
+                        st.session_state['date_linac'] = str(st.session_state['date_obj'])
                         key = file_zip.name
 
                         st.write(st.session_state['unit'])
@@ -546,5 +549,5 @@ def vmat_drgs():
                         with st.spinner("Creating your PDF report..."):
                             PDF_N.create_pdf_VMAT(st.session_state['filedrgs_zip'], st.session_state['keys'][:len(st.session_state['keys'])-1], 
                                 st.session_state['values'][:len(st.session_state['values'])-1], st.session_state["t_dmlc"], st.session_state['drgs_name'],
-                                st.session_state['t_open'], st.session_state['openbeam_name'], t_name, st.session_state['date_linac'], institution, author, unit, 
+                                st.session_state['t_open'], st.session_state['openbeam_name'], t_name, str(st.session_state['date_obj']), institution, author, unit, 
                                 st.session_state['r'], file_name)

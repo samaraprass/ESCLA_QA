@@ -226,6 +226,9 @@ def pf_one():
                 dcm_read = DicomImage(pf)
                 date_dcm = dcm_read.metadata.AcquisitionDate
 
+                date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                st.session_state['date_obj'] = date_time_obj.date()
+
                 with st.spinner("Database inserting/uploading..."):
                     # INSERTING/UPDATING IN DATABASE
                     if st.session_state['authentication_status'] is not None:
@@ -242,8 +245,8 @@ def pf_one():
                                 keys.append(i['key'])
                             
                             # Variables to db function
-                            date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
-                            date_obj = date_time_obj.date()
+                            # date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                            # date_obj = date_time_obj.date()
 
                             mlc = st.session_state['i3'][0].name
                             tol = st.session_state['i3'][2]
@@ -254,7 +257,7 @@ def pf_one():
                             mean_picket_spacing = st.session_state['i3'][8]
                             t_result = st.session_state['r1']
                             analy_date = date_table
-                            date_linac = str(date_obj)
+                            date_linac = str(st.session_state['date_obj'])
                             file_name = pf.name
                             angle = dcm_read.metadata.GantryAngle
 
@@ -285,9 +288,9 @@ def pf_one():
                             for i in fetch_res.items:
                                 keys.append(i['key'])
                             
-                            # Variables to db function
-                            date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
-                            date_obj = date_time_obj.date()
+                            # # Variables to db function
+                            # date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                            # date_obj = date_time_obj.date()
 
                             mlc = st.session_state['i3'][0].name
                             tol = st.session_state['i3'][2]
@@ -298,7 +301,7 @@ def pf_one():
                             mean_picket_spacing = st.session_state['i3'][8]
                             t_result = st.session_state['r1']
                             analy_date = date_table
-                            date_linac = str(date_obj)
+                            date_linac = str(st.session_state['date_obj'])
                             file_name = pf.name
                             angle = dcm_read.metadata.GantryAngle
 
@@ -352,7 +355,7 @@ def pf_one():
                 if test_name and t_name and institution and author and unit and file_name != None:
                     with st.spinner("Creating your PDF report..."):
                         # Creating PDF file
-                        pdf_pf = PDF.create_PDF_PF1(st.session_state['j'], st.session_state['i2'], st.session_state['i3'], t_name, institution, author, unit, st.session_state['name0'], st.session_state['r1'])
+                        pdf_pf = PDF.create_PDF_PF1(st.session_state['j'], st.session_state['i2'], st.session_state['i3'], t_name, str(st.session_state['date_obj']), institution, author, unit, st.session_state['name0'], st.session_state['r1'])
                     # Link Download
                     html_pf = PDF.create_download_link(pdf_pf.output(dest="S"), file_name)
                     chime.theme('mario')

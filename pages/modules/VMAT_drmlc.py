@@ -112,8 +112,8 @@ def vmat_drmlc():
                 st.session_state['mydrmlc'] = DRMLC(image_paths=(file_open, file_drmlc))
                 st.session_state['mydrmlc'].analyze(tolerance=tolerance, segment_size_mm=(w, h))
                 dict_imgs = st.session_state['mydrmlc'].results_data(as_dict=True)
-                drmlc_name1 = file_drmlc.name
-                openbeam_name1 = file_open.name
+                st.session_state['drmlc_name1'] = file_drmlc.name
+                st.session_state['openbeam_name1'] = file_open.name
 
                 result = st.session_state['mydrmlc'].passed
                 if str(result) == 'True':
@@ -141,6 +141,9 @@ def vmat_drmlc():
                         st.session_state['r_drmlc']]
                 date_dcm_sf = img.metadata.AcquisitionDate
 
+                date_time_obj = datetime.strptime(date_dcm_sf, '%Y%m%d')
+                st.session_state['date_obj'] = date_time_obj.date()
+
                 t = pd.DataFrame(st.session_state['values3'], columns=["Results"])
                 t.insert(0, "Parameters", st.session_state['keys3'], True)
                 tab = t.round(decimals=4)
@@ -159,15 +162,15 @@ def vmat_drmlc():
                     cc1, cc2, cc3, cc4, cc5 = st.columns([1, 3, 1, 3, 1])
 
                     with cc2:
-                        st.session_state['t_drmlc'] = 'DMLC Image - ' + str(drmlc_name1)
-                        text.body_center(st.session_state['t_drmlc'], 15, "gray")
+                        st.session_state['t_drmlc'] = 'DMLC Image - ' 
+                        text.body_center(st.session_state['t_drmlc']+ st.session_state['drmlc_name1'], 15, "gray")
                         drmlc_plot = st.session_state['mydrmlc']._plot_analyzed_subimage(ImageType.DMLC)
                         plt.tight_layout()
                         st.pyplot(drmlc_plot, clear_figure=True, transparent=True)
 
                     with cc4:
-                        st.session_state['t_open3'] = 'Open Image - ' + str(openbeam_name1)
-                        text.body_center(st.session_state['t_open3'], 15, "gray")
+                        st.session_state['t_open3'] = 'Open Image - ' 
+                        text.body_center(st.session_state['t_open3'] + st.session_state['openbeam_name1'], 15, "gray")
                         drmlc_plot_open = st.session_state['mydrmlc']._plot_analyzed_subimage(ImageType.OPEN)
                         st.pyplot(drmlc_plot_open, clear_figure=True, transparent=True)
 
@@ -190,10 +193,7 @@ def vmat_drmlc():
                     for i in fetch_res.items:
                         keys.append(i['key'])
                     
-                    # Variables to db function
-                    date_time_obj = datetime.strptime(date_dcm_sf, '%Y%m%d')
-                    date_obj = date_time_obj.date()
-                    
+                    # Variables to db function                    
                     sid = st.session_state['sid3']
                     cax = st.session_state['cax3']
                     tol = round(dict_imgs['tolerance_percent'], 4)
@@ -201,7 +201,7 @@ def vmat_drmlc():
                     max_dev = round(dict_imgs['max_deviation_percent'], 4)
                     t_result = st.session_state['r_drmlc']
                     analy_date = date_table
-                    date_linac = str(date_obj)
+                    date_linac = str(st.session_state['date_obj'])
                     key = str(file_open.name) + '&' + str(file_drmlc.name)
 
                     # Insert new registration
@@ -238,15 +238,16 @@ def vmat_drmlc():
 
                     submit_button = st.form_submit_button(label='Apply')
 
-                    if submit_button:
-                        if test_name or t_name or institution or author or unit or file_name is None:
-                            st.info("⚠️ All fields should be filled!")
-                
-                        if test_name and t_name and institution and author and unit and file_name != None:
-                            with st.spinner("Creating your PDF report..."):
-                                PDF.create_pdf_VMAT(st.session_state['mydrmlc'], st.session_state['keys3'][:len(st.session_state['keys3'])-1], 
-                                    st.session_state['values3'][:len(st.session_state['values3'])-1], st.session_state["t_drmlc"], st.session_state['t_open3'], 
-                                    t_name, institution, author, unit, st.session_state['r_drmlc'], file_name)
+                if submit_button:
+                    if test_name or t_name or institution or author or unit or file_name is None:
+                        st.info("⚠️ All fields should be filled!")
+            
+                    if test_name and t_name and institution and author and unit and file_name != None:
+                        with st.spinner("Creating your PDF report..."):
+                            PDF.create_pdf_VMAT(st.session_state['mydrmlc'], st.session_state['keys3'][:len(st.session_state['keys3'])-1], 
+                                st.session_state['values3'][:len(st.session_state['values3'])-1], st.session_state["t_drmlc"], st.session_state['drmlc_name1'], 
+                                st.session_state['t_open3'], st.session_state['openbeam_name1'],t_name, str(st.session_state['date_obj']), 
+                                institution, author, unit, st.session_state['r_drmlc'], file_name)
 
     # -----------------------------------------------------------------------------------------------------------------------------------------
     
@@ -319,6 +320,9 @@ def vmat_drmlc():
                 dcm_read = DicomImage(img_data)
                 date_dcm = dcm_read.metadata.AcquisitionDate
 
+                date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                st.session_state['date_obj'] = date_time_obj.date()
+
                 st.session_state['keys2'] = ["Date of Analysis", 'Source-to-Image Distance (mm)', 'Bem Central Axis (CAX)', 'Tolerance (%)',
                         'Absolute Mean Deviation (%)', 'Maximum Deviation (%)', 'Test Result']
 
@@ -340,15 +344,15 @@ def vmat_drmlc():
 
                 Col1, Col2, Col3, Col4, Col5 = st.columns([1, 3, 0.5, 3, 1])
                 with Col2:
-                    st.session_state['t_dmlc'] = 'DMLC Image - ' + st.session_state['drmlc_name2']
-                    text.body_center(st.session_state['t_dmlc'], 15, "gray")
+                    st.session_state['t_dmlc'] = 'DMLC Image - ' 
+                    text.body_center(st.session_state['t_dmlc']+ st.session_state['drmlc_name2'], 15, "gray")
                     drmlc_plot = st.session_state['filedrmlc_zip']._plot_analyzed_subimage(ImageType.DMLC)
                     plt.tight_layout()
                     st.pyplot(drmlc_plot, clear_figure=True, transparent=True)
 
                 with Col4:
-                    st.session_state['t_open2'] = 'Open Image - ' + st.session_state['openbeam_name2'] 
-                    text.body_center(st.session_state['t_open2'], 15, "gray")
+                    st.session_state['t_open2'] = 'Open Image - '  
+                    text.body_center(st.session_state['t_open2']+ st.session_state['openbeam_name2'], 15, "gray")
                     drgs_plot_open = st.session_state['filedrmlc_zip']._plot_analyzed_subimage(ImageType.OPEN)
                     plt.tight_layout()
                     st.pyplot(drgs_plot_open, clear_figure=True, transparent=True)
@@ -372,8 +376,8 @@ def vmat_drmlc():
                         keys.append(i['key'])
                     
                     # Variables to db function
-                    date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
-                    date_obj = date_time_obj.date()
+                    # date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                    # date_obj = date_time_obj.date()
                     
                     sid = st.session_state['sid2']
                     cax = st.session_state['cax2']
@@ -382,7 +386,7 @@ def vmat_drmlc():
                     max_dev = round(dict_data_drmlc['max_deviation_percent'], 4)
                     t_result = st.session_state['r2']
                     analy_date = date_table
-                    date_linac = str(date_obj)
+                    date_linac = str(st.session_state['date_obj'])
                     key = filezip.name
 
                     # Insert new registration
@@ -427,7 +431,7 @@ def vmat_drmlc():
                         with st.spinner("Creating your PDF report..."):
                             PDF.create_pdf_VMAT(st.session_state['filedrmlc_zip'], st.session_state['keys2'][:len(st.session_state['keys2'])-1], 
                                 st.session_state['values2'][:len(st.session_state['values2'])-1], st.session_state["t_dmlc"], st.session_state['drmlc_name2'], 
-                                st.session_state['t_open2'], st.session_state['openbeam_name2'], t_name, institution, author, unit, st.session_state['r2'], 
+                                st.session_state['t_open2'], st.session_state['openbeam_name2'], t_name, str(st.session_state['date_obj']), institution, author, unit, st.session_state['r2'], 
                                 file_name)
 
                         

@@ -235,6 +235,21 @@ def pf_four():
                         st.markdown("")
                         st.image(st.session_state['a1'], width=500, use_column_width=True)
                     
+                    # INFO from DICOM images
+                    st.session_state['dates'] = []
+                    names = []
+                    angles = []
+                    for i in range(len(pf_up2)):
+                        dcm_read = DicomImage(pf_up2[i])
+                        date = dcm_read.metadata.AcquisitionDate
+                        date_time_obj = datetime.strptime(date, '%Y%m%d')
+                        date_obj = date_time_obj.date()
+                        date_linac = str(date_obj)
+                        name = pf_up2[i].name
+                        names.append(name)
+                        st.session_state['dates'].append(date_linac)
+                        angles.append(dcm_read.metadata.GantryAngle)
+
                     with st.spinner("Database inserting/uploading..."):
                         if st.session_state['authentication_status'] is not None:
                             if st.session_state['unit'] != None:
@@ -250,20 +265,20 @@ def pf_four():
                                 db = data_connection.Base(user_test)
                                 fetch_res = db.fetch()
 
-                                # INFO from DICOM images
-                                dates = []
-                                names = []
-                                angles = []
-                                for i in range(len(pf_up2)):
-                                    dcm_read = DicomImage(pf_up2[i])
-                                    date = dcm_read.metadata.AcquisitionDate
-                                    date_time_obj = datetime.strptime(date, '%Y%m%d')
-                                    date_obj = date_time_obj.date()
-                                    date_linac = str(date_obj)
-                                    name = pf_up2[i].name
-                                    names.append(name)
-                                    dates.append(date_linac)
-                                    angles.append(dcm_read.metadata.GantryAngle)
+                                # # INFO from DICOM images
+                                # dates = []
+                                # names = []
+                                # angles = []
+                                # for i in range(len(pf_up2)):
+                                #     dcm_read = DicomImage(pf_up2[i])
+                                #     date = dcm_read.metadata.AcquisitionDate
+                                #     date_time_obj = datetime.strptime(date, '%Y%m%d')
+                                #     date_obj = date_time_obj.date()
+                                #     date_linac = str(date_obj)
+                                #     name = pf_up2[i].name
+                                #     names.append(name)
+                                #     dates.append(date_linac)
+                                #     angles.append(dcm_read.metadata.GantryAngle)
                                 
                                 # Database keys list
                                 keys = [] # storing keys from database to list
@@ -280,7 +295,7 @@ def pf_four():
                                 mean_picket_spacing1 = st.session_state['a3'][8]
                                 t_result1 = st.session_state['r2']
                                 analy_date1 = date_table
-                                date_linac1 = dates[0]
+                                date_linac1 = st.session_state['dates'][0]
                                 key1 = names[0]
                                 angle1 = angles[0]
 
@@ -294,7 +309,7 @@ def pf_four():
                                 mean_picket_spacing2 = st.session_state['c3'][8]
                                 t_result2 = st.session_state['r3']
                                 analy_date2 = date_table
-                                date_linac2 = dates[1]
+                                date_linac2 = st.session_state['dates'][1]
                                 key2 = names[1]
                                 angle2 = angles[1]
 
@@ -308,7 +323,7 @@ def pf_four():
                                 mean_picket_spacing3 = st.session_state['e3'][8]
                                 t_result3 = st.session_state['r4']
                                 analy_date3 = date_table
-                                date_linac3 = dates[2]
+                                date_linac3 = st.session_state['dates'][2]
                                 key3 = names[2]
                                 angle3 = angles[2]
 
@@ -322,7 +337,7 @@ def pf_four():
                                 mean_picket_spacing4 = st.session_state['g3'][8]
                                 t_result4 = st.session_state['r5']
                                 analy_date4 = date_table
-                                date_linac4 = dates[3]
+                                date_linac4 = st.session_state['dates'][3]
                                 key4 = names[3]
                                 angle4 = angles[3]
 
@@ -377,20 +392,20 @@ def pf_four():
                                 db = data_connection.Base(user_test)
                                 fetch_res = db.fetch()
 
-                                # INFO from DICOM images
-                                dates = []
-                                names = []
-                                angles = []
-                                for i in range(len(pf_up2)):
-                                    dcm_read = DicomImage(pf_up2[i])
-                                    date = dcm_read.metadata.AcquisitionDate
-                                    date_time_obj = datetime.strptime(date, '%Y%m%d')
-                                    date_obj = date_time_obj.date()
-                                    date_linac = str(date_obj)
-                                    name = pf_up2[i].name
-                                    names.append(name)
-                                    dates.append(date_linac)
-                                    angles.append(dcm_read.metadata.GantryAngle)
+                                # # INFO from DICOM images
+                                # dates = []
+                                # names = []
+                                # angles = []
+                                # for i in range(len(pf_up2)):
+                                #     dcm_read = DicomImage(pf_up2[i])
+                                #     date = dcm_read.metadata.AcquisitionDate
+                                #     date_time_obj = datetime.strptime(date, '%Y%m%d')
+                                #     date_obj = date_time_obj.date()
+                                #     date_linac = str(date_obj)
+                                #     name = pf_up2[i].name
+                                #     names.append(name)
+                                #     dates.append(date_linac)
+                                #     angles.append(dcm_read.metadata.GantryAngle)
                                 
                                 # Database keys list
                                 keys = [] # storing keys from database to list
@@ -407,7 +422,7 @@ def pf_four():
                                 mean_picket_spacing1 = st.session_state['a3'][8]
                                 t_result1 = st.session_state['r2']
                                 analy_date1 = date_table
-                                date_linac1 = dates[0]
+                                date_linac1 = st.session_state['dates'][0]
                                 key1 = names[0]
                                 angle1 = angles[0]
 
@@ -421,7 +436,7 @@ def pf_four():
                                 mean_picket_spacing2 = st.session_state['c3'][8]
                                 t_result2 = st.session_state['r3']
                                 analy_date2 = date_table
-                                date_linac2 = dates[1]
+                                date_linac2 = st.session_state['dates'][1]
                                 key2 = names[1]
                                 angle2 = angles[1]
 
@@ -435,7 +450,7 @@ def pf_four():
                                 mean_picket_spacing3 = st.session_state['e3'][8]
                                 t_result3 = st.session_state['r4']
                                 analy_date3 = date_table
-                                date_linac3 = dates[2]
+                                date_linac3 = st.session_state['dates'][2]
                                 key3 = names[2]
                                 angle3 = angles[2]
 
@@ -449,7 +464,7 @@ def pf_four():
                                 mean_picket_spacing4 = st.session_state['g3'][8]
                                 t_result4 = st.session_state['r5']
                                 analy_date4 = date_table
-                                date_linac4 = dates[3]
+                                date_linac4 = st.session_state['dates'][3]
                                 key4 = names[3]
                                 angle4 = angles[3]
 
@@ -573,10 +588,10 @@ def pf_four():
                 if test_name and t_name and institution and author and unit and file_name != None:
                     with st.spinner("Creating your PDF report..."):
                         pdf = PDF.create_PDF_PF4(t_name, institution, author, unit, 
-                                            st.session_state['b'], st.session_state['a2'], st.session_state['c3'], st.session_state['name1'], st.session_state['r2'],
-                                            st.session_state['d'], st.session_state['c2'], st.session_state['c3'], st.session_state['name2'], st.session_state['r3'],
-                                            st.session_state['f'], st.session_state['e2'], st.session_state['e3'], st.session_state['name3'], st.session_state['r4'],
-                                            st.session_state['h'], st.session_state['g2'], st.session_state['g3'], st.session_state['name4'], st.session_state['r5'])
+                                            st.session_state['b'], st.session_state['a2'], st.session_state['c3'], st.session_state['name1'], st.session_state['r2'], str(st.session_state['dates'][0]),
+                                            st.session_state['d'], st.session_state['c2'], st.session_state['c3'], st.session_state['name2'], st.session_state['r3'], str(st.session_state['dates'][1]),
+                                            st.session_state['f'], st.session_state['e2'], st.session_state['e3'], st.session_state['name3'], st.session_state['r4'], str(st.session_state['dates'][2]),
+                                            st.session_state['h'], st.session_state['g2'], st.session_state['g3'], st.session_state['name4'], st.session_state['r5'], str(st.session_state['dates'][3]))
                             
                     html_pf = PDF.create_download_link(pdf.output(dest="S"), file_name)
                     st.success("Your PDF report is ready!")

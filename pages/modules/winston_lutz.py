@@ -129,6 +129,20 @@ def wl():
                 if page2 == '1.3. COUCH IMAGES':
                     st.session_state['cplot'] = st.session_state['filewl'].plot_images(axis='Couch')
                     lru_cache(st.pyplot(st.session_state['cplot']))
+
+            # Date from test image
+            with zipfile.ZipFile(io.BytesIO(file), 'r') as zip:
+                path = tempfile.mkdtemp()
+                zip.extractall(path)
+                for root, _, filenames_wl in os.walk(path):
+                    #for filename in filenames_wl:
+                    filename = filenames_wl[0]
+                    filepath = os.path.join(root, filename)
+                    dcm_read = DicomImage(filepath).metadata
+                    date_img = dcm_read.AcquisitionDate
+                shutil.rmtree(path)
+            date_time_obj = datetime.strptime(date_img, '%Y%m%d')
+            st.session_state['date_obj'] = date_time_obj.date()
             
             with st.spinner("Database inserting/uploading..."):
                 if st.session_state['authentication_status'] is not None:
@@ -137,19 +151,19 @@ def wl():
                     date_table = (str(t.day) + '/' + str(t.month) + '/' + str(t.year) + ' ' + str(t.hour) + ':' + 
                                             str(t.minute) + ':' + str(t.second))
 
-                    # Date from test image
-                    with zipfile.ZipFile(io.BytesIO(file), 'r') as zip:
-                        path = tempfile.mkdtemp()
-                        zip.extractall(path)
-                        for root, _, filenames_wl in os.walk(path):
-                            #for filename in filenames_wl:
-                            filename = filenames_wl[0]
-                            filepath = os.path.join(root, filename)
-                            dcm_read = DicomImage(filepath).metadata
-                            date_img = dcm_read.AcquisitionDate
-                        shutil.rmtree(path)
-                    date_time_obj = datetime.strptime(date_img, '%Y%m%d')
-                    date_obj = date_time_obj.date()
+                    # # Date from test image
+                    # with zipfile.ZipFile(io.BytesIO(file), 'r') as zip:
+                    #     path = tempfile.mkdtemp()
+                    #     zip.extractall(path)
+                    #     for root, _, filenames_wl in os.walk(path):
+                    #         #for filename in filenames_wl:
+                    #         filename = filenames_wl[0]
+                    #         filepath = os.path.join(root, filename)
+                    #         dcm_read = DicomImage(filepath).metadata
+                    #         date_img = dcm_read.AcquisitionDate
+                    #     shutil.rmtree(path)
+                    # date_time_obj = datetime.strptime(date_img, '%Y%m%d')
+                    # date_obj = date_time_obj.date()
 
                     if st.session_state['unit'] != None:                
                         # Deta Database Connection
@@ -182,7 +196,7 @@ def wl():
                         max_couch_rms_dev = st.session_state['values_wl'][18]
                         shift = st.session_state['values_wl'][19]
                         analy_date = date_table
-                        date_linac = str(date_obj)
+                        date_linac = str(st.session_state['date_obj'])
                         key_w = file_zip.name
                         
                         # Insert new registration
@@ -235,7 +249,7 @@ def wl():
                         max_couch_rms_dev = st.session_state['values_wl'][18]
                         shift = st.session_state['values_wl'][19]
                         analy_date = date_table
-                        date_linac = str(date_obj)
+                        date_linac = str(st.session_state['date_obj'])
                         key_w = file_zip.name
                         
                         # Insert new registration
@@ -283,5 +297,5 @@ def wl():
                 
                 if test_name and t_name and institution and author and unit and file_name != None:
                     with st.spinner("Creating your PDF report..."):
-                        PDF.create_pdf_WL(st.session_state['filewl'], st.session_state['values_wl'], st.session_state['names_wl'], t_name, 
+                        PDF.create_pdf_WL(st.session_state['filewl'], st.session_state['values_wl'], st.session_state['names_wl'], t_name, str(st.session_state['date_obj']), 
                                             institution, author, unit, file_name, single_imgs)

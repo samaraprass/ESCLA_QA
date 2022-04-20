@@ -147,11 +147,11 @@ def create_pdf_VMAT(test, keys, values, t_dmlc, drmlc_name, t_open, openbeam_nam
     st.success("Your PDF report is ready!")
     st.markdown(html, unsafe_allow_html=True)
 # -----------------------------------------------------------------------------------------------------------------------------------------
-def create_pdf_WL(test, values, names, t_name, institution, author, unit, file_name, single_imgs):
+def create_pdf_WL(test, values, names, t_name, date_dicom, institution, author, unit, file_name, single_imgs):
     if single_imgs == True:
         # Template
         pdf_wl = PDF(orientation='P', unit='mm', format='A4')
-        new_page(pdf_wl, t_name, institution, author, unit)
+        new_page(pdf_wl, t_name, date_dicom, institution, author, unit)
 
         # Summary Plot
         pdf_wl.set_font('Courier', '', 12)
@@ -165,25 +165,25 @@ def create_pdf_WL(test, values, names, t_name, institution, author, unit, file_n
         t_wl = pd.DataFrame(values, columns=["Results"])
         t_wl.insert(0, "Parameters", names, True)
         fig_wl, ax_wl = TABLE.render_mpl_table(t_wl)
-        new_page(pdf_wl, t_name, institution, author, unit)
+        new_page(pdf_wl, t_name, date_dicom, institution, author, unit)
         stream1 = io.BytesIO()
         fig_wl.savefig(stream1, bbox_inches='tight', dpi=200, format="png", transparent=True)
         pdf_wl.image(stream1, 25, 75, 165, 185)
     
         # THIRD PAGE
-        new_page(pdf_wl, t_name, institution, author, unit)
+        new_page(pdf_wl, t_name, date_dicom, institution, author, unit)
         stream2 = io.BytesIO()
         test.save_images(stream2, axis = 'Gantry', transparent=True, bbox_inches='tight')
         pdf_wl.image(stream2, 9, 75, 195, 100)
         
         # FOURTH PAGE
-        new_page(pdf_wl, t_name, institution, author, unit)
+        new_page(pdf_wl, t_name, date_dicom, institution, author, unit)
         stream3 = io.BytesIO()
         test.save_images(stream3, axis = 'Collimator', transparent=True, bbox_inches='tight')
         pdf_wl.image(stream3, 9, 75, 195, 100)
         
         # FIFTH PAGE
-        new_page(pdf_wl, t_name, institution, author, unit)
+        new_page(pdf_wl, t_name, date_dicom, institution, author, unit)
         stream4 = io.BytesIO()
         test.save_images(stream4, axis = 'Couch', transparent=True, bbox_inches='tight')
         pdf_wl.image(stream4, 9, 75, 195, 100)
@@ -191,7 +191,7 @@ def create_pdf_WL(test, values, names, t_name, institution, author, unit, file_n
     elif single_imgs == False:
         # Template
         pdf_wl = PDF(orientation='P', unit='mm', format='A4')
-        new_page(pdf_wl, t_name, institution, author, unit)
+        new_page(pdf_wl, t_name, date_dicom, institution, author, unit)
 
         # Summary Plot
         pdf_wl.set_font('Courier', '', 12)
@@ -207,7 +207,7 @@ def create_pdf_WL(test, values, names, t_name, institution, author, unit, file_n
         fig_wl, ax_wl = TABLE.render_mpl_table(t_wl)
         
         # SECOND PAGE
-        new_page(pdf_wl, t_name, institution, author, unit)
+        new_page(pdf_wl, t_name, date_dicom, institution, author, unit)
         stream6 = io.BytesIO()
         fig_wl.savefig(stream6, bbox_inches='tight', dpi=200, format="png", transparent=True)
         pdf_wl.image(stream6, 25, 75, 165, 185)
@@ -220,11 +220,11 @@ def create_pdf_WL(test, values, names, t_name, institution, author, unit, file_n
     st.success("Your PDF report is ready!")
     st.markdown(html, unsafe_allow_html=True)
 # ---------------------------------------------------------------------------------------------------------
-def create_PDF_PF1(test, names_pf, values_pf, t_name, institution, author, unit, name_fig, results):
+def create_PDF_PF1(test, names_pf, values_pf, t_name, date_dicom, institution, author, unit, name_fig, results):
 
     #add new page to pdf
     pdf_pf = PDF(orientation='P', unit='mm', format='A4')
-    new_page(pdf_pf, t_name, institution, author, unit)
+    new_page(pdf_pf, t_name, date_dicom, institution, author, unit)
 
     # Analyzed image
     pdf_pf.set_font('Courier', '', 11)
@@ -256,14 +256,14 @@ def create_PDF_PF1(test, names_pf, values_pf, t_name, institution, author, unit,
     return pdf_pf
 
 def create_PDF_PF4(t_name, institution, author, unit,
-                   test1, names1, values1, name_fig1, t_results1,
-                   test2, names2, values2, name_fig2, t_results2,
-                   test3, names3, values3, name_fig3, t_results3,
-                   test4, names4, values4, name_fig4, t_results4):
+                   test1, names1, values1, name_fig1, t_results1, date_dicom1,
+                   test2, names2, values2, name_fig2, t_results2, date_dicom2,
+                   test3, names3, values3, name_fig3, t_results3, date_dicom3,
+                   test4, names4, values4, name_fig4, t_results4, date_dicom4):
     pdf = PDF(orientation='P', unit='mm', format='A4')
 
     #FIRST PAGE
-    new_page(pdf, t_name, institution, author, unit)
+    new_page(pdf, t_name, date_dicom1, institution, author, unit)
     # Analyzed image
     pdf.set_font('Courier', '', 11)
     pdf.set_xy(100,75)
@@ -295,7 +295,7 @@ def create_PDF_PF4(t_name, institution, author, unit,
 
     
     #SECOND PAGE
-    new_page(pdf, t_name, institution, author, unit)
+    new_page(pdf, t_name, date_dicom2, institution, author, unit)
     # Analyzed image
     pdf.set_font('Courier', '', 11)
     pdf.set_xy(100,75)
@@ -327,7 +327,7 @@ def create_PDF_PF4(t_name, institution, author, unit,
     
 
     #THIRD PAGE
-    new_page(pdf, t_name, institution, author, unit)
+    new_page(pdf, t_name, date_dicom3, institution, author, unit)
     # Analyzed image
     pdf.set_font('Courier', '', 11)
     pdf.set_xy(100,75)
@@ -359,7 +359,7 @@ def create_PDF_PF4(t_name, institution, author, unit,
 
     
     #FOURTH IMAGE
-    new_page(pdf, t_name, institution, author, unit)
+    new_page(pdf, t_name, date_dicom4, institution, author, unit)
     # Analyzed image
     pdf.set_font('Courier', '', 11)
     pdf.set_xy(100,75)
@@ -391,13 +391,13 @@ def create_PDF_PF4(t_name, institution, author, unit,
 
     return pdf
 # ------------------------------------------------------------------------------------------------------------------------------------------
-def pdf_star_mf(t_name, institution, author, unit,
+def pdf_star_mf(t_name, date_dicom, institution, author, unit,
                 test, names, values, names_files, t_results):
     
     # Creating First Page
     pdf = PDF(orientation='P', unit='mm', format='A4')
 
-    new_page(pdf, t_name, institution, author, unit)
+    new_page(pdf, t_name, date_dicom, institution, author, unit)
 
     names_figs = "Starshot analysis of superimposed image generated from: "
 
@@ -442,13 +442,13 @@ def pdf_star_mf(t_name, institution, author, unit,
 
     return pdf
 
-def pdf_star_sf(t_name, institution, author, unit,
+def pdf_star_sf(t_name, date_dicom, institution, author, unit,
                 test, names, values, name_file, t_results):
     
     # Creating Template
     pdf = PDF(orientation='P', unit='mm', format='A4')
 
-    new_page(pdf, t_name, institution, author, unit)
+    new_page(pdf, t_name, date_dicom, institution, author, unit)
 
     name1 = 'Analysis result - ' + name_file
     pdf.set_font('Courier', '', 11)
@@ -487,13 +487,13 @@ def pdf_star_sf(t_name, institution, author, unit,
 
     return pdf
 # ------------------------------------------------------------------------------------------------------------------------------------------
-def pdf_fa(t_name, institution, author, unit,
+def pdf_fa(t_name, date_dicom, institution, author, unit,
                 test, names, values, name_file):
     
     pdf = PDF(orientation='P', unit='mm', format='A4')
     pdf.allow_images_transparency = True
 
-    new_page(pdf, t_name, institution, author, unit)
+    new_page(pdf, t_name, date_dicom, institution, author, unit)
     
     pdf.set_font('Courier', '', 11)
     pdf.set_xy(100,75)
@@ -515,7 +515,7 @@ def pdf_fa(t_name, institution, author, unit,
     pdf.image(stream2, 67, 203, 75, 55)
 
     # SECOND PAGE - TABLE
-    new_page(pdf, t_name, institution, author, unit)
+    new_page(pdf, t_name, date_dicom, institution, author, unit)
     t_pf = pd.DataFrame(values[1:], columns=["Results"])
     t_pf.insert(0, "Parameters", names[1:], True)
     fig_pf, ax_pf = TABLE.render_mpl_table(t_pf)

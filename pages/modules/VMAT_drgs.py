@@ -364,8 +364,8 @@ def vmat_drgs():
                 zipfile_ob = zipfile.ZipFile(io.BytesIO(file))
                 st.session_state['filedrgs_zip'] = DRGS.from_zip(io.BytesIO(file))
                 lru_cache(st.session_state['filedrgs_zip'].analyze(tolerance=tolerance, segment_size_mm=(w, h)))
-                drgs_name = zipfile_ob.namelist()[0]  # name of drgs image
-                openbeam_name = zipfile_ob.namelist()[1]  # name of open beam image
+                drgs_name = zipfile_ob.namelist()[1]  # name of drgs image
+                openbeam_name = zipfile_ob.namelist()[0]  # name of open beam image
                 img_data = zipfile_ob.open(openbeam_name)
                 st.session_state['sid'] = DicomImage(img_data).sid
                 st.session_state['cax'] = DicomImage(img_data).cax

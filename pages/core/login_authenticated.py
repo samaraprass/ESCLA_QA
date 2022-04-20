@@ -20,7 +20,7 @@ def login_verified():
             image = Image.open(logo)
             st.image(image)
         st.success('Welcome *%s*' % (st.session_state['name_user']))
-        st.session_state['unit'] = st.selectbox("Set unit for analysis", ['TRILOGY', 'CL 2100'])
+        st.session_state['unit'] = st.selectbox("Set unit for analysis", [None, 'TRILOGY', 'CL 2100'])
     
     if st.session_state['username'] == st.secrets['us'][1]:
         l1, l2, l3  = st.columns(3)
@@ -56,7 +56,7 @@ def login_verified():
             image = Image.open(logo)
             st.image(image)
         st.success('Welcome *%s*' % (st.session_state['name_user']))
-        st.session_state['unit'] = st.selectbox("Set unit for analysis", ['CLINAC 600', 'CLINAC CX'])
+        st.session_state['unit'] = st.selectbox("Set unit for analysis", [None, 'CLINAC 600', 'CLINAC CX'])
     
 
     if st.session_state['username'] == st.secrets['us'][5]:
@@ -84,7 +84,7 @@ def login_verified():
             image = Image.open(logo)
             st.image(image)
         st.success('Welcome *%s*' % (st.session_state['name_user']))
-        st.session_state['unit'] = st.selectbox("Set unit for analysis", ['UNIQUE', 'CLINAC 1', 'HALCYON'])
+        st.session_state['unit'] = st.selectbox("Set unit for analysis", [None, 'UNIQUE', 'CLINAC 1', 'HALCYON'])
     
     if st.session_state['username'] == st.secrets['us'][8]:
         st.success('Welcome *%s*' % (st.session_state['name_user']))

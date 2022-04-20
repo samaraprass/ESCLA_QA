@@ -185,13 +185,15 @@ def star():
                 for i in star_imgs:
                     st.session_state['files_names'].append(i.name)
 
+                # Date from test image
+                dcm_read = DicomImage(star_imgs[0])
+                date_dcm = dcm_read.metadata.AcquisitionDate
+                date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                st.session_state['date_obj'] = date_time_obj.date()
+
                 # DATABASE
                 if st.session_state['authentication_status'] is not None:
                     if st.session_state['unit'] != None:
-                        # Date from test image
-                        dcm_read = DicomImage(star_imgs[0])
-                        date_dcm = dcm_read.metadata.AcquisitionDate
-
                         # Deta Database Connection
                         data_connection = Deta(st.secrets['database']['data_key'])
                         user_test = st.session_state['username'] + 'Starshot' + '_' + st.session_state['unit']
@@ -202,9 +204,6 @@ def star():
                         for i in fetch_res.items:
                             keys.append(i['key'])
                         
-                        date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
-                        date_obj = date_time_obj.date()
-                        
                         # Variables to db function
                         tol = r["tolerance_mm"]
                         circ_diam = round(r['circle_diameter_mm'], 4)
@@ -212,7 +211,7 @@ def star():
                         circ_center = str(r["circle_center_x_y"])
                         t_result = st.session_state['rs']
                         analy_date = st.session_state['date_table']
-                        date_linac = str(date_obj)
+                        date_linac = str(st.session_state['date_obj'])
                         key_star = names_sorted[0]
                     
                         # Update new registration
@@ -229,9 +228,9 @@ def star():
                             st.success("Analysis results saved")
 
                     if st.session_state['unit'] == None:
-                        # Date from test image
-                        dcm_read = DicomImage(star_imgs[0])
-                        date_dcm = dcm_read.metadata.AcquisitionDate
+                        # # Date from test image
+                        # dcm_read = DicomImage(star_imgs[0])
+                        # date_dcm = dcm_read.metadata.AcquisitionDate
 
                         # Deta Database Connection
                         data_connection = Deta(st.secrets['database']['data_key'])
@@ -243,8 +242,8 @@ def star():
                         for i in fetch_res.items:
                             keys.append(i['key'])
                         
-                        date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
-                        date_obj = date_time_obj.date()
+                        # date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                        # date_obj = date_time_obj.date()
                         
                         # Variables to db function
                         tol = r["tolerance_mm"]
@@ -253,7 +252,7 @@ def star():
                         circ_center = str(r["circle_center_x_y"])
                         t_result = st.session_state['rs']
                         analy_date = st.session_state['date_table']
-                        date_linac = str(date_obj)
+                        date_linac = str(st.session_state['date_obj'])
                         key_star = names_sorted[0]
                     
                         # Update new registration
@@ -298,7 +297,7 @@ def star():
                 
                     if test_name and t_name and institution and author and unit and file_name != None:
                         with st.spinner("Creating your PDF report..."):
-                            pdf = PDF.pdf_star_mf(t_name, institution, author, unit, 
+                            pdf = PDF.pdf_star_mf(t_name, str(st.session_state['date_obj']), institution, author, unit, 
                                                 st.session_state['star'], st.session_state['names_stars'], st.session_state['values_stars'],
                                                 st.session_state['files_names'], st.session_state['rs'])
                         html_pf = PDF.create_download_link(pdf.output(dest="S"), file_name)
@@ -414,7 +413,16 @@ def star():
                 with S_4:
                     st.pyplot(st.session_state['star_s'].plot_analyzed_subimage('whole'))
                 
+                # Date from test image
+                try:
+                    dcm_read = DicomImage(st.session_state['star_image'])
+                    date_dcm = dcm_read.metadata.AcquisitionDate
+                    date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                    st.session_state['date_obj'] = date_time_obj.date()
 
+                except:
+                    st.session_state['date_obj'] = None
+                
                 # DATABASE
                 if st.session_state['authentication_status'] is not None:
                     if st.session_state['unit'] != None:
@@ -424,15 +432,15 @@ def star():
                         db = data_connection.Base(user_test)
                         fetch_res = db.fetch()
 
-                        # Date from test image
-                        try:
-                            dcm_read = DicomImage(st.session_state['star_image'])
-                            date_dcm = dcm_read.metadata.AcquisitionDate
-                            date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
-                            date_obj = date_time_obj.date()
+                        # # Date from test image
+                        # try:
+                        #     dcm_read = DicomImage(st.session_state['star_image'])
+                        #     date_dcm = dcm_read.metadata.AcquisitionDate
+                        #     date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                        #     date_obj = date_time_obj.date()
 
-                        except:
-                            date_obj = None
+                        # except:
+                        #     date_obj = None
 
                         keys = [] # database keys list
                         for i in fetch_res.items:
@@ -444,7 +452,7 @@ def star():
                         circ_center = str(r["circle_center_x_y"])
                         t_result = st.session_state['r_s']
                         analy_date = st.session_state['date_table']
-                        date_linac = str(date_obj)
+                        date_linac = str(st.session_state['date_obj'])
                         key_star = st.session_state['star_image'].name
 
                         # Update new registration
@@ -467,15 +475,15 @@ def star():
                         db = data_connection.Base(user_test)
                         fetch_res = db.fetch()
 
-                        # Date from test image
-                        try:
-                            dcm_read = DicomImage(st.session_state['star_image'])
-                            date_dcm = dcm_read.metadata.AcquisitionDate
-                            date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
-                            date_obj = date_time_obj.date()
+                        # # Date from test image
+                        # try:
+                        #     dcm_read = DicomImage(st.session_state['star_image'])
+                        #     date_dcm = dcm_read.metadata.AcquisitionDate
+                        #     date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
+                        #     date_obj = date_time_obj.date()
 
-                        except:
-                            date_obj = None
+                        # except:
+                        #     date_obj = None
 
                         keys = [] # database keys list
                         for i in fetch_res.items:
@@ -487,7 +495,7 @@ def star():
                         circ_center = str(r["circle_center_x_y"])
                         t_result = st.session_state['r_s']
                         analy_date = st.session_state['date_table']
-                        date_linac = str(date_obj)
+                        date_linac = str(st.session_state['date_obj'])
                         key_star = st.session_state['star_image'].name
 
                         # Update new registration
@@ -531,7 +539,7 @@ def star():
                 
                     if test_name and t_name and institution and author and unit and file_name != None:
                         with st.spinner("Creating your PDF report..."):
-                            pdf = PDF.pdf_star_sf(t_name, institution, author, unit, 
+                            pdf = PDF.pdf_star_sf(t_name, str(st.session_state['date_obj']), institution, author, unit, 
                                                 st.session_state['star_s'], st.session_state['names_s'], st.session_state['values_s'],
                                                 st.session_state['star_image'].name, st.session_state['r_s'])
                             html_pf = PDF.create_download_link(pdf.output(dest="S"), file_name)

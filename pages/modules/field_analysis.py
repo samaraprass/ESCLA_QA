@@ -308,6 +308,12 @@ def FA():
         if subpages == "1. PERFORM TEST":
             try:
                 st.session_state['test2'], st.session_state['names'], st.session_state['values'], st.session_state['f_name']= FA_EPID.faepid(st.session_state['file_field_analysis'])
+                # INFO from DICOM images
+                dcm_read = DicomImage(st.session_state['file_field_analysis'])
+                date = dcm_read.metadata.AcquisitionDate
+                date_time_obj = datetime.strptime(date, '%Y%m%d')
+                date_obj = date_time_obj.date()
+                st.session_state['date_linac'] = str(date_obj)
 
                 with st.spinner("Database inserting/uploading..."):
                     if st.session_state['authentication_status'] is not None:
@@ -321,14 +327,7 @@ def FA():
                             data_connection = Deta(st.secrets['database']['data_key'])
                             user_test = st.session_state['username'] + 'Field_Analysis' + '_' + st.session_state['unit']
                             db = data_connection.Base(user_test)
-                            fetch_res = db.fetch()
-
-                            # INFO from DICOM images
-                            dcm_read = DicomImage(st.session_state['file_field_analysis'])
-                            date = dcm_read.metadata.AcquisitionDate
-                            date_time_obj = datetime.strptime(date, '%Y%m%d')
-                            date_obj = date_time_obj.date()
-                            date_linac = str(date_obj) 
+                            fetch_res = db.fetch() 
 
                             # Database keys list
                             keys = [] # storing keys from database to list
@@ -365,14 +364,14 @@ def FA():
                                 if bs:
                                     DB.database_update_fa(db, horiz_symmetry, vert_symmetry, horiz_flatness, vert_flatness, center_pixel, center_method, normal_method, interpol_method, edge_method,
                                                         top_penum, bottom_penum, left_penum, right_penum, vert_fs, horiz_fs, cax_top, cax_bottom, cax_left, cax_right, 
-                                                        analy_date, date_linac, key)
+                                                        analy_date, st.session_state['date_linac'], key)
                                     st.success(f"New analysis of {key} saved")
 
                             # Uploading database
                             if key not in keys:
                                 DB.database_insert_fa(db, horiz_symmetry, vert_symmetry, horiz_flatness, vert_flatness, center_pixel, center_method, normal_method, interpol_method, edge_method,
                                                     top_penum, bottom_penum, left_penum, right_penum, vert_fs, horiz_fs, cax_top, cax_bottom, cax_left, cax_right, 
-                                                    analy_date, date_linac, key)
+                                                    analy_date, st.session_state['date_linac'], key)
                                 st.success(f"Analysis results of {key} saved")
                             
                         if st.session_state['unit'] == None:
@@ -387,13 +386,6 @@ def FA():
                             db = data_connection.Base(user_test)
                             fetch_res = db.fetch()
 
-                            # INFO from DICOM images
-                            dcm_read = DicomImage(st.session_state['file_field_analysis'])
-                            date = dcm_read.metadata.AcquisitionDate
-                            date_time_obj = datetime.strptime(date, '%Y%m%d')
-                            date_obj = date_time_obj.date()
-                            date_linac = str(date_obj) 
-
                             # Database keys list
                             keys = [] # storing keys from database to list
                             for i in fetch_res.items:
@@ -429,14 +421,14 @@ def FA():
                                 if bs:
                                     DB.database_update_fa(db, horiz_symmetry, vert_symmetry, horiz_flatness, vert_flatness, center_pixel, center_method, normal_method, interpol_method, edge_method,
                                                         top_penum, bottom_penum, left_penum, right_penum, vert_fs, horiz_fs, cax_top, cax_bottom, cax_left, cax_right, 
-                                                        analy_date, date_linac, key)
+                                                        analy_date, st.session_state['date_linac'], key)
                                     st.success(f"New analysis of {key} saved")
 
                             # Uploading database
                             if key not in keys:
                                 DB.database_insert_fa(db, horiz_symmetry, vert_symmetry, horiz_flatness, vert_flatness, center_pixel, center_method, normal_method, interpol_method, edge_method,
                                                     top_penum, bottom_penum, left_penum, right_penum, vert_fs, horiz_fs, cax_top, cax_bottom, cax_left, cax_right, 
-                                                    analy_date, date_linac, key)
+                                                    analy_date, st.session_state['date_linac'], key)
                                 st.success(f"Analysis results of {key} saved")  
                              
             except Exception as error:
@@ -469,9 +461,9 @@ def FA():
 
             if submit_button0:
                 with st.spinner("Creating your PDF report..."):
-                    pdf = PDF.pdf_fa(t_name, institution, author, unit, 
-                                        st.session_state['test2'], st.session_state['names'], 
-                                        st.session_state['values'], st.session_state['f_name'])
+                    pdf = PDF.pdf_fa(t_name, st.session_state['date_linac'], institution, author, unit, 
+                                    st.session_state['test2'], st.session_state['names'], 
+                                    st.session_state['values'], st.session_state['f_name'])
 
                     html_pf = PDF.create_download_link(pdf.output(dest="S"), file_name)
                 st.success("Your PDF report is ready!")

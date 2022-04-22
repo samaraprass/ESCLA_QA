@@ -13,7 +13,7 @@ import pytz
 
 def pf_four():
     # PARAMETERS
-    st.info("❕ This section allows you to analyze four different angles at once. If you are logged in, be sure to upload 0º, 90º, 180º and 270º PF images.")
+    st.info("✔️ This section allows you to analyze four different angles at once. If you are logged in, be sure to upload 0º, 90º, 180º and 270º PF images.")
     pf_up2 = st.file_uploader("Upload your Picket Fence files", key='pf_file', accept_multiple_files=True, type=['DCM'], 
                             help="Files should be DICOM images acquired via the EPID.")
     

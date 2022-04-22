@@ -523,6 +523,4 @@ def pdf_fa(t_name, date_dicom, institution, author, unit,
     fig_pf.savefig(stream3, bbox_inches='tight', dpi=300, format="png", transparent=True)
     pdf.image(stream3, 45, 70, 120, 205) 
 
-
-
     return pdf

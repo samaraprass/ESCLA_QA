@@ -242,7 +242,10 @@ def pf_four():
                     angles = []
                     for i in range(len(pf_up2)):
                         dcm_read = DicomImage(pf_up2[i])
-                        date = dcm_read.metadata.AcquisitionDate
+                        try:
+                            date = dcm_read.metadata.AcquisitionDate
+                        except:
+                            date = dcm_read.metadata.ContentDate
                         date_time_obj = datetime.strptime(date, '%Y%m%d')
                         date_obj = date_time_obj.date()
                         date_linac = str(date_obj)

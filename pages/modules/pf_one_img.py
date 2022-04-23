@@ -224,7 +224,10 @@ def pf_one():
 
                 # Date from test image
                 dcm_read = DicomImage(pf)
-                date_dcm = dcm_read.metadata.AcquisitionDate
+                try:
+                    date_dcm = dcm_read.metadata.AcquisitionDate
+                except:
+                    date_dcm = dcm_read.metadata.ContentDate
 
                 date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
                 st.session_state['date_obj'] = date_time_obj.date()

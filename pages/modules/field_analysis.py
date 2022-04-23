@@ -310,7 +310,10 @@ def FA():
                 st.session_state['test2'], st.session_state['names'], st.session_state['values'], st.session_state['f_name']= FA_EPID.faepid(st.session_state['file_field_analysis'])
                 # INFO from DICOM images
                 dcm_read = DicomImage(st.session_state['file_field_analysis'])
-                date = dcm_read.metadata.AcquisitionDate
+                try:
+                    date = dcm_read.metadata.AcquisitionDate
+                except:
+                    date = dcm_read.metadata.ContentDate
                 date_time_obj = datetime.strptime(date, '%Y%m%d')
                 date_obj = date_time_obj.date()
                 st.session_state['date_linac'] = str(date_obj)

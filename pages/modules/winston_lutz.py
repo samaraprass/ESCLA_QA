@@ -139,7 +139,10 @@ def wl():
                     filename = filenames_wl[0]
                     filepath = os.path.join(root, filename)
                     dcm_read = DicomImage(filepath).metadata
-                    date_img = dcm_read.AcquisitionDate
+                    try:
+                        date_img = dcm_read.AcquisitionDate
+                    except:
+                        date_img = dcm_read.ContentDate
                 shutil.rmtree(path)
             date_time_obj = datetime.strptime(date_img, '%Y%m%d')
             st.session_state['date_obj'] = date_time_obj.date()

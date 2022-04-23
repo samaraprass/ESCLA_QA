@@ -139,7 +139,10 @@ def vmat_drmlc():
                 st.session_state['values3'] = [date_table, st.session_state['sid3'], st.session_state['cax3'], str(round(dict_imgs['tolerance_percent'], 4)),
                         str(round(dict_imgs['abs_mean_deviation'], 4)), str(round(dict_imgs['max_deviation_percent'], 4)), 
                         st.session_state['r_drmlc']]
-                date_dcm_sf = img.metadata.AcquisitionDate
+                try:
+                    date_dcm_sf = img.metadata.AcquisitionDate
+                except:
+                    date_dcm_sf = img.metadata.ContentDate
 
                 date_time_obj = datetime.strptime(date_dcm_sf, '%Y%m%d')
                 st.session_state['date_obj'] = date_time_obj.date()
@@ -318,7 +321,10 @@ def vmat_drmlc():
 
                 # Date from test image
                 dcm_read = DicomImage(img_data)
-                date_dcm = dcm_read.metadata.AcquisitionDate
+                try:
+                    date_dcm = dcm_read.metadata.AcquisitionDate
+                except:
+                    date_dcm = dcm_read.metadata.ContentDate
 
                 date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
                 st.session_state['date_obj'] = date_time_obj.date()

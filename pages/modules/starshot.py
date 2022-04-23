@@ -187,7 +187,10 @@ def star():
 
                 # Date from test image
                 dcm_read = DicomImage(star_imgs[0])
-                date_dcm = dcm_read.metadata.AcquisitionDate
+                try:
+                    date_dcm = dcm_read.metadata.AcquisitionDate
+                except:
+                    date_dcm = dcm_read.metadata.ContentDate
                 date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
                 st.session_state['date_obj'] = date_time_obj.date()
 
@@ -416,7 +419,10 @@ def star():
                 # Date from test image
                 try:
                     dcm_read = DicomImage(st.session_state['star_image'])
-                    date_dcm = dcm_read.metadata.AcquisitionDate
+                    try:
+                        date_dcm = dcm_read.metadata.AcquisitionDate
+                    except:
+                        date_dcm = dcm_read.metadata.ContentDate
                     date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
                     st.session_state['date_obj'] = date_time_obj.date()
 

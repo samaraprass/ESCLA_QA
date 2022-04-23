@@ -511,7 +511,6 @@ def vmat_drgs():
                         st.session_state['date_linac'] = str(st.session_state['date_obj'])
                         key = file_zip.name
 
-                        st.write(st.session_state['unit'])
                         # Insert new registration
                         if key in keys:
                             st.warning("Already exist analysis results for this image on database. For saving new analysis, press button bellow.")

@@ -195,8 +195,9 @@ def vmat_drgs():
 
                 # Date from test image
                 dcm_read = DicomImage(file_open_drgs)
-                date_dcm = dcm_read.metadata.AcquisitionDate
-                if date_dcm == None:
+                try:
+                    date_dcm = dcm_read.metadata.AcquisitionDate
+                except:
                     date_dcm = dcm_read.metadata.ContentDate
 
                 date_time_obj = datetime.strptime(date_dcm, '%Y%m%d')
@@ -380,8 +381,9 @@ def vmat_drgs():
                         for filename in filenames:
                             filepath = os.path.join(root, filename)
                             dcm_read = pydicom.dcmread(filepath)
-                            st.session_state['date_img'] = dcm_read.AcquisitionDate
-                            if st.session_state['date_img'] == None:
+                            try:
+                                st.session_state['date_img'] = dcm_read.AcquisitionDate
+                            except:
                                 st.session_state['date_img'] = dcm_read.ContentDate
                     shutil.rmtree(path)
 

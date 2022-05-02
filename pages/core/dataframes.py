@@ -79,7 +79,7 @@ def dataframe_drmlc():
                     date_analysis.append(fetch_res2.items[0]['date_analysis'])
                     date_linac.append(fetch_res2.items[0]['date_linac'])
                     cax.append(fetch_res2.items[0]['cax'])
-                    sid.append(fetch_res2.items[0]['sid'])
+                    sid.append(str(fetch_res2.items[0]['sid']))
                     tolerance.append(fetch_res2.items[0]['tolerance'])
                     abs_mean_dev.append(fetch_res2.items[0]["abs_mean_dev"])
                     max_dev.append(fetch_res2.items[0]["max_dev"])

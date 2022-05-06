@@ -205,7 +205,7 @@ if menu_id == 'timeline':
         st.warning('You are logged in as *%s*' % (st.session_state['name_user']))
         with st.expander(' 🔎  INFOS (click here to expand/collapse)', expanded=True):
             st.write(' 🔹 This is an interactive time chart. You can click on the variable names to change which ones you want to see;')
-            st.write(' 🔹 The file name are the key to identifying data in the database. Be sure to ALWAYS upload files with DIFFERENT names;')
+            st.write(' 🔹 The files names are the key to identifying data in the database. Be sure to ALWAYS upload files with DIFFERENT names;')
             st.write(' 🔹 This timeline does not distinguish between data from different linacs. For this reason, you should upload data from the same linac to '
             'better interpret the results of the timeline. This differentiation feature will be included in the next update of the app.')
             st.write('Thanks 🤙🏻')

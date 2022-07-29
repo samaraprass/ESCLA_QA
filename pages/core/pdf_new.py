@@ -7,7 +7,7 @@ import pages.core.table_function as TABLE
 from datetime import date, datetime
 import base64
 import io
-import chime
+# import chime
 import pytz
 
 # Add page number
@@ -142,8 +142,8 @@ def create_pdf_VMAT(test, keys, values, t_dmlc, drmlc_name, t_open, openbeam_nam
 
     html = create_download_link(pdf.output(dest="S"), file_name)
     
-    chime.theme('mario')
-    chime.success()
+    # chime.theme('mario')
+    # chime.success()
     st.success("Your PDF report is ready!")
     st.markdown(html, unsafe_allow_html=True)
 # -----------------------------------------------------------------------------------------------------------------------------------------
@@ -215,8 +215,8 @@ def create_pdf_WL(test, values, names, t_name, date_dicom, institution, author, 
     # Link Download
     html = create_download_link(pdf_wl.output(dest="S"), file_name)
 
-    chime.theme('mario')
-    chime.success()
+    # chime.theme('mario')
+    # chime.success()
     st.success("Your PDF report is ready!")
     st.markdown(html, unsafe_allow_html=True)
 # ---------------------------------------------------------------------------------------------------------

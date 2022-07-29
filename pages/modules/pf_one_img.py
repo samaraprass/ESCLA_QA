@@ -7,7 +7,7 @@ from datetime import datetime
 from st_btn_select import st_btn_select
 import pages.modules.pf_analysis as PF_function
 import pages.core.pdf_new as PDF
-import chime
+# import chime
 from deta import Deta
 import pages.core.database as DB
 import pytz
@@ -361,7 +361,7 @@ def pf_one():
                         pdf_pf = PDF.create_PDF_PF1(st.session_state['j'], st.session_state['i2'], st.session_state['i3'], t_name, str(st.session_state['date_obj']), institution, author, unit, st.session_state['name0'], st.session_state['r1'])
                     # Link Download
                     html_pf = PDF.create_download_link(pdf_pf.output(dest="S"), file_name)
-                    chime.theme('mario')
-                    chime.success()
+                    # chime.theme('mario')
+                    # chime.success()
                     st.success("Your PDF report is ready!")
                     st.markdown(html_pf, unsafe_allow_html=True)

@@ -1,4 +1,4 @@
-from psutil import NIC_DUPLEX_UNKNOWN
+#from psutil import NIC_DUPLEX_UNKNOWN
 import streamlit as st
 from deta import Deta
 from PIL import Image
